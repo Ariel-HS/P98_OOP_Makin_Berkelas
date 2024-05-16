@@ -15,6 +15,7 @@ public class Screen {
 	private JFrame frame;
 	private ArrayList<tempPlayer> testPlayers;
 	private ArrayList<Slot> slots;
+	private JFrame f = new JFrame("Swing Hello World");
 	private ArrayList<Card> cardsInFocus;
 
 	/**
@@ -49,6 +50,7 @@ public class Screen {
 	
 	public void setCards(tempPlayer current) {
 		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+		System.out.println(currentCards);
 		for(int j=0;j<currentCards.size();j++) {
 			if(current.previousPositionX.size() == 0 && current.previousPositionY.size() == 0) { // if it's the first time setting up cards
 				current.kartuAktif.add(new Card(slots,currentCards.get(j)));
@@ -56,6 +58,7 @@ public class Screen {
 					if(!slots.get(i).occupied && !slots.get(i).isLadang()) {
 						//Place the card to unoccupied hand
 						current.kartuAktif.get(j).insertSlot(i);
+						f.getContentPane().add(current.kartuAktif.get(j));
 						System.out.println("masuk sini");
 					}
 				} 
@@ -74,7 +77,7 @@ public class Screen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		JFrame f = new JFrame("Swing Hello World");
+		
 
 	    // by doing this, we prevent Swing from resizing
 	    // our nice component
@@ -127,20 +130,19 @@ public class Screen {
 	    slots.add(tangan6);
 	    
 	    //testing purpose
-	    foo example1 = new foo();
-	    bar example2 = new bar();
-	    
-	    Card mc2 = new Card(slots,example1);
-	    mc2.setLocation(20, 820);
-	    Card mc = new Card(slots,example2);
-	    mc.setLocation(186, 820);
-	    mc.insertSlot();
-	    mc2.insertSlot();
-	    mc.setBackground(new Color(0, 0, 255));
-	    
-	    f.getContentPane().add(mc);
-	    f.getContentPane().add(mc2);
-	    //setCards(testPlayers.get(0));
+//	    foo example1 = new foo();
+//	    bar example2 = new bar();
+//	    
+//	    Card mc2 = new Card(slots,example1);
+//	    mc2.setLocation(20, 820);
+//	    Card mc = new Card(slots,example2);
+//	    mc.setLocation(186, 820);
+//	    mc.insertSlot();
+//	    mc2.insertSlot();
+//	    mc.setBackground(new Color(0, 0, 255));
+//	    
+//	    f.getContentPane().add(mc);
+//	    f.getContentPane().add(mc2);
 	    f.getContentPane().add(Ladang1_4);
 	    f.getContentPane().add(Ladang1_1);
 	    f.getContentPane().add(Ladang1_2);
@@ -226,7 +228,7 @@ public class Screen {
 	    slots.add(Ladang4_4);
 	    slots.add(Ladang4_5);
 	    
-
+	    setCards(testPlayers.get(0));
 	    
     
 //	    Slot Ladang2_1 = new Slot(0, 400, false);

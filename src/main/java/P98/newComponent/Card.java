@@ -85,7 +85,7 @@ public class Card extends JComponent {
       
       if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
           System.out.println("ada dalam slot");
-          myX = temp.get(slotNumber).getSlotX() + 5;
+          myX = temp.get(slotNumber).getSlotX() + 5;// +5 biar goodlooking, dihilangkan bisa tapi ga center
           myY = temp.get(slotNumber).getSlotY() + 5;
           setLocation(temp.get(slotNumber).getSlotX() + 5, temp.get(slotNumber).getSlotY() + 5);
           temp.get(slotNumber).setContent(thisCard);
@@ -108,10 +108,16 @@ public class Card extends JComponent {
   }
   
   public void insertSlot(Integer idx) {
-	  Integer slotX = temp.get(idx).getSlotX();
-	  Integer slotY = temp.get(idx).getSlotY();
-	  this.setX(slotX);
-	  this.setY(slotY);
+	  int prevSlot = inSlot(temp);
+	  Integer slotX = temp.get(idx).getSlotX()+5;
+	  Integer slotY = temp.get(idx).getSlotY()+5;
+      myX = temp.get(idx).getSlotX() + 5;
+      myY = temp.get(idx).getSlotY() + 5;
+	  this.setLocation(slotX, slotY);
+	  temp.get(idx).setContent(thisCard);
+      if(prevSlot >= 0) {
+    	  temp.get(prevSlot).setContent(null);
+      }
   }
   
   
