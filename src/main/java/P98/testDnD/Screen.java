@@ -10,6 +10,14 @@ import P98.newComponent.*;
 import javax.swing.JFrame;
 import java.awt.Color;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Font;
+
 public class Screen {
 
 	private JFrame frame;
@@ -227,6 +235,86 @@ public class Screen {
 	    slots.add(Ladang4_3);
 	    slots.add(Ladang4_4);
 	    slots.add(Ladang4_5);
+	    
+	    JButton TokoButton = new JButton("Toko");
+	    TokoButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	}
+	    });
+	    TokoButton.setBounds(1204, 273, 143, 53);
+	    f.getContentPane().add(TokoButton);
+	    
+	    ButtonGroup G = new ButtonGroup();
+	    
+	    JRadioButton LadangLawanButton = new JRadioButton("Ladang Lawan");
+	    LadangLawanButton.setBounds(1204, 196, 143, 39);
+	    f.getContentPane().add(LadangLawanButton);
+	    
+	    JRadioButton ladangkuButton = new JRadioButton("Ladangku");
+	    ladangkuButton.setSelected(true);
+	    ladangkuButton.setBounds(1204, 127, 143, 39);
+	    f.getContentPane().add(ladangkuButton);
+	    
+	    G.add(ladangkuButton);
+	    G.add(LadangLawanButton);
+	    
+	    JButton SaveButton = new JButton("Save State");
+	    SaveButton.setBounds(1204, 369, 143, 53);
+	    f.getContentPane().add(SaveButton);
+	    
+	    JButton LoadButton = new JButton("Load State");
+	    LoadButton.setBounds(1204, 467, 143, 53);
+	    f.getContentPane().add(LoadButton);
+	    
+	    JButton PluginButton = new JButton("Plugin");
+	    PluginButton.setBounds(1204, 565, 143, 53);
+	    f.getContentPane().add(PluginButton);
+	    
+	    JButton deck = new JButton("DECK (cur/max)");
+	    deck.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	}
+	    });
+	    deck.setBounds(1134, 844, 203, 109);
+	    f.getContentPane().add(deck);
+	    
+	    JLabel player1label = new JLabel("Player 1 :");
+	    player1label.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	    player1label.setBounds(866, 302, 111, 39);
+	    f.getContentPane().add(player1label);
+	    
+	    JLabel player2label = new JLabel("Player 2 :");
+	    player2label.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	    player2label.setBounds(865, 383, 111, 39);
+	    f.getContentPane().add(player2label);
+	    
+	    JLabel p1gulden = new JLabel("0000");
+	    p1gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	    p1gulden.setBounds(976, 308, 77, 27);
+	    f.getContentPane().add(p1gulden);
+	    
+	    JLabel p2gulden = new JLabel("0000");
+	    p2gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	    p2gulden.setBounds(976, 389, 77, 27);
+	    f.getContentPane().add(p2gulden);
+	    
+	    JButton nextButton = new JButton("NEXT");
+	    nextButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	}
+	    });
+	    nextButton.setBounds(875, 228, 143, 53);
+	    f.getContentPane().add(nextButton);
+	    
+	    JLabel turnLable = new JLabel("Turn :");
+	    turnLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	    turnLable.setBounds(923, 86, 66, 39);
+	    f.getContentPane().add(turnLable);
+	    
+	    JLabel turnCountLable = new JLabel("0");
+	    turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
+	    turnCountLable.setBounds(943, 128, 21, 27);
+	    f.getContentPane().add(turnCountLable);
 	    
 	    setCards(testPlayers.get(0));
 	    
