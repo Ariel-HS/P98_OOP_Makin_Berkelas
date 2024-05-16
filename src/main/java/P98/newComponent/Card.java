@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import tc.*;
 
-public class Card<T extends Holdable>
-    extends JComponent {
+public class Card extends JComponent {
 
   private volatile int screenX = 0;
   private volatile int screenY = 0;
@@ -16,12 +16,41 @@ public class Card<T extends Holdable>
   private volatile int myY = 0;
   private int height = 150;
   private int width = 100;
-  private T content;
+  private Holdable content;
   private ArrayList<Slot> temp;
-  private Card<T> thisCard;
+  private Card thisCard;
+  private boolean isMine = true;
 
-  public T getIsi(){
+  public Holdable getIsi(){
 	  return content;
+  }
+  
+  public void setPunyaLawan() {
+	  isMine = false;
+  }
+  
+  public void setPunyaSaya() {
+	  isMine = true;
+  }
+  
+  public boolean isDefaultPosition() {
+	  return myX ==0 && myY ==0;
+  }
+  
+  public void setX(Integer _x) {
+	  myX = _x;
+  }
+  
+  public void setY(Integer _y) {
+	  myY = _y;
+  }
+  
+  public int getmyX() {
+	  return myX;
+  }
+  
+  public int getmyY() {
+	  return myY;
   }
   
   // return the index of slot in temp if found
@@ -78,8 +107,15 @@ public class Card<T extends Holdable>
       System.out.println(myX + "," + myY);  
   }
   
+  public void insertSlot(Integer idx) {
+	  Integer slotX = temp.get(idx).getSlotX();
+	  Integer slotY = temp.get(idx).getSlotY();
+	  this.setX(slotX);
+	  this.setY(slotY);
+  }
   
-  public Card(ArrayList<Slot> _temp, T Content) {
+  
+  public Card(ArrayList<Slot> _temp, Holdable Content) {
 	temp = _temp;
     setBorder(new LineBorder(Color.BLUE, 3));
     setBackground(Color.WHITE);
@@ -92,11 +128,14 @@ public class Card<T extends Holdable>
 
       @Override
       public void mouseClicked(MouseEvent e) {
+    	  if(isMine) {
     	  System.out.println("tampilin belakang kartu");
+    	  }
       }
 
       @Override
       public void mousePressed(MouseEvent e) {
+    	
         screenX = e.getXOnScreen();
         screenY = e.getYOnScreen();
 
@@ -118,6 +157,7 @@ public class Card<T extends Holdable>
       public void mouseExited(MouseEvent e) { }
 
     });
+    
     addMouseMotionListener(new MouseMotionListener() {
 
       @Override
@@ -140,9 +180,12 @@ public class Card<T extends Holdable>
 //	    // by doing this, we prevent Swing from resizing
 //	    // our nice component
 //	    f.setLayout(null);
-//	    Slot tempat = new Slot(400,400);
-//
-//	    Card mc = new Card(tempat);
+//	    foo example1 = new foo();
+//	    Slot tempat = new Slot(400,400,false);
+//	    ArrayList<Slot> idk = new ArrayList<Slot>();
+//	    idk.add(tempat);
+//	    Card mc = new Card(idk,example1);
+//	    mc.setLocation(20, 40);
 //	    f.add(mc);
 //	    f.add(tempat);
 //

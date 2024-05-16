@@ -1,7 +1,8 @@
-package P98.newComponent;
+package tc;
 
-public class foo implements Holdable {
-
+public class bar implements Holdable {
+	
+	public bar() {};
 	@Override
 	public void interact(Holdable u) {
 		exampleMethod();
@@ -10,7 +11,7 @@ public class foo implements Holdable {
 	
 	@Override
 	public void exampleMethod() {
-		System.out.println("This is from foo");
+		System.out.println("This is from bar");
 	}
 
 }

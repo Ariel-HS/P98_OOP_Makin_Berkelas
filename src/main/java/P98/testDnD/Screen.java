@@ -1,0 +1,257 @@
+package P98.testDnD;
+import tc.*;
+
+import java.awt.EventQueue;
+
+import java.util.ArrayList;
+
+import P98.newComponent.*;
+
+import javax.swing.JFrame;
+import java.awt.Color;
+
+public class Screen {
+
+	private JFrame frame;
+	private ArrayList<tempPlayer> testPlayers;
+	private ArrayList<Slot> slots;
+	private ArrayList<Card> cardsInFocus;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Screen window = new Screen();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Screen() {
+		testPlayers = new ArrayList<tempPlayer>();
+		tempPlayer player1 = new tempPlayer(0);
+		tempPlayer player2 = new tempPlayer(1);
+		testPlayers.add(player1);
+		testPlayers.add(player2);
+
+		cardsInFocus = player1.kartuAktif;
+		initialize();
+	}
+	
+	public void setCards(tempPlayer current) {
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+		for(int j=0;j<currentCards.size();j++) {
+			if(current.previousPositionX.size() == 0 && current.previousPositionY.size() == 0) { // if it's the first time setting up cards
+				current.kartuAktif.add(new Card(slots,currentCards.get(j)));
+				for(int i=0;i<slots.size();i++) {
+					if(!slots.get(i).occupied && !slots.get(i).isLadang()) {
+						//Place the card to unoccupied hand
+						current.kartuAktif.get(j).insertSlot(i);
+						System.out.println("masuk sini");
+					}
+				} 
+			} else {
+					current.kartuAktif.get(j).setX(current.previousPositionX.get(j));
+					current.kartuAktif.get(j).setY(current.previousPositionY.get(j));
+					System.out.println("masuk sono");
+			}
+		}
+	}
+	
+	public void clearCards(tempPlayer previous) {
+		
+	}
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		JFrame f = new JFrame("Swing Hello World");
+
+	    // by doing this, we prevent Swing from resizing
+	    // our nice component
+		slots = new ArrayList<Slot>();
+	    f.getContentPane().setLayout(null);
+	    Slot Ladang1_4 = new Slot(508,49,true);
+	    Ladang1_4.setLocation(508, 49);
+	    Slot Ladang1_1 = new Slot(10,49,true);
+	    Ladang1_1.setLocation(10, 49);
+	    Slot Ladang1_2 = new Slot(171, 49,true);
+	    Ladang1_2.setLocation(171, 49);
+	    
+	    Slot Ladang1_3 = new Slot(344, 49, true);
+	    Ladang1_3.setLocation(344, 49);
+	    f.getContentPane().add(Ladang1_3);
+	    
+	    Slot Ladang1_5 = new Slot(686, 49, true);
+	    Ladang1_5.setLocation(686, 49);
+	    f.getContentPane().add(Ladang1_5);
+	    
+	    Slot tangan1 = new Slot(10, 810, false);
+	    tangan1.setLocation(10, 810);
+	    f.getContentPane().add(tangan1);
+	    
+	    Slot tangan2 = new Slot(171, 810, false);
+	    tangan2.setBounds(171, 810, 110, 160);
+	    f.getContentPane().add(tangan2);
+	    
+	    Slot tangan3 = new Slot(344, 810, false);
+	    tangan3.setBounds(344, 810, 110, 160);
+	    f.getContentPane().add(tangan3);
+	    
+	    Slot tangan4 = new Slot(508, 810, false);
+	    tangan4.setBounds(508, 810, 110, 160);
+	    f.getContentPane().add(tangan4);
+	    
+	    Slot tangan5 = new Slot(686, 810, false);
+	    tangan5.setBounds(686, 810, 110, 160);
+	    f.getContentPane().add(tangan5);
+	    
+	    Slot tangan6 = new Slot(865, 810, false);
+	    tangan6.setBounds(865, 810, 110, 160);
+	    f.getContentPane().add(tangan6);
+	    
+	    slots.add(tangan1);
+	    slots.add(tangan2);
+	    slots.add(tangan3);
+	    slots.add(tangan4);
+	    slots.add(tangan5);
+	    slots.add(tangan6);
+	    
+	    //testing purpose
+	    foo example1 = new foo();
+	    bar example2 = new bar();
+	    
+	    Card mc2 = new Card(slots,example1);
+	    mc2.setLocation(20, 820);
+	    Card mc = new Card(slots,example2);
+	    mc.setLocation(186, 820);
+	    mc.insertSlot();
+	    mc2.insertSlot();
+	    mc.setBackground(new Color(0, 0, 255));
+	    
+	    f.getContentPane().add(mc);
+	    f.getContentPane().add(mc2);
+	    //setCards(testPlayers.get(0));
+	    f.getContentPane().add(Ladang1_4);
+	    f.getContentPane().add(Ladang1_1);
+	    f.getContentPane().add(Ladang1_2);
+	    
+	    Slot Ladang2_1 = new Slot(10, 230, true);
+	    Ladang2_1.setBounds(10, 230, 110, 160);
+	    f.getContentPane().add(Ladang2_1);
+	    
+	    Slot Ladang2_2 = new Slot(171, 230, true);
+	    Ladang2_2.setBounds(171, 230, 110, 160);
+	    f.getContentPane().add(Ladang2_2);
+	    
+	    Slot Ladang2_3 = new Slot(344, 230, true);
+	    Ladang2_3.setBounds(344, 230, 110, 160);
+	    f.getContentPane().add(Ladang2_3);
+	    
+	    Slot Ladang2_4 = new Slot(508, 230, true);
+	    Ladang2_4.setBounds(508, 230, 110, 160);
+	    f.getContentPane().add(Ladang2_4);
+	    
+	    Slot Ladang2_5 = new Slot(686, 230, true);
+	    Ladang2_5.setBounds(686, 230, 110, 160);
+	    f.getContentPane().add(Ladang2_5);
+	    
+	    Slot Ladang3_1 = new Slot(10, 411, true);
+	    Ladang3_1.setBounds(10, 411, 110, 160);
+	    f.getContentPane().add(Ladang3_1);
+	    
+	    Slot Ladang3_2 = new Slot(171, 411, true);
+	    Ladang3_2.setBounds(171, 411, 110, 160);
+	    f.getContentPane().add(Ladang3_2);
+	    
+	    Slot Ladang3_3 = new Slot(344, 411, true);
+	    Ladang3_3.setBounds(344, 411, 110, 160);
+	    f.getContentPane().add(Ladang3_3);
+	    
+	    Slot Ladang3_4 = new Slot(508, 411, true);
+	    Ladang3_4.setBounds(508, 411, 110, 160);
+	    f.getContentPane().add(Ladang3_4);
+	    
+	    Slot Ladang3_5 = new Slot(686, 411, true);
+	    Ladang3_5.setBounds(686, 411, 110, 160);
+	    f.getContentPane().add(Ladang3_5);
+	    
+	    Slot Ladang4_5 = new Slot(686, 592, true);
+	    Ladang4_5.setBounds(686, 592, 110, 160);
+	    f.getContentPane().add(Ladang4_5);
+	    
+	    Slot Ladang4_4 = new Slot(508, 592, true);
+	    Ladang4_4.setBounds(508, 592, 110, 160);
+	    f.getContentPane().add(Ladang4_4);
+	    
+	    Slot Ladang4_3 = new Slot(344,592, true);
+	    Ladang4_3.setBounds(344, 592, 110, 160);
+	    f.getContentPane().add(Ladang4_3);
+	    
+	    Slot Ladang4_2 = new Slot(171, 592, true);
+	    Ladang4_2.setBounds(171, 592, 110, 160);
+	    f.getContentPane().add(Ladang4_2);
+	    
+	    Slot Ladang4_1 = new Slot(10, 592, true);
+	    Ladang4_1.setBounds(10, 592, 110, 160);
+	    f.getContentPane().add(Ladang4_1);
+	    
+	    slots.add(Ladang1_4);
+	    slots.add(Ladang1_1);
+	    slots.add(Ladang1_2);
+	    slots.add(Ladang1_3);
+	    slots.add(Ladang1_5);
+	    slots.add(Ladang2_1);
+	    slots.add(Ladang2_2);
+	    slots.add(Ladang2_3);
+	    slots.add(Ladang2_4);
+	    slots.add(Ladang2_5);
+	    slots.add(Ladang3_1);
+	    slots.add(Ladang3_2);
+	    slots.add(Ladang3_3);
+	    slots.add(Ladang3_4);
+	    slots.add(Ladang3_5);
+	    slots.add(Ladang4_1);
+	    slots.add(Ladang4_2);
+	    slots.add(Ladang4_3);
+	    slots.add(Ladang4_4);
+	    slots.add(Ladang4_5);
+	    
+
+	    
+    
+//	    Slot Ladang2_1 = new Slot(0, 400, false);
+//	    Ladang2_1.setBounds(10, 261, 110, 160);
+//	    f.getContentPane().add(Ladang2_1);
+//	    
+//	    Slot Ladang2_2 = new Slot(0, 400, false);
+//	    Ladang2_2.setBounds(171, 261, 110, 160);
+//	    f.getContentPane().add(Ladang2_2);
+//	    
+//	    Slot Ladang2_3 = new Slot(0, 400, false);
+//	    Ladang2_3.setBounds(344, 261, 110, 160);
+//	    f.getContentPane().add(Ladang2_3);
+//	    
+//	    Slot Ladang2_4 = new Slot(0, 400, false);
+//	    Ladang2_4.setBounds(519, 261, 110, 160);
+//	    f.getContentPane().add(Ladang2_4);
+//	    
+//	    Slot Ladang2_5 = new Slot(0, 400, false);
+//	    Ladang2_5.setBounds(686, 261, 110, 160);
+//	    f.getContentPane().add(Ladang2_5);
+
+	    f.setSize(1440, 1080);
+
+	    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    f.setVisible(true);
+	}
+}
