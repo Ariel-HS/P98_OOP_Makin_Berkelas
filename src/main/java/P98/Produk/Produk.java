@@ -1,6 +1,6 @@
 package P98.Produk;
 
-abstract class Produk {
+public abstract class Produk {
     private String nama;
     private int harga;
     private int bobot;
