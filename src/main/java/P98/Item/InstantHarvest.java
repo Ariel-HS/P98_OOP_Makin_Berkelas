@@ -1,15 +1,18 @@
 package P98.Item;
 
 import P98.Exception.*;
-import P98.Interface.Holdable;
+import P98.Makhluk.*;
 import P98.Produk.*;
+import P98.Interface.*;
+// import P98.Player.*;
+// import P98.GameManager
 
 public class InstantHarvest extends Item {
     public InstantHarvest() {
         super("Instant Harvest");
     }
 
-    public void getEffect(Mahkluk m, Player p) throws WrongItemException {
+    public void interact(Makhluk m) throws WrongItemException {
         if (m.getPemilik() == p) {
             Produk pr = m.harvest();
             // kasih produk ke pemain

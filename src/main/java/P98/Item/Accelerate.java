@@ -1,15 +1,18 @@
 package P98.Item;
 
 import P98.Exception.*;
-import P98.Interface.Holdable;
-import P98.Produk.ProdukTumbuhan;
+import P98.Makhluk.*;
+import P98.Interface.*;
+// import P98.Player.*;
+// import P98.GameManager
 
 public class Accelerate extends Item {
     public Accelerate() {
         super("Accelerate");
     }
 
-    public void getEffect(Mahkluk m, Player p) throws WrongItemException {
+    public void interact(Makhluk m) throws WrongItemException {
+        Player p = GameManager.getCurrentPlayer();
         if (m.getPemilik() == p) {
             if (m.istanceof(Tumbuhan)) {
                 m.setUnit(m.getUnit() + 2);
