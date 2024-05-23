@@ -1,6 +1,8 @@
 package P98.Produk;
 
-public abstract class Produk {
+import P98.Interface.*;
+
+public abstract class Produk implements Holdable {
     private String nama;
     private int harga;
     private int bobot;

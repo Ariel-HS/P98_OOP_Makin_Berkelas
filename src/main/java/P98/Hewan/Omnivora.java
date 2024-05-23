@@ -1,5 +1,6 @@
 package P98.Hewan;
 
+import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
 import P98.Produk.Produk;
 import P98.Tumbuhan.Tumbuhan;
@@ -11,6 +12,10 @@ public class Omnivora extends Hewan {
 
     public Omnivora(String _nama, int _batasPanen, Produk p) {
         super(_nama, _batasPanen, p);
+    }
+
+    public Holdable turnToHoldable() {
+        return new Omnivora(this.getNama(), this.getBatasPanen(), this.getProduk());
     }
 
     // public Omnivora(String _nama, int x_pos, int y_pos, int _unitPanen, int _batasPanen, Produk p, Player pem) {

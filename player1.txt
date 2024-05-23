@@ -1,6 +1,6 @@
 500
 39
 1
-A01 BERUANG
+A01 Beruang
 1
-A01 DOMBA 5 3 ACCELERATE DELAY PROTECT
+A01 Domba 5 3 Accelerate Delay Protect

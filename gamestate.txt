@@ -1,7 +1,7 @@
 1
 5
-SIRIP_HIU 5
-SUSU 2
-DAGING_DOMBA 3
-DAGING_KUDA 10
-DAGING_BERUANG 1
+Sirip_Hiu 5
+Susu 2
+Daging_Domba 3
+Daging_Kuda 10
+Daging_Beruang 1

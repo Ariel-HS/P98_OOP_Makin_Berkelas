@@ -1,9 +1,14 @@
 package P98.Item;
 
-public class Item {
-    private String name;
+import P98.Interface.*;
 
-    public String getNama() {
-        return this.name;
+public abstract class Item implements Holdable {
+    private String nama;
+
+    public Item(String nama) {
+        this.nama = nama;
     }
+
+    public String getNama() { return nama; }
+    public void setNama(String nama) { this.nama = nama; }
 }

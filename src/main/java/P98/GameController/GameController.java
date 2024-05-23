@@ -3,7 +3,11 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.*;
 import java.lang.reflect.*;
+
+import P98.Deck.*;
+import P98.Exception.NoKartuException;
 import P98.Hewan.*;
+import P98.Interface.Holdable;
 import P98.Tumbuhan.*;
 import P98.Produk.*;
 import P98.Produk.*;
@@ -11,11 +15,11 @@ import P98.Player.*;
 import P98.Item.*;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GameController {
     private static Integer turnNumber = 0;
-    private static ArrayList<Player> playerList = new ArrayList<>();
+    private static Player player1 = new Player();
+    private static Player player2 = new Player();
     private static ArrayList<Hewan> listHewan = new ArrayList<>();
     private static ArrayList<Produk> listProduk = new ArrayList<>();
     private static ArrayList<Tumbuhan> listTumbuhan = new ArrayList<>();
@@ -35,7 +39,7 @@ public class GameController {
     //     // toko.clear();
     // }
 
-    public static void start() {
+    public static void loadConfig() {
         String folderPath = "./config";
         File hewanConfig = new File(folderPath+"/hewan.txt");
         File produkConfig = new File(folderPath+"/produk.txt");
@@ -47,10 +51,12 @@ public class GameController {
         listProduk.add(dagingBeruang);
 
         // append items
-
-        // add players
-        playerList.add(new Player());
-        playerList.add(new Player());
+        listItem.add(new Accelerate());
+        listItem.add(new Delay());
+        listItem.add(new Destroy());
+        listItem.add(new InstantHarvest());
+        listItem.add(new Protect());
+        listItem.add(new Trap());
 
         // append Hewan, Tumbuhan, Produk
         try {
@@ -156,6 +162,56 @@ public class GameController {
             System.out.println(e.getMessage());
             clearConfig();
         }
+
+        initDeck();
+        player1.shuffleDeck();
+        player2.shuffleDeck();
+        // System.out.println("Here");
+        // for (Holdable h: player1.getDeck().getDeck()) {
+        //     h.print();
+        // }
+        // System.out.println("Here");
+        // for (Holdable h: player2.getDeck().getDeck()) {
+        //     h.print();
+        // }        
+        // System.out.println("Aman");
+    }
+
+    public static void initDeck() {
+        // add kartu to deck
+        try {
+            for (Hewan h:listHewan) {
+                for (int j=0;j<2;j++) {
+                    player1.addToDeck(h.turnToHoldable());
+                    player2.addToDeck(h.turnToHoldable());
+                }
+            }
+            for (Produk p:listProduk) {
+                if (p.getNama().equals("Labu") || p.getNama().equals("Susu") || p.getNama().equals("Jagung")) {
+                    player1.addToDeck(p.turnToHoldable());
+                    player2.addToDeck(p.turnToHoldable());
+                }
+                player1.addToDeck(p.turnToHoldable());
+                player2.addToDeck(p.turnToHoldable());
+            }
+            for (Tumbuhan t:listTumbuhan) {
+                for (int j=0;j<2;j++) {
+                    player1.addToDeck(t.turnToHoldable());
+                    player2.addToDeck(t.turnToHoldable());
+                }
+            }
+            for (Item i: listItem) {
+                if (i.getNama().equals("Accelerate") || i.getNama().equals("Delay") 
+                    || i.getNama().equals("Instant Harvest") || i.getNama().equals("Trap")) {
+                    player1.addToDeck(i.turnToHoldable());
+                    player2.addToDeck(i.turnToHoldable());
+                }
+                player1.addToDeck(i.turnToHoldable());
+                player2.addToDeck(i.turnToHoldable());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void lihatLadang() {
@@ -195,7 +251,8 @@ public class GameController {
     public static void load(String folderPath) {
         // save state
         Integer saveTurn = turnNumber;
-        ArrayList<Player> savePlayers = playerList;
+        Player savePlayer1 = new Player(player1);
+        Player savePlayer2 = new Player(player2);
         // saveToko = toko
 
         try {
@@ -211,13 +268,13 @@ public class GameController {
             File directory = openFileChooser.getSelectedFile();
             String path = directory.getAbsolutePath();
             // System.out.println(path);
-            File player1 = new File(path+"/player1.txt");
-            File player2 = new File(path+"/player2.txt");
+            File player1File = new File(path+"/player1.txt");
+            File player2File = new File(path+"/player2.txt");
             File gamestate = new File(path+"/gamestate.txt");
 
-            Scanner player1Scanner = new Scanner(player1);
-            playerList.get(0).setGulden(Integer.valueOf(player1Scanner.nextLine()));
-            System.out.println(playerList.get(0).getGulden());
+            Scanner player1Scanner = new Scanner(player1File);
+            player1.setGulden(Integer.valueOf(player1Scanner.nextLine()));
+            System.out.println(player1.getGulden());
             Integer jumlahDeck1 = Integer.valueOf(player1Scanner.nextLine());
             System.out.println(jumlahDeck1);
             Integer jumlahDeckAktif1 = Integer.valueOf(player1Scanner.nextLine());
@@ -225,7 +282,8 @@ public class GameController {
             for (int i=0; i<jumlahDeckAktif1; i++) {
                 String kartu = player1Scanner.nextLine();
                 System.out.println(kartu);
-                // create Kartu
+                Holdable newKartu = createKartu(kartu);
+                player1.addToDeckAktif(newKartu);
             }
             Integer jumlahLadang1 = Integer.valueOf(player1Scanner.nextLine());
             System.out.println(jumlahLadang1);
@@ -235,23 +293,24 @@ public class GameController {
                 String nama = line[1];
                 String unitPanen = line[2];
                 Integer nItem = Integer.valueOf(line[3]);
-                for (int j=1; j<=nItem; j++) {
-                    String namaItem = line[i+j];
-                    // Item item = listItem.stream().filter((p -> p.getNama().equals(namaItem))) 
-                    //                 .findAny().orElse(null);
-                    // if (item == null) {
-                    //     player1Scanner.close();
-                    //     throw new Exception("Item untuk makhluk not found");
-                    // }
+                for (int j=0; j<nItem; j++) {
+                    String namaItem = line[4+j];
+                    Item item = listItem.stream().filter((p -> p.getNama().equals(namaItem))) 
+                                    .findAny().orElse(null);
+                    if (item == null) {
+                        player1Scanner.close();
+                        // System.out.println(namaItem);
+                        throw new Exception("Item untuk makhluk not found");
+                    }
                 }
 
                 // do things
             }
             player1Scanner.close();
 
-            Scanner player2Scanner = new Scanner(player2);
-            playerList.get(1).setGulden(Integer.valueOf(player2Scanner.nextLine()));
-            System.out.println(playerList.get(1).getGulden());
+            Scanner player2Scanner = new Scanner(player2File);
+            player2.setGulden(Integer.valueOf(player2Scanner.nextLine()));
+            System.out.println(player2.getGulden());
             Integer jumlahDeck2 = Integer.valueOf(player2Scanner.nextLine());
             System.out.println(jumlahDeck2);
             Integer jumlahDeckAktif2 = Integer.valueOf(player2Scanner.nextLine());
@@ -259,7 +318,8 @@ public class GameController {
             for (int i=0; i<jumlahDeckAktif2; i++) {
                 String kartu = player2Scanner.nextLine();
                 System.out.println(kartu);
-                // create Kartu
+                Holdable newKartu = createKartu(kartu);
+                player2.addToDeckAktif(newKartu);
             }
             Integer jumlahLadang2 = Integer.valueOf(player2Scanner.nextLine());
             System.out.println(jumlahLadang2);
@@ -271,12 +331,12 @@ public class GameController {
                 Integer nItem = Integer.valueOf(line[3]);
                 for (int j=1; j<=nItem; j++) {
                     String namaItem = line[i+j];
-                    // Item item = listItem.stream().filter((p -> p.getNama().equals(namaItem))) 
-                    //                 .findAny().orElse(null);
-                    // if (item == null) {
-                    //     player2Scanner.close();
-                    //     throw new Exception("Item untuk makhluk not found");
-                    // }
+                    Item item = listItem.stream().filter((p -> p.getNama().equals(namaItem))) 
+                                    .findAny().orElse(null);
+                    if (item == null) {
+                        player2Scanner.close();
+                        throw new Exception("Item untuk makhluk not found");
+                    }
                 }
 
                 // do things
@@ -289,14 +349,16 @@ public class GameController {
             Integer nProduk = Integer.valueOf(gamestateScanner.nextLine());
             System.out.println(nProduk);
             for (int i=0; i<nProduk; i++) {
-                String namaProduk = gamestateScanner.nextLine();
+                String[] line = gamestateScanner.nextLine().split(" ");
+                String namaProduk = line[0].replace("_", " ");
                 System.out.println(namaProduk);
-                // Produk produk = listProduk.stream().filter((p -> p.getNama().equals(namaProduk))) 
-                //                     .findAny().orElse(null);
-                // if (produk == null) {
-                //     gamestateScanner.close();
-                //     throw new Exception("Produk untuk toko not found");
-                // }
+                Produk produk = listProduk.stream().filter((p -> p.getNama().equals(namaProduk))) 
+                                    .findAny().orElse(null);
+                if (produk == null) {
+                    gamestateScanner.close();
+                    throw new Exception("Produk untuk toko not found");
+                }
+                Integer jumlahProduk = Integer.valueOf(line[1]);
 
                 // append produk ke toko
             }
@@ -305,13 +367,40 @@ public class GameController {
             System.out.println("State file not found");
             System.out.println(e.getMessage());
             turnNumber = saveTurn;
-            playerList = savePlayers;
+            player1 = savePlayer1;
+            player2 = savePlayer2;
         }
         catch (Exception e) {
             turnNumber = saveTurn;
-            playerList = savePlayers;
+            player1 = savePlayer1;
+            player2 = savePlayer2;
             // toko = saveToko
             System.out.println(e.getMessage());
         } 
+    }
+
+    public static Holdable createKartu(String nama) throws NoKartuException {
+        for (Hewan h: listHewan) {
+            if (h.getNama().equals(nama)) {
+                return h.turnToHoldable();
+            }
+        }
+        for (Produk p: listProduk) {
+            if (p.getNama().equals(nama)) {
+                return p.turnToHoldable();
+            }
+        }
+        for (Tumbuhan t: listTumbuhan) {
+            if(t.getNama().equals(nama)) {
+                return t.turnToHoldable();
+            }
+        }
+        for (Item i: listItem) {
+            if (i.getNama().equals(nama)) {
+                return i.turnToHoldable();
+            }
+        }
+
+        throw new NoKartuException(nama);
     }
 }
