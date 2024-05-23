@@ -58,6 +58,7 @@ public class App
         
         GameController.loadConfig();
         // GameController.next();
-        GameController.load();
+        // GameController.load();
+        GameController.loadPlugin();
     }
 }

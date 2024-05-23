@@ -1,8 +1,17 @@
 package P98.GameController;
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.*;
 import java.lang.reflect.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+// import org.json.simple.JSONObject;
+import org.w3c.dom.*;
+
+import com.google.gson.Gson;
 
 import P98.Deck.*;
 import P98.Exception.NoKartuException;
@@ -12,9 +21,12 @@ import P98.Tumbuhan.*;
 import P98.Produk.*;
 import P98.Produk.*;
 import P98.Player.*;
+import P98.Plugin.Plugin;
 import P98.Item.*;
+import P98.App;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GameController {
     private static Integer turnNumber = 1;
@@ -248,12 +260,75 @@ public class GameController {
 
     public static void loadPlugin() {
         // GUI Stuff
+        ClassLoader classLoader = App.class.getClassLoader();
+
         try {
-            Class c = Class.forName("Plugin");
-            System.out.println("Found plugin with class: " + c.getName());    
+            JFileChooser openFileChooser = new JFileChooser();
+            openFileChooser.setCurrentDirectory(new File("./"));
+            openFileChooser.setFileFilter(new FileNameExtensionFilter("Plugin files", "XML", "JSON"));
+
+            int retcode = openFileChooser.showOpenDialog(openFileChooser);
+            if (retcode != JFileChooser.APPROVE_OPTION) {
+                throw new Exception("No file chosen");
+            }
+
+            File file = openFileChooser.getSelectedFile();
+            String fileName = file.toString();
+            int index = fileName.lastIndexOf(".");
+            String extension = fileName.substring(index+1);
+            
+            if (extension.equals("xml")) {
+                loadPluginXML(file);
+            } else {
+                loadPluginJSON(file);
+            }
         } catch (Exception e) {
-            System.out.println("Plugin not found");
-        }   
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadPluginXML(File file) {
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document doc = documentBuilder.parse(file);
+
+            NodeList nodeList = doc.getElementsByTagName("Plugin");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() != Element.TEXT_NODE) {
+                    // get Plugin class
+                    Class<?> aClass = Class.forName("P98.Plugin."+node.getNodeName());
+                    // create instance of Plugin class
+                    Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
+                                        .newInstance(node.getAttributes().getNamedItem("name").getNodeValue(), 
+                                        node.getAttributes().getNamedItem("message").getNodeValue());
+
+                    // call method
+                    aClass.getMethod("printMessage").invoke(pluginObj);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        
+    }
+
+    public static void loadPluginJSON(File file) {
+        try {
+            String content = Files.readString(Paths.get(file.getName()));
+            System.out.println(content);
+            Gson jGson = new Gson();
+            // JSONObject jObject = new JSONObject();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        
     }
 
     public static void save(String absPath) {
