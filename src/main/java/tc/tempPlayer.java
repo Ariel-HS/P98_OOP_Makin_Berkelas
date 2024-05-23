@@ -11,7 +11,7 @@ public class tempPlayer {
 	public tempPlayer(Integer i) {
 		deckAktif = new testDeckAktif();
 		if(i == 0) {
-			foo example1 = new foo();
+			bar example1 = new bar();
 			foo example2 = new foo();
 			foo example3 = new foo();
 			deckAktif.addCard(example1);

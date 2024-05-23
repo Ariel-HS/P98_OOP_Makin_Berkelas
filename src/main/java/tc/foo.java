@@ -14,5 +14,10 @@ public class foo implements Holdable {
 	public void exampleMethod() {
 		System.out.println("This is from foo");
 	}
+	
+	@Override
+	public String getNama() {
+		return("Jagung");
+	}
 
 }

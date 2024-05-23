@@ -9,6 +9,7 @@ import P98.newComponent.*;
 
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class Screen {
 
@@ -25,11 +27,13 @@ public class Screen {
 	private ArrayList<Slot> slots;
 	private JFrame f = new JFrame("Swing Hello World");
 	private ArrayList<Card> cardsInFocus;
+	private static boolean theresAwindow = false;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.setProperty("sun.java2d.uiScale", "1.0"); //Handles DPI scaling
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -54,6 +58,14 @@ public class Screen {
 
 		cardsInFocus = player1.kartuAktif;
 		initialize();
+	}
+	
+	public static void setTheresAWindow(boolean condition) {
+		theresAwindow = condition;
+	}
+	
+	public static boolean getTheresAWindow() {
+		return theresAwindow;
 	}
 	
 	public void setCards(tempPlayer current) {
@@ -341,6 +353,13 @@ public class Screen {
 
 	    f.setSize(1440, 1080);
 
+	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	    double width = screenSize.getWidth();
+	    double height = screenSize.getHeight();
+	    System.out.println(width);
+	    System.out.println(height);
+	    
+	    
 	    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    f.setVisible(true);
 	}

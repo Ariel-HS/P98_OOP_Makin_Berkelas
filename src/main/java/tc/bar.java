@@ -13,5 +13,9 @@ public class bar implements Holdable {
 	public void exampleMethod() {
 		System.out.println("This is from bar");
 	}
-
+	
+	@Override
+	public String getNama() {
+		return("Domba");
+	}
 }
