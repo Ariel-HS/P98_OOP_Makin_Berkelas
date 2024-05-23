@@ -1,7 +1,9 @@
-package P98.newComponent;
+package tc;
 
 public class foo implements Holdable {
 
+	public foo() {};
+	
 	@Override
 	public void interact(Holdable u) {
 		exampleMethod();
@@ -11,6 +13,11 @@ public class foo implements Holdable {
 	@Override
 	public void exampleMethod() {
 		System.out.println("This is from foo");
+	}
+	
+	@Override
+	public String getNama() {
+		return("Jagung");
 	}
 
 }
