@@ -1,6 +1,9 @@
 package P98.SeranganBeruang.java;
 
 import java.util.Random;
+
+import javax.swing.plaf.basic.BasicTabbedPaneUI.TabSelectionHandler;
+
 import java.util.List;
 import java.awt.Point;
 
@@ -8,7 +11,7 @@ import P98.Ladang.Ladang;
 import P98.Makhluk.Makhluk;
 import P98.Tumbuhan.Tumbuhan;
 
-public class SeranganBeruang {
+public class SeranganBeruang extends Thread {
     private List<Point> subgrid;
     private float timeLeft;
     private Ladang ladang;
@@ -21,8 +24,16 @@ public class SeranganBeruang {
         }
     }
 
-    public void reduceTime() {
-        timeLeft -= 0.1;
+    public void run() {
+        while (timeLeft != 0) {
+            timeLeft -= 0.1;
+            notify();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean startAttack() {
