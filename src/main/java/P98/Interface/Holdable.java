@@ -8,4 +8,6 @@ public interface Holdable {
     public Holdable turnToHoldable();
 
     public void interact(Makhluk m, Player p) throws WrongItemException;
+
+    public String getNama();
 }

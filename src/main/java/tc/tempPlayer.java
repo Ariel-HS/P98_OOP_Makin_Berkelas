@@ -6,8 +6,7 @@ import java.util.*;
 
 public class tempPlayer {
 	private testDeckAktif deckAktif;
-	public ArrayList<Integer> previousPositionX = new ArrayList<Integer>();
-	public ArrayList<Integer> previousPositionY = new ArrayList<Integer>();
+	public ArrayList<Integer> previousPosition = new ArrayList<Integer>();
 	public ArrayList<Card> kartuAktif = new ArrayList<Card>();
 	
 	public tempPlayer(Integer i) {
