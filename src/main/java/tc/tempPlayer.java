@@ -1,5 +1,7 @@
 package tc;
 import P98.newComponent.*;
+import P98.Tumbuhan.*;
+import P98.Hewan.*;
 import java.util.*;
 
 public class tempPlayer {
@@ -11,9 +13,9 @@ public class tempPlayer {
 	public tempPlayer(Integer i) {
 		deckAktif = new testDeckAktif();
 		if(i == 0) {
-			bar example1 = new bar();
-			foo example2 = new foo();
-			foo example3 = new foo();
+			Holdable example1 = (Holdable) new Tumbuhan();
+			Holdable example2 = (Holdable) new Karnivora();
+			Holdable example3 = (Holdable) new Herbivora();
 			deckAktif.addCard(example1);
 			deckAktif.addCard(example2);
 			deckAktif.addCard(example3);

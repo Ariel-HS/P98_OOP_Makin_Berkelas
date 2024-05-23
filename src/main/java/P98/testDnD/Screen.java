@@ -1,14 +1,18 @@
 package P98.testDnD;
-import tc.*;
-
+import tc.bar;
+import tc.foo;
+import tc.tempPlayer;
+import tc.testDeckAktif;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
 
 import P98.newComponent.*;
+import P98.Player.*;
+import P98.Deck.*;
+import P98.Interface.*;
 
 import javax.swing.JFrame;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.ButtonGroup;
@@ -23,10 +27,10 @@ import java.awt.Toolkit;
 public class Screen {
 
 	private JFrame frame;
-	private ArrayList<tempPlayer> testPlayers;
+	private ArrayList<Player> testPlayers;
 	private ArrayList<Slot> slots;
 	private JFrame f = new JFrame("Swing Hello World");
-	private ArrayList<Card> cardsInFocus;
+	private Deck cardsInFocus;
 	private static boolean theresAwindow = false;
 
 	/**
@@ -50,13 +54,13 @@ public class Screen {
 	 * Create the application.
 	 */
 	public Screen() {
-		testPlayers = new ArrayList<tempPlayer>();
-		tempPlayer player1 = new tempPlayer(0);
-		tempPlayer player2 = new tempPlayer(1);
+		testPlayers = new ArrayList<Player>();
+		Player player1 = new Player(0);
+		Player player2 = new Player(0);
 		testPlayers.add(player1);
 		testPlayers.add(player2);
 
-		cardsInFocus = player1.kartuAktif;
+		cardsInFocus = player1.getDeckAktif();
 		initialize();
 	}
 	
@@ -68,8 +72,8 @@ public class Screen {
 		return theresAwindow;
 	}
 	
-	public void setCards(tempPlayer current) {
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+	public void setCards(Player current) {
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
 		System.out.println(currentCards);
 		for(int j=0;j<currentCards.size();j++) {
 			if(current.previousPositionX.size() == 0 && current.previousPositionY.size() == 0) { // if it's the first time setting up cards

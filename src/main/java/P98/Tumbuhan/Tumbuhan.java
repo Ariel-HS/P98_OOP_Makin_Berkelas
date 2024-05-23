@@ -1,5 +1,6 @@
 package P98.Tumbuhan;
 import P98.Makhluk.Makhluk;
+import P98.Player.Player;
 import P98.Produk.Produk;
 
 public class Tumbuhan extends Makhluk {
@@ -17,7 +18,7 @@ public class Tumbuhan extends Makhluk {
     }
 
     public Makhluk turnToMakhluk() {
-        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik())
+        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 
     public void makan(Produk p) {

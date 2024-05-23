@@ -1,8 +1,8 @@
 package P98.Hewan;
 
 import P98.Makhluk.Makhluk;
+import P98.Player.Player;
 import P98.Produk.Produk;
-import P98.Tumbuhan.Tumbuhan;
 
 public class Karnivora extends Hewan {
     public Karnivora() {
@@ -20,6 +20,6 @@ public class Karnivora extends Hewan {
     }
 
     public Makhluk turnToMakhluk() {
-        return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik())
+        return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 }

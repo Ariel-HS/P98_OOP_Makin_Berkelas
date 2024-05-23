@@ -1,6 +1,8 @@
 package P98.Item;
 
 import P98.Exception.*;
+import P98.Makhluk.*;
+import P98.Player.*;
 
 public class Delay extends Item {
     public Delay() {

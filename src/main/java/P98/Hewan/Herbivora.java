@@ -1,8 +1,8 @@
 package P98.Hewan;
 
 import P98.Makhluk.Makhluk;
+import P98.Player.Player;
 import P98.Produk.Produk;
-import P98.Tumbuhan.Tumbuhan;
 
 public class Herbivora extends Hewan {
     public Herbivora() {

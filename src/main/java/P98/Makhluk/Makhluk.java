@@ -2,6 +2,7 @@ package P98.Makhluk;
 
 import P98.Interface.*;
 import P98.Item.*;
+import P98.Player.Player;
 import P98.Produk.*;
 import java.util.*;
 import java.awt.Point;
