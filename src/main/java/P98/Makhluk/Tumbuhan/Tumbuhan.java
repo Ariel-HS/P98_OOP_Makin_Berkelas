@@ -35,7 +35,7 @@ public class Tumbuhan extends Makhluk {
         return new Tumbuhan(this);
     }
 
-    public void interact(Makhluk m) {
+    public void interact(Makhluk m, Player p) {
         //
     }
 }
