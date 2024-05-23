@@ -1,6 +1,7 @@
 package P98.Item;
 
 import P98.Exception.*;
+import P98.Interface.Holdable;
 
 public class Delay extends Item {
     public Delay() {
@@ -19,5 +20,9 @@ public class Delay extends Item {
         } else {
             throw new WrongItemException("pemain lain");
         }
+    }
+
+    public Holdable turnToHoldable() {
+        return new Delay();
     }
 }

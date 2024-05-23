@@ -1,6 +1,7 @@
 package P98.Item;
 
 import P98.Exception.*;
+import P98.Interface.Holdable;
 
 public class Protect extends Item {
     public Protect() {
@@ -13,5 +14,9 @@ public class Protect extends Item {
         } else {
             throw new WrongItemException("pemain lain");
         }
+    }
+
+    public Holdable turnToHoldable() {
+        return new Protect();
     }
 }

@@ -1,6 +1,7 @@
 package P98.Item;
 
 import P98.Exception.*;
+import P98.Interface.Holdable;
 
 public class Destroy extends Item {
     public Destroy() {
@@ -13,5 +14,9 @@ public class Destroy extends Item {
         } else {
             throw new WrongItemException("Anda");
         }
+    }
+
+    public Holdable turnToHoldable() {
+        return new Destroy();
     }
 }
