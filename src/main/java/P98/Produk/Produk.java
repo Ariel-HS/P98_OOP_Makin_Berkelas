@@ -22,7 +22,7 @@ public abstract class Produk {
     public int getHarga() { return harga; }
     public int getBobot() { return bobot; }
 
-    abstract boolean tryEat(String s);
+    abstract public boolean tryEat(String s);
 }
 
 class ProdukHewan extends Produk {
