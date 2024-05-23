@@ -42,6 +42,7 @@ public abstract class Makhluk implements Holdable, Interactable {
     public String getNama() { return name; }
     public Point getPos() { return posisi; }
     public int getUnitPanen() { return unitPanen; }
+    public void setUnitPanen(int unitPanen) { this.unitPanen = unitPanen; }
     public int getBatasPanen() { return batasPanen; }
     public Produk harvest() { return produk; }
     public Player getPemilik() { return pemilik; }
@@ -54,9 +55,9 @@ public abstract class Makhluk implements Holdable, Interactable {
         items.put(x.getNama(), items.get(x.getNama()) + 1);
     }
     public void giveTrap() { hasProtect = true; }
-    public void gievShield() { hasProtect = true; }
+    public void giveShield() { hasProtect = true; }
 
-    abstract void nextTurn();
-    abstract void makan(Produk p);
-    abstract Makhluk turnToMakhluk();
+    abstract protected void nextTurn();
+    abstract public void makan(Produk p);
+    abstract public Makhluk turnToMakhluk();
 }
