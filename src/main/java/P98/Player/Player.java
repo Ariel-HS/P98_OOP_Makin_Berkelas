@@ -1,4 +1,5 @@
 package P98.Player;
+import java.util.*;
 import P98.Produk.*;
 import P98.Ladang.*;
 import P98.Deck.*;
@@ -64,6 +65,10 @@ public class Player {
         this.deckAktif.addKartu(kartu);
     }
 
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
     public void shuffleDeck() {
         this.deck.shuffleDeck();
     }
@@ -74,5 +79,37 @@ public class Player {
     
     public Deck getDeckAktif() {
         return this.deckAktif;
+    }
+
+    public void showDraw() {
+        Integer numKartu = 4;
+        if (this.deck.getJumlahKartu() <= 5) {
+            numKartu = 1;
+        }
+        else if (this.deckAktif.getJumlahKartu() > 2) {
+            numKartu = 6-this.deckAktif.getJumlahKartu();
+        }
+
+        ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
+        for (Holdable h: drawnKartu) {
+            h.print();
+        }
+    }
+
+    public void draw() {
+        Integer numKartu = 4;
+        if (this.deck.getJumlahKartu() <= 5) {
+            numKartu = 1;
+        }
+        else if (this.deckAktif.getJumlahKartu() > 2) {
+            numKartu = 6-this.deckAktif.getJumlahKartu();
+        }
+
+        ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
+        for (Holdable h: drawnKartu) {
+            this.deckAktif.addKartu(h);
+            h.print();
+        }
+        this.deck.drawTopKartu(numKartu);
     }
 }
