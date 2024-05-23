@@ -7,7 +7,7 @@ import P98.Produk.*;
 import java.util.*;
 import java.awt.Point;
 
-public abstract class Makhluk implements Holdable, Interactable {
+public abstract class Makhluk implements Holdable {
     private String name;
     private Point posisi;
     private int unitPanen;
@@ -43,7 +43,7 @@ public abstract class Makhluk implements Holdable, Interactable {
     public String getNama() { return name; }
     public Point getPos() { return posisi; }
     public int getUnitPanen() { return unitPanen; }
-    protected void setUnitPanen(int unitPanen) { this.unitPanen = unitPanen; }
+    public void setUnitPanen(int unitPanen) { this.unitPanen = unitPanen; }
     public int getBatasPanen() { return batasPanen; }
     public Produk harvest() { return produk; }
     public Player getPemilik() { return pemilik; }
@@ -56,9 +56,9 @@ public abstract class Makhluk implements Holdable, Interactable {
         items.put(x.getNama(), items.get(x.getNama()) + 1);
     }
     public void giveTrap() { hasProtect = true; }
-    public void gievShield() { hasProtect = true; }
+    public void giveShield() { hasProtect = true; }
 
     abstract protected void nextTurn();
-    abstract protected void makan(Produk p);
+    abstract public void makan(Produk p);
     abstract public Makhluk turnToMakhluk();
 }

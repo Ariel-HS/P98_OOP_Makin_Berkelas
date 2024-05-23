@@ -25,7 +25,8 @@ public class tempPlayer {
 			foo example3 = new foo();
 			foo example4 = new foo();
 			deckAktif.addCard(example1);
-			deckAktif.addCard(example2);
+			
+			+deckAktif.addCard(example2);
 			deckAktif.addCard(example3);
 			deckAktif.addCard(example4);
 		}

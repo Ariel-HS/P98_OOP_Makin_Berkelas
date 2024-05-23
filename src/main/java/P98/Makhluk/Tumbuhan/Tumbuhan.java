@@ -1,4 +1,4 @@
-package P98.Tumbuhan;
+package P98.Makhluk.Tumbuhan;
 import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
 import P98.Player.Player;
@@ -9,13 +9,13 @@ public class Tumbuhan extends Makhluk {
         super();
     }
 
-
     public Tumbuhan(String _nama, int x_pos, int y_pos, int _unitPanen, int _batasPanen, Produk p, Player pem) {
         super(_nama, x_pos, y_pos, _unitPanen, _batasPanen, p, pem);
     }
 
     public Tumbuhan(Tumbuhan other) {
-        super(other.getNama(), other.getPos().x, other.getPos().y, other.getUnitPanen(), other.getBatasPanen(), other.harvest(), other.getPemilik());
+        this(other.getNama(), other.getPos().x, other.getPos().y, other.getUnitPanen(), 
+             other.getBatasPanen(), other.harvest(), other.getPemilik());
     }
 
     public void nextTurn() {
@@ -31,11 +31,11 @@ public class Tumbuhan extends Makhluk {
         //
     }
 
-    public void interact (Makhluk m, Player p) {
-
-    }
-
     public Holdable turnToHoldable() {
         return new Tumbuhan(this);
+    }
+
+    public void interact(Makhluk m, Player p) {
+        //
     }
 }
