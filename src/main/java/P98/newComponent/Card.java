@@ -27,6 +27,71 @@ public class Card extends JComponent {
 	private Image image;
 	private Integer prevPosIdx = 999;
 	
+  public Card(ArrayList<Slot> _temp, Holdable Content) {
+		temp = _temp;
+		setBorder(new LineBorder(Color.BLUE, 3));
+		setBackground(Color.WHITE);
+		setBounds(10, 10, width, height);
+		setOpaque(false);
+		thisCard = this;
+		content = Content;
+		this.determineImage();
+		// image = new ImageIcon(this.determineImage());
+		if(isMine) {
+		addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (isMine) {
+					System.out.println("tampilin belakang kartu");
+					showWindow();
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+				screenX = e.getXOnScreen();
+				screenY = e.getYOnScreen();
+
+				myX = getX();
+				myY = getY();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				thisCard.insertSlot();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+		});
+		addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if(isMine) {
+				int deltaX = e.getXOnScreen() - screenX;
+				int deltaY = e.getYOnScreen() - screenY;
+
+				setLocation(myX + deltaX, myY + deltaY);
+				}
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+			}
+
+		});
+		}
+	}
+
 	public Integer getPrevPosIdx(){
 		return prevPosIdx;
 	}
@@ -218,71 +283,6 @@ public class Card extends JComponent {
 		}
 		// lanjutkan nanti malas
 		// return pathToImage;
-	}
-
-	public Card(ArrayList<Slot> _temp, Holdable Content) {
-		temp = _temp;
-		setBorder(new LineBorder(Color.BLUE, 3));
-		setBackground(Color.WHITE);
-		setBounds(10, 10, width, height);
-		setOpaque(false);
-		thisCard = this;
-		content = Content;
-		this.determineImage();
-		// image = new ImageIcon(this.determineImage());
-		if(isMine) {
-		addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (isMine) {
-					System.out.println("tampilin belakang kartu");
-					showWindow();
-				}
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-
-				screenX = e.getXOnScreen();
-				screenY = e.getYOnScreen();
-
-				myX = getX();
-				myY = getY();
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				thisCard.insertSlot();
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-		});
-		addMouseMotionListener(new MouseMotionListener() {
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				if(isMine) {
-				int deltaX = e.getXOnScreen() - screenX;
-				int deltaY = e.getYOnScreen() - screenY;
-
-				setLocation(myX + deltaX, myY + deltaY);
-				}
-			}
-
-			@Override
-			public void mouseMoved(MouseEvent e) {
-			}
-
-		});
-		}
 	}
 
 //  public static void main(String[] args) {
