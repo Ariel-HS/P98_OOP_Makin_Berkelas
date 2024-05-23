@@ -8,10 +8,11 @@ import java.nio.file.Paths;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-// import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.w3c.dom.*;
 
-import com.google.gson.Gson;
+// import com.google.gson.Gson;
 
 import P98.Deck.*;
 import P98.Exception.NoKartuException;
@@ -303,7 +304,7 @@ public class GameController {
                     Class<?> aClass = Class.forName("P98.Plugin."+node.getNodeName());
                     // create instance of Plugin class
                     Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
-                                        .newInstance(node.getAttributes().getNamedItem("name").getNodeValue(), 
+                                        .newInstance(node.getAttributes().getNamedItem("nama").getNodeValue(), 
                                         node.getAttributes().getNamedItem("message").getNodeValue());
 
                     // call method
@@ -319,10 +320,21 @@ public class GameController {
 
     public static void loadPluginJSON(File file) {
         try {
-            String content = Files.readString(Paths.get(file.getName()));
-            System.out.println(content);
-            Gson jGson = new Gson();
-            // JSONObject jObject = new JSONObject();
+            JSONObject jObject = (JSONObject)JSONValue.parse(new FileReader(file));
+
+            if (jObject.containsKey("Plugin")) {
+                JSONObject jPlugin = (JSONObject)jObject.get("Plugin");
+                if (jPlugin.containsKey("nama") && jPlugin.containsKey("message")) {
+                    Class<?> aClass = Class.forName("P98.Plugin.Plugin");
+                    // create instance of Plugin class
+                    Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
+                                        .newInstance(jPlugin.get("nama"), 
+                                        jPlugin.get("message"));
+
+                    // call method
+                    aClass.getMethod("printMessage").invoke(pluginObj);
+                }
+            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
