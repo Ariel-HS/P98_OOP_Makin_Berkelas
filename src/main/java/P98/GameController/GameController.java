@@ -230,10 +230,6 @@ public class GameController {
         // GUI Stuff   
     }
 
-    public static void load() {
-        // GUI Stuff
-    }
-
     public static void loadPlugin() {
         // GUI Stuff
         try {
@@ -248,7 +244,7 @@ public class GameController {
 
     }
 
-    public static void load(String folderPath) {
+    public static void load() {
         // save state
         Integer saveTurn = turnNumber;
         Player savePlayer1 = new Player(player1);
@@ -280,7 +276,8 @@ public class GameController {
             Integer jumlahDeckAktif1 = Integer.valueOf(player1Scanner.nextLine());
             System.out.println(jumlahDeckAktif1);
             for (int i=0; i<jumlahDeckAktif1; i++) {
-                String kartu = player1Scanner.nextLine();
+                String[] line = player1Scanner.nextLine().split(" ");
+                String kartu = line[1];
                 System.out.println(kartu);
                 Holdable newKartu = createKartu(kartu);
                 player1.addToDeckAktif(newKartu);
@@ -316,7 +313,8 @@ public class GameController {
             Integer jumlahDeckAktif2 = Integer.valueOf(player2Scanner.nextLine());
             System.out.println(jumlahDeckAktif2);
             for (int i=0; i<jumlahDeckAktif2; i++) {
-                String kartu = player2Scanner.nextLine();
+                String[] line = player2Scanner.nextLine().split(" ");
+                String kartu = line[1];
                 System.out.println(kartu);
                 Holdable newKartu = createKartu(kartu);
                 player2.addToDeckAktif(newKartu);
@@ -363,6 +361,16 @@ public class GameController {
                 // append produk ke toko
             }
             gamestateScanner.close();
+
+            // System.out.println("Here");
+            // for (Holdable h: player1.getDeckAktif().getDeck()) {
+            //     h.print();
+            // }
+            // System.out.println("Here");
+            // for (Holdable h: player2.getDeckAktif().getDeck()) {
+            //     h.print();
+            // }        
+            // System.out.println("Aman");
         }  catch (FileNotFoundException e) {
             System.out.println("State file not found");
             System.out.println(e.getMessage());
