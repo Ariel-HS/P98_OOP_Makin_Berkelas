@@ -4,7 +4,7 @@ import P98.Exception.*;
 import P98.Makhluk.*;
 import P98.Produk.*;
 import P98.Interface.*;
-// import P98.Player.*;
+import P98.Player.*;
 // import P98.GameManager
 
 public class InstantHarvest extends Item {
@@ -12,7 +12,7 @@ public class InstantHarvest extends Item {
         super("Instant Harvest");
     }
 
-    public void interact(Makhluk m) throws WrongItemException {
+    public void interact(Makhluk m, Player p) throws WrongItemException {
         if (m.getPemilik() == p) {
             Produk pr = m.harvest();
             // kasih produk ke pemain

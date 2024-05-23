@@ -24,6 +24,6 @@ public abstract class Produk implements Holdable {
     public int getHarga() { return harga; }
     public int getBobot() { return bobot; }
 
-    abstract boolean tryEat(String s);
+    abstract public boolean tryEat(String s);
     abstract public Produk turnToProduk();
 }

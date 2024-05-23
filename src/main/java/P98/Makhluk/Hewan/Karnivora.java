@@ -1,5 +1,6 @@
-package P98.Hewan;
+package P98.Makhluk.Hewan;
 
+import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
 import P98.Produk.Produk;
 import P98.Tumbuhan.Tumbuhan;
@@ -13,6 +14,10 @@ public class Karnivora extends Hewan {
         super(_nama, x_pos, y_pos, _unitPanen, _batasPanen, p, pem);
     }
 
+    public Karnivora(Karnivora other) {
+        this(other.getNama(), other.getBatasPanen(), other.getBatasPanen(), other.getUnitPanen(), other.getBatasPanen(), other.harvest(), getPemilik());
+    }
+    
     public void makan(Produk p) {
         if (p.tryEat("Karnivora")) {
             setUnitPanen(getUnitPanen() + p.getBobot());
@@ -21,5 +26,13 @@ public class Karnivora extends Hewan {
 
     public Makhluk turnToMakhluk() {
         return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik())
+    }
+    
+    public Holdable turnToHoldable() {
+        return new Karnivora(this);
+    }
+
+    public void interact(Makhluk m) {
+        //
     }
 }

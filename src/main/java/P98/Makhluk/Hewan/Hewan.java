@@ -1,4 +1,4 @@
-package P98.Hewan;
+package P98.Makhluk.Hewan;
 
 import P98.Makhluk.Makhluk;
 import P98.Produk.Produk;

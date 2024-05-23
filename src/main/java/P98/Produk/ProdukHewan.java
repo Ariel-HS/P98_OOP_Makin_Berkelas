@@ -3,8 +3,7 @@ package P98.Produk;
 import P98.Exception.WrongItemException;
 import P98.Interface.Holdable;
 import P98.Makhluk.*;
-// import P98.GameManager.*;
-// import P98.Player.*;
+import P98.Player.*;
 
 public class ProdukHewan extends Produk {
     public ProdukHewan() {
@@ -24,8 +23,7 @@ public class ProdukHewan extends Produk {
         return true;
     }
 
-    public void interact(Makhluk m) throws WrongItemException {
-        Player p = GameManager.getCurrentPlayer();
+    public void interact(Makhluk m, Player p) throws WrongItemException {
         if (m.getPemilik() != p) {
             throw new WrongItemException("pemain lain");
         }
