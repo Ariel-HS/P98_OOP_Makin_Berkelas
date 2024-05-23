@@ -42,7 +42,7 @@ public abstract class Makhluk implements Holdable {
     public String getNama() { return name; }
     public Point getPos() { return posisi; }
     public int getUnitPanen() { return unitPanen; }
-    protected void setUnitPanen(int unitPanen) { this.unitPanen = unitPanen; }
+    public void setUnitPanen(int unitPanen) { this.unitPanen = unitPanen; }
     public int getBatasPanen() { return batasPanen; }
     public Produk harvest() { return produk; }
     public Player getPemilik() { return pemilik; }

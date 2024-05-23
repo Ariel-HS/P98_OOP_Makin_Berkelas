@@ -13,6 +13,7 @@ public class InstantHarvest extends Item {
     }
 
     public void interact(Makhluk m) throws WrongItemException {
+        Player p = GameManager.getCurrentPlayer();
         if (m.getPemilik() == p) {
             Produk pr = m.harvest();
             // kasih produk ke pemain
