@@ -1,7 +1,7 @@
 package tc;
 import P98.newComponent.*;
-import P98.Tumbuhan.*;
-import P98.Hewan.*;
+import P98.Makhluk.Tumbuhan.*;
+import P98.Makhluk.Hewan.*;
 import java.util.*;
 
 public class tempPlayer {
@@ -26,7 +26,7 @@ public class tempPlayer {
 			foo example4 = new foo();
 			deckAktif.addCard(example1);
 			
-			+deckAktif.addCard(example2);
+			deckAktif.addCard(example2);
 			deckAktif.addCard(example3);
 			deckAktif.addCard(example4);
 		}

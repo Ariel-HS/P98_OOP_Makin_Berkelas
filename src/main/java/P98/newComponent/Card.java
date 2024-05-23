@@ -179,23 +179,23 @@ public class Card extends JComponent {
   
   
   public void determineImage() {
-	  String pathToImage = "/src/main/java/Assets/Hewan/Missingno_RB.png";
+	  String pathToImage = "/Hewan/Missingno_RB.png";
 	  if(this.content.getNama().equals("Domba")) {
 		  System.out.println("Working Directory = " + System.getProperty("user.dir"));
-		  image = new ImageIcon("main/java/Assets/Hewan/mareep.png").getImage();
+		  image = new ImageIcon(getClass().getResource("/Hewan/mareep.png")).getImage();
 	  } else if (this.content.getNama().equals("Beruang")) {
-		  pathToImage = "/src/main/java/Assets/Hewan/ursaring.png";
+		  pathToImage = "/Hewan/ursaring.png";
 	  } else if (this.content.getNama().equals("Hiu Darat")) {
-		  pathToImage = "/src/main/java/Assets/Hewan/sharpedo.png";
+		  pathToImage = "/Hewan/sharpedo.png";
 	  } else if (this.content.getNama().equals("Sapi")) {
-		  pathToImage = "/src/main/java/Assets/Hewan/miltank.png";
+		  pathToImage = "/Hewan/miltank.png";
 	  } else if (this.content.getNama().equals("Kuda")) {
-		  pathToImage = "/src/main/java/Assets/Hewan/rapidash.png";
+		  pathToImage = "/Hewan/rapidash.png";
 	  } else if(this.content.getNama().equals("Ayam")) {
-		  pathToImage = "/src/main/java/Assets/Hewan/torchic.png";
+		  pathToImage = "/Hewan/torchic.png";
 	  } else if(this.content.getNama().equals("Jagung")) {
 		  System.out.println("Working Directory = " + System.getProperty("user.dir"));
-		  image = new ImageIcon("main/java/Assets/Produk/corn.png").getImage();
+		  image = new ImageIcon(getClass().getResource("/Produk/corn.png")).getImage();
 	  }
 	  // lanjutkan nanti malas
 	  //return pathToImage;

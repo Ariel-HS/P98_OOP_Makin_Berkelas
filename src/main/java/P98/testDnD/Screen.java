@@ -11,6 +11,7 @@ import P98.newComponent.*;
 import P98.Player.*;
 import P98.Deck.*;
 import P98.Interface.*;
+import P98.newComponent.*;
 
 import javax.swing.JFrame;
 import java.awt.Dimension;

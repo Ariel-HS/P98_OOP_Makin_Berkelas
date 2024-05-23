@@ -24,6 +24,14 @@
   </dependencies>
 
   <build>
+  <resources>
+        <resource>
+            <directory>src/main/java/Assets</directory>
+            <includes>
+                <include>*/</include>
+            </includes>
+        </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -74,6 +82,9 @@
               </goals>
             </execution>
           </executions>
+            <configuration>
+              <mainClass>P98.testDnD.Screen</mainClass>
+            </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

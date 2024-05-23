@@ -1,6 +1,10 @@
 package P98.Player;
 import P98.Produk.*;
+import P98.newComponent.Card;
 import P98.Ladang.*;
+
+import java.util.ArrayList;
+
 import P98.Deck.*;
 import P98.Exception.DeckFullException;
 import P98.Interface.Holdable;
@@ -10,6 +14,9 @@ public class Player {
     private Integer gulden;
     private Deck deckAktif;
     private Deck deck;
+	public ArrayList<Integer> previousPositionX = new ArrayList<Integer>();
+	public ArrayList<Integer> previousPositionY = new ArrayList<Integer>();
+	public ArrayList<Card> kartuAktif = new ArrayList<Card>();
 
     public Player() {
         this.gulden = 0;
