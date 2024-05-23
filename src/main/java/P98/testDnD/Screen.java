@@ -106,6 +106,34 @@ public class Screen {
 				}
 			} 
 	}
+	
+	public void setCards2(Integer idx,boolean punyaLawan) {
+		tempPlayer current = this.testPlayers.get(idx);
+		tempPlayer previous = this.testPlayers.get((idx+1)%2);
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+		
+		ArrayList<Holdable> previousCards = previous.getDeckAktif().getKartu();
+		for (int j = 0; j < currentCards.size(); j++) {// cards
+			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
+			if(current.kartuAktif.get(j).getPrevPosIdx()!= 999 && current.kartuAktif.get(j).isinLadang()) {
+				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
+				current.kartuAktif.get(j).setPunyaLawan();
+				f.getContentPane().add(current.kartuAktif.get(j));
+				System.out.println("masuk sono");
+			}
+		}
+		for (int j = 0; j < previousCards.size(); j++) {																// cards
+			previous.kartuAktif.add(new Card(slots, previousCards.get(j)));
+			if(!previous.kartuAktif.get(j).isinLadang()) {
+				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx());
+				//previous.kartuAktif.get(j).intersectOccupation(current.kartuAktif.get(0).getTemp());
+				
+				previous.kartuAktif.get(j).setPunyaSaya();
+				f.getContentPane().add(previous.kartuAktif.get(j));
+				System.out.println("masuk sono");
+			}
+	}
+	}
 
 	public void clearCards() {
         Component[] components = f.getContentPane().getComponents();
@@ -302,8 +330,12 @@ public class Screen {
 				if(ladangkuButton.isSelected()) {
 					setCards((turn)%2,false);
 				} else {
-					setCards((turn+1)%2,true);
-					
+					setCards2((turn+1)%2,true);
+//					for(int i=0;i<slots.size();i++) {
+//						if(slots.get(i).isLadang()) {
+//							slots.get(i).occupied = true;
+//						}
+//					}
 				}
 			}
 		};
