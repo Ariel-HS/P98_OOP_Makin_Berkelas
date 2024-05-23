@@ -6,7 +6,7 @@ import P98.Produk.*;
 import java.util.*;
 import java.awt.Point;
 
-public abstract class Makhluk implements Holdable, Interactable {
+public abstract class Makhluk implements Holdable {
     private String name;
     private Point posisi;
     private int unitPanen;

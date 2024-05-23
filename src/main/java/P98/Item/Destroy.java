@@ -1,17 +1,26 @@
 package P98.Item;
 
 import P98.Exception.*;
+import P98.Makhluk.*;
+import P98.Interface.*;
+// import P98.Player.*;
+// import P98.GameManager
 
 public class Destroy extends Item {
     public Destroy() {
         super("Destroy");
     }
 
-    public void getEffect(Mahkluk m, Player p) throws WrongItemException {
+    public void interact(Makhluk m) throws WrongItemException {
+        Player p = GameManager.getCurrentPlayer();
         if (m.getPemilik() != p) {
             m = null;
         } else {
             throw new WrongItemException("Anda");
         }
+    }
+
+    public Holdable turnToHoldable() {
+        return new Destroy();
     }
 }
