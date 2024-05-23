@@ -57,6 +57,6 @@ public class App
         // System.out.println(d.test(true));
         
         GameController.start();
-        // GameController.load("./");
+        GameController.load("./");
     }
 }
