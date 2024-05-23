@@ -35,4 +35,8 @@ public class ProdukHewan extends Produk {
     public Holdable turnToHoldable() {
         return new ProdukHewan(this);
     }
+
+    public Produk turnToProduk() {
+        return new ProdukHewan(this);
+    }
 }

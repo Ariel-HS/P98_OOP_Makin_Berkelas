@@ -35,4 +35,8 @@ public class ProdukTumbuhan extends Produk {
         }
         m.makan(this);
     }
+
+    public Produk turnToProduk() {
+        return new ProdukTumbuhan(this);
+    }
 }
