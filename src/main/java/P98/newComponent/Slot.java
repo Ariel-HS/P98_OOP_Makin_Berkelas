@@ -1,10 +1,10 @@
 package P98.newComponent;
 
 import java.awt.*;
-import tc.*;
 
 import javax.swing.JComponent;
 import javax.swing.border.LineBorder;
+
 
 public class Slot extends JComponent {
 	private int screenX;
