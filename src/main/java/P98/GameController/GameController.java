@@ -233,10 +233,6 @@ public class GameController {
         // GUI Stuff
     }
 
-    public static void save() {
-        // GUI Stuff   
-    }
-
     public static void next() {
         turnNumber++;
         if (turnNumber%2 == 0) {
@@ -343,31 +339,57 @@ public class GameController {
         
     }
 
-    public static void save(String absPath) {
+    public static void save(File directory) {
+        try {
+            String path = directory.getAbsolutePath();
+            // System.out.println(path);
+            FileWriter player1File = new FileWriter(path+"/player1.txt");
+            FileWriter player2File = new FileWriter(path+"/player2.txt");
+            FileWriter gamestate = new FileWriter(path+"/gamestate.txt");
 
+            PrintWriter player1Writer = new PrintWriter(player1File);
+            PrintWriter player2Writer = new PrintWriter(player2File);
+            PrintWriter gamestateWriter = new PrintWriter(gamestate);
+
+            gamestateWriter.println(turnNumber);
+            // print toko
+            gamestateWriter.close();
+
+            player1Writer.println(player1.getGulden().toString());
+            player1Writer.println(player1.getDeckCardCount().toString());
+            player1Writer.println(player1.getActiveCardCount().toString());
+            for (Holdable h:player1.getDeckAktif().getDeck()) {
+                player1Writer.println(h.getNama());
+            }
+            // print ladang
+            player1Writer.close();
+
+            player2Writer.println(player2.getGulden().toString());
+            player2Writer.println(player2.getDeckCardCount().toString());
+            player2Writer.println(player2.getActiveCardCount().toString());
+            for (Holdable h:player2.getDeckAktif().getDeck()) {
+                player2Writer.println(h.getNama());
+            }
+            player2Writer.close();
+
+        } catch (Exception e) {
+            // toko = saveToko
+            System.out.println(e.getMessage());
+        } 
     }
 
-    public static void load() {
+    public static void load(File directory) {
         try {
+            String path = directory.getAbsolutePath();
+            System.out.println(path);
+            File player1File = new File(path+"/player1.txt");
+            File player2File = new File(path+"/player2.txt");
+            File gamestate = new File(path+"/gamestate.txt");
+
             Integer newTurn;
             Player newPlayer1 = new Player();
             Player newPlayer2 = new Player();
             // Toko newToko = new Toko();
-            JFileChooser openFileChooser = new JFileChooser();
-            openFileChooser.setCurrentDirectory(new File("./"));
-            openFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-            int retcode = openFileChooser.showOpenDialog(openFileChooser);
-            if (retcode != JFileChooser.APPROVE_OPTION) {
-                throw new Exception("No file chosen");
-            }
-
-            File directory = openFileChooser.getSelectedFile();
-            String path = directory.getAbsolutePath();
-            // System.out.println(path);
-            File player1File = new File(path+"/player1.txt");
-            File player2File = new File(path+"/player2.txt");
-            File gamestate = new File(path+"/gamestate.txt");
 
             Scanner player1Scanner = new Scanner(player1File);
             newPlayer1.setGulden(Integer.valueOf(player1Scanner.nextLine()));
@@ -469,11 +491,16 @@ public class GameController {
             }
             gamestateScanner.close();
 
-            turnNumber = newTurn-1;
+            turnNumber = newTurn;
             player1 = newPlayer1;
             player2 = newPlayer2;
+
+            if (turnNumber%2 == 0) {
+                currentPlayer = player2;
+            } else {
+                currentPlayer = player1;
+            }
             // toko = newToko
-            next();
             // System.out.println("Here ps");
             // for (Holdable h: player1.getDeck().getDeck()) {
             //     h.print();

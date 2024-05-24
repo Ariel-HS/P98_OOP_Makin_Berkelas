@@ -7,17 +7,11 @@ import P98.newComponent.*;
 import P98.Interface.*;
 import P98.Player.*;
 
-import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 public class Screen {
 
@@ -26,6 +20,7 @@ public class Screen {
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
+	private ArrayList<String> supportedExtensions = new ArrayList<>();  
 
 	/**
 	 * Launch the application.
@@ -49,6 +44,7 @@ public class Screen {
 	 */
 	public Screen() {
 		// cardsInFocus = new ArrayList<Card>();
+		supportedExtensions.add("TXT");
 		initialize();
 	}
 
@@ -338,8 +334,9 @@ public class Screen {
 
 		JButton SaveButton = new JButton("Save State");
 		SaveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		public void actionPerformed(ActionEvent e) {
+			SaveFrame saveFrame = new SaveFrame(f, supportedExtensions);
+		}
 		});
 		SaveButton.setBounds(1204, 369, 143, 53);
 		f.getContentPane().add(SaveButton);
@@ -364,7 +361,7 @@ public class Screen {
 		LoadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearCards();
-				GameController.load();
+				LoadFrame loadFrame = new LoadFrame(f, supportedExtensions);
 				Integer turn = GameController.getTurn();
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);
