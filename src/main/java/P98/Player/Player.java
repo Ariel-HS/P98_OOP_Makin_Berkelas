@@ -96,4 +96,8 @@ public class Player {
             }
         }
     }
+    
+    public void removeFromDeckAktif(int idx) {
+        deckAktif.removeKartu(idx);
+    }
 }

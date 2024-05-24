@@ -249,6 +249,8 @@ public class Card extends JComponent {
 						                  System.out.println(excep.toString());
 						                }
 						                frame.dispose();
+						                thisCard.setVisible(false);
+						                content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
 						              }
 						            });
 						            frame.add(pilihanButton);
@@ -266,6 +268,16 @@ public class Card extends JComponent {
 				frame.setVisible(true);
 			}
 		}
+	}
+	
+	public Integer getIndexofCardinPlayer() {
+		Integer retval = -999;
+		for(int i=0;i<content.getPemilik().getDeckAktif().getDeck().size();i++) {
+			if(content.getPemilik().getDeckAktif().getDeck().get(i)==content) {
+				return i;
+			}
+		}
+		return retval;
 	}
 	
 	public void intersectOccupation(ArrayList<Slot> otherTemp) {
@@ -307,6 +319,32 @@ public class Card extends JComponent {
 			image = new ImageIcon(getClass().getResource("/Assets/Item/Accelerate.png")).getImage();
 		} else if (this.content.getNama().equals("Destroy")) {
 			image = new ImageIcon(getClass().getResource("/Assets/Item/Destroy.png")).getImage();
+		} else if(this.content.getNama().equals("Instant Harvest")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Item/Instant Harvest.png")).getImage();
+		} else if(this.content.getNama().equals("Protect")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Item/Protect.png")).getImage();
+		} else if(this.content.getNama().equals("Trap")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/bear trap.png")).getImage();
+		} else if(this.content.getNama().equals("Daging Beruang")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/Daging Beruang.png")).getImage();
+		} else if(this.content.getNama().equals("Daging Domba")) {
+			image =new ImageIcon(getClass().getResource("/Assets/Produk/Daging Domba.png")).getImage();
+		}else if(this.content.getNama().equals("Daging Kuda")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/Daging Kuda.png")).getImage();
+		}else if(this.content.getNama().equals("Pumpkin")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/pumpkin.png")).getImage();
+		} else if(this.content.getNama().equals("Shark Fin")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/shark-fin.png")).getImage();
+		} else if(this.content.getNama().equals("Strawberry")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/strawberry.png")).getImage();
+		} else if(this.content.getNama().equals("Telur")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/telur.png")).getImage();
+		} else if(this.content.getNama().equals("Corn Seeds")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Tanaman/corn seeds.png")).getImage();
+		} else if(this.content.getNama().equals("Pumpkin Seeds")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Tanaman/pumpkin seeds.png")).getImage();
+		} else if(this.content.getNama().equals("Strawberry Seeds")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Tanaman/strawberry seeds.png")).getImage();
 		}
 		// lanjutkan nanti
 		// return pathToImage;
