@@ -1,7 +1,5 @@
 package P98.testDnD;
 
-import tc.*;
-
 import java.util.ArrayList;
 
 import P98.Deck.Deck;
@@ -10,14 +8,21 @@ import P98.Item.Accelerate;
 import P98.Item.Delay;
 import P98.Makhluk.Tumbuhan.Tumbuhan;
 import P98.Player.Player;
+import P98.Produk.Produk;
+import P98.Produk.ProdukHewan;
 import P98.Produk.ProdukTumbuhan;
+import P98.Toko.Pair;
+import P98.Toko.Toko;
 import P98.newComponent.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
+import java.util.List;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 
@@ -216,10 +221,10 @@ public class Screen {
 		testPlayers.add(player1);
 		testPlayers.add(player2);
 		//testing toko
-		Produk example2 = new Produk("Jagung",100,25);
-		Produk example3 = new Produk("Susu",23,23);
-		Produk example4 =new Produk("Daging Domba",23,23);
-		Produk example5 =new Produk("Daging Kuda",23,23);
+		Produk example2 = new ProdukTumbuhan("Jagung",player1,100,25);
+		Produk example3 = new ProdukHewan("Susu",player1,23,23);
+		Produk example4 =new ProdukHewan("Daging Domba",player1,23,23);
+		Produk example5 =new ProdukHewan("Daging Kuda",player1,23,23);
 		toko.sellProduk(example2);
 		toko.sellProduk(example3);
 		toko.sellProduk(example4);
@@ -270,7 +275,7 @@ public class Screen {
 					for (int i = 0; i < slots.size(); i++) {
 						if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
 							// Place the card to unoccupied hand
-							current.kartuAktif.get(j).insertSlot(i);
+							current.kartuAktif.get(j).insertSlot(i, current.getLadang());
 							if(punyaLawan) {
 								current.kartuAktif.get(j).setPunyaLawan();
 							} else {
@@ -281,7 +286,7 @@ public class Screen {
 						}
 					}				
 				}else {
-					current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
+					current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
 					if(punyaLawan) {
 						current.kartuAktif.get(j).setPunyaLawan();
 					} else {
@@ -294,15 +299,15 @@ public class Screen {
 	}
 	
 	public void setCards2(Integer idx,boolean punyaLawan) {
-		tempPlayer current = this.testPlayers.get(idx);
-		tempPlayer previous = this.testPlayers.get((idx+1)%2);
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+		Player current = this.testPlayers.get(idx);
+		Player previous = this.testPlayers.get((idx+1)%2);
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
 		
-		ArrayList<Holdable> previousCards = previous.getDeckAktif().getKartu();
+		ArrayList<Holdable> previousCards = previous.getDeckAktif().getDeck();
 		for (int j = 0; j < currentCards.size(); j++) {// cards
 			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
 			if(current.kartuAktif.get(j).getPrevPosIdx()!= 999 && current.kartuAktif.get(j).isinLadang()) {
-				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
+				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
 				current.kartuAktif.get(j).setPunyaLawan();
 				f.getContentPane().add(current.kartuAktif.get(j));
 				System.out.println("masuk sono");
@@ -311,7 +316,7 @@ public class Screen {
 		for (int j = 0; j < previousCards.size(); j++) {																// cards
 			previous.kartuAktif.add(new Card(slots, previousCards.get(j)));
 			if(!previous.kartuAktif.get(j).isinLadang()) {
-				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx());
+				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
 				//previous.kartuAktif.get(j).intersectOccupation(current.kartuAktif.get(0).getTemp());
 				
 				previous.kartuAktif.get(j).setPunyaSaya();
