@@ -1,13 +1,12 @@
 package P98.testDnD;
 
+import tc.*;
+
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
 
-import P98.GameController.GameController;
 import P98.newComponent.*;
-import P98.Interface.*;
-import P98.Player.*;
 
 import javax.swing.JFrame;
 import javax.swing.*;
@@ -21,14 +20,13 @@ import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Toolkit;
 
 public class Screen {
 
-	public JFrame frame;
+	private JFrame frame;
+	private ArrayList<tempPlayer> testPlayers;
 	private ArrayList<Slot> slots;
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
@@ -44,7 +42,7 @@ public class Screen {
 			public void run() {
 				try {
 					Screen window = new Screen();
-					// window.frame.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -56,7 +54,14 @@ public class Screen {
 	 * Create the application.
 	 */
 	public Screen() {
-		// cardsInFocus = new ArrayList<Card>();
+		testPlayers = new ArrayList<tempPlayer>();
+		tempPlayer player1 = new tempPlayer(0);
+		tempPlayer player2 = new tempPlayer(1);
+		testPlayers.add(player1);
+		testPlayers.add(player2);
+	
+
+		//cardsInFocus = player1.kartuAktif;
 		initialize();
 	}
 
@@ -67,91 +72,39 @@ public class Screen {
 	public static boolean getTheresAWindow() {
 		return theresAwindow;
 	}
-	
-	public void setCards(Player current) {
-		
-		for(int j=0;j<currentCards.size();j++) {
-			if(current.previousPositionX.size() == 0 && current.previousPositionY.size() == 0) { // if it's the first time setting up cards
-				current.kartuAktif.add(new Card(slots,currentCards.get(j))); 
-				for(int i=0;i<slots.size();i++) {
-					if(!slots.get(i).occupied && !slots.get(i).isLadang()) {
-						//Place the card to unoccupied hand
-						current.kartuAktif.get(j).insertSlot(i);
-						f.getContentPane().add(current.kartuAktif.get(j));
-						System.out.println("masuk sini");
-					}
-				} 
-			} else {
-				current.kartuAktif.get(j).setX(current.previousPositionX.get(j));
-				current.kartuAktif.get(j).setY(current.previousPositionY.get(j));
-				System.out.println("masuk sono");
-			}
-		}
-	}
-	
-	public void clearCards(Player previous) {
-	}
 
 	public void setCards(Integer idx,boolean punyaLawan) {
-		Player current = GameController.getCurrentPlayer();
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
+		tempPlayer current = this.testPlayers.get(idx);
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
 		System.out.println(currentCards);
 		for (int j = 0; j < currentCards.size(); j++) {
-			// time setting up											// cards
-			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
-			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
-				for (int i = 0; i < slots.size(); i++) {
-					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
-						// Place the card to unoccupied hand
-						current.kartuAktif.get(j).insertSlot(i);
-						if(punyaLawan) {
-							current.kartuAktif.get(j).setPunyaLawan();
-						} else {
-							current.kartuAktif.get(j).setPunyaSaya();
+																									// time setting up											// cards
+				current.kartuAktif.add(new Card(slots, currentCards.get(j)));
+				if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
+					for (int i = 0; i < slots.size(); i++) {
+						if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
+							// Place the card to unoccupied hand
+							current.kartuAktif.get(j).insertSlot(i);
+							if(punyaLawan) {
+								current.kartuAktif.get(j).setPunyaLawan();
+							} else {
+								current.kartuAktif.get(j).setPunyaSaya();
+							}
+							f.getContentPane().add(current.kartuAktif.get(j));
+							System.out.println("masuk sini");
 						}
-						f.getContentPane().add(current.kartuAktif.get(j));
-						System.out.println("masuk sini");
+					}				
+				}else {
+					current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
+					if(punyaLawan) {
+						current.kartuAktif.get(j).setPunyaLawan();
+					} else {
+						current.kartuAktif.get(j).setPunyaSaya();
 					}
-				}				
-			}else {
-				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
-				if(punyaLawan) {
-					current.kartuAktif.get(j).setPunyaLawan();
-				} else {
-					current.kartuAktif.get(j).setPunyaSaya();
+					f.getContentPane().add(current.kartuAktif.get(j));
+					System.out.println("masuk sono");
 				}
-				f.getContentPane().add(current.kartuAktif.get(j));
-				System.out.println("masuk sono");
-			}
-		} 
-	}
-	
-	public void setCards2(Integer idx,boolean punyaLawan) {
-		Player current = GameController.getCurrentPlayer();
-		Player previous = GameController.getPreviousPlayer();
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
-		
-		ArrayList<Holdable> previousCards = previous.getDeckAktif().getDeck();
-		for (int j = 0; j < currentCards.size(); j++) {// cards
-			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
-			if(current.kartuAktif.get(j).getPrevPosIdx()!= 999 && current.kartuAktif.get(j).isinLadang()) {
-				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
-				current.kartuAktif.get(j).setPunyaLawan();
-				f.getContentPane().add(current.kartuAktif.get(j));
-				System.out.println("masuk sono");
-			}
-		}
-		for (int j = 0; j < previousCards.size(); j++) {																// cards
-			previous.kartuAktif.add(new Card(slots, previousCards.get(j)));
-			if(!previous.kartuAktif.get(j).isinLadang()) {
-				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx());
-				//previous.kartuAktif.get(j).intersectOccupation(current.kartuAktif.get(0).getTemp());
-				
-				previous.kartuAktif.get(j).setPunyaSaya();
-				f.getContentPane().add(previous.kartuAktif.get(j));
-				System.out.println("masuk sono");
-			}
-	}
+			} 
 	}
 
 	public void clearCards() {
@@ -174,8 +127,6 @@ public class Screen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		// initialize game controller
-		GameController.loadConfig();
 
 		// by doing this, we prevent Swing from resizing
 		// our nice component
@@ -351,12 +302,8 @@ public class Screen {
 				if(ladangkuButton.isSelected()) {
 					setCards((turn)%2,false);
 				} else {
-					setCards2((turn+1)%2,true);
-//					for(int i=0;i<slots.size();i++) {
-//						if(slots.get(i).isLadang()) {
-//							slots.get(i).occupied = true;
-//						}
-//					}
+					setCards((turn+1)%2,true);
+					
 				}
 			}
 		};

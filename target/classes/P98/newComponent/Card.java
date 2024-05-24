@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
-import P98.Interface.*;
+import tc.*;
 
 public class Card extends JComponent {
 
@@ -64,10 +64,6 @@ public class Card extends JComponent {
 	public int getmyY() {
 		return myY;
 	}
-	
-	public ArrayList<Slot> getTemp(){
-		return this.temp;
-	}
 
 	// return the index of slot in temp if found
 	// else return -1 as false
@@ -90,10 +86,6 @@ public class Card extends JComponent {
 		}
 		return -1; // Return -1 if the card is not on top of any slot
 	}
-	
-	public boolean isinLadang() {
-		return temp.get(inSlot(temp)).isLadang();
-	}
 
 	public void insertSlot() {
 		int prevSlot = inSlot(temp); // before index of slot before myX and myY is updated
@@ -102,12 +94,8 @@ public class Card extends JComponent {
 		myX = getX();
 		myY = getY();
 		int slotNumber = inSlot(temp);
-		if(temp.get(slotNumber).getOccupied()) {
-			System.out.println("aaaaaaaaaaaaaaaa");
-		}
 		
 		if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
-			
 			System.out.println("ada dalam slot");
 			myX = temp.get(slotNumber).getSlotX() + 5;// +5 biar goodlooking, dihilangkan bisa tapi ga center
 			myY = temp.get(slotNumber).getSlotY() + 5;
@@ -120,7 +108,7 @@ public class Card extends JComponent {
 			if (content != temp.get(slotNumber).getContent().getIsi()) {
 				// if area ladang interact(getMakhluk)
 				// else if area dek akfif interact(getisi)
-				// content.interact(temp.get(slotNumber).getContent().getIsi());
+				content.interact(temp.get(slotNumber).getContent().getIsi());
 			}
 			setLocation(tempX, tempY);
 			myX = tempX;
@@ -193,14 +181,7 @@ public class Card extends JComponent {
 			frame.setVisible(true);
 		}
 	}
-	
-	public void intersectOccupation(ArrayList<Slot> otherTemp) {
-		for(int i=0;i < this.temp.size();i++) {
-			if(otherTemp.get(i).occupied) {
-				this.temp.get(i).occupied = true;
-			}
-		}
-	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -210,25 +191,28 @@ public class Card extends JComponent {
 		}
 	}
 
-  public void determineImage() {
-	  if(this.content.getNama().equals("Domba")) {
-		  image = new ImageIcon(getClass().getResource("/Hewan/mareep.png")).getImage();
-	  } else if (this.content.getNama().equals("Beruang")) {
-		  image = new ImageIcon(getClass().getResource("/Hewan/ursaring.png")).getImage();
-	  } else if (this.content.getNama().equals("Hiu Darat")) {
-		  image = new ImageIcon(getClass().getResource("/Hewan/sharpedo.png")).getImage();
-	  } else if (this.content.getNama().equals("Sapi")) {
-		  image = new ImageIcon(getClass().getResource("/Hewan/miltank.png")).getImage();
-	  } else if (this.content.getNama().equals("Kuda")) {
-		  image = new ImageIcon(getClass().getResource("/Hewan/rapidash.png")).getImage();
-	  } else if(this.content.getNama().equals("Ayam")) {
-		  image = new ImageIcon(getClass().getResource("/Hewan/torchic.png")).getImage();
-	  } else if(this.content.getNama().equals("Jagung")) {
-		  image = new ImageIcon(getClass().getResource("/Produk/corn.png")).getImage();
-	  }
-	  // lanjutkan nanti malas
-	  //return pathToImage;
-  }
+	public void determineImage() {
+		String pathToImage = "/src/main/java/Assets/Hewan/Missingno_RB.png";
+		if (this.content.getNama().equals("Domba")) {
+			System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			image = new ImageIcon(getClass().getResource("/Assets/Hewan/mareep.png")).getImage();
+		} else if (this.content.getNama().equals("Beruang")) {
+			pathToImage = "/src/main/java/Assets/Hewan/ursaring.png";
+		} else if (this.content.getNama().equals("Hiu Darat")) {
+			pathToImage = "/src/main/java/Assets/Hewan/sharpedo.png";
+		} else if (this.content.getNama().equals("Sapi")) {
+			pathToImage = "/src/main/java/Assets/Hewan/miltank.png";
+		} else if (this.content.getNama().equals("Kuda")) {
+			pathToImage = "/src/main/java/Assets/Hewan/rapidash.png";
+		} else if (this.content.getNama().equals("Ayam")) {
+			pathToImage = "/src/main/java/Assets/Hewan/torchic.png";
+		} else if (this.content.getNama().equals("Jagung")) {
+			System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			image = new ImageIcon(getClass().getResource("/Assets/Produk/corn.png")).getImage();
+		}
+		// lanjutkan nanti malas
+		// return pathToImage;
+	}
 
 	public Card(ArrayList<Slot> _temp, Holdable Content) {
 		temp = _temp;
