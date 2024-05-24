@@ -2,6 +2,7 @@ package P98.Makhluk.Tumbuhan;
 
 import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
+import P98.Makhluk.Hewan.Herbivora;
 import P98.Player.Player;
 import P98.Produk.Produk;
 public class Tumbuhan extends Makhluk {
@@ -34,5 +35,9 @@ public class Tumbuhan extends Makhluk {
 
     public void interact(Holdable m) {
         //
+    }
+
+    public Holdable turnToHoldable() {
+        return new Herbivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 }

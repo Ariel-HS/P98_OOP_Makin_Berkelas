@@ -26,9 +26,11 @@ public abstract class Produk implements Holdable {
     // Getter
     public String getNama() { return nama; }
     public Player getPemilik() { return pemilik; }
+    public void setPemilik(Player n) { pemilik = n; }
     public int getHarga() { return harga; }
     public int getBobot() { return bobot; }
 
     abstract public boolean tryEat(String s);
+    abstract public Holdable turnToHoldable();
     abstract public Produk turnToProduk();
 }

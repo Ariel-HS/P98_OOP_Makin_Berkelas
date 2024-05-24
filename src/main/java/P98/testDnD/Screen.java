@@ -56,7 +56,6 @@ public class Screen {
 	
 	public String getImagePath(Holdable content) {
 		if (content.getNama().equals("Domba")) {
-			//System.out.println("Working Directory = " + System.getProperty("user.dir"));
 			return "/Assets/Hewan/mareep.png";
 		} else if (content.getNama().equals("Beruang")) {
 			return "/Assets/Hewan/ursaring.png";
@@ -69,7 +68,6 @@ public class Screen {
 		} else if (content.getNama().equals("Ayam")) {
 			return "/Assets/Hewan/torchic.png";
 		} else if (content.getNama().equals("Jagung")) {
-			//System.out.println("Working Directory = " + System.getProperty("user.dir"));
 			return "/Assets/Produk/corn.png";
 		} else if (content.getNama().equals("Susu")) {
 			return "/Assets/Produk/susu.png";
@@ -84,147 +82,175 @@ public class Screen {
 			return "/Assets/Hewan/torchic.png";
 		}
 	}
+
 	private void showToko() {
-		  if (!Screen.getTheresAWindow()) {
-		    Screen.setTheresAWindow(true);
-		    JFrame frame = new JFrame("Toko");
-		    frame.setSize(800, 800);
-		    frame.setResizable(false);
-		    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		    frame.addWindowListener(new WindowAdapter() {
-		      @Override
-		      public void windowClosed(WindowEvent e) {
-		        Screen.setTheresAWindow(false);
-		      }
-		    });
+    if (!Screen.getTheresAWindow()) {
+      Screen.setTheresAWindow(true);
+      JFrame frame = new JFrame("Toko");
+      frame.setSize(800, 800);
+      frame.setResizable(false);
+      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      frame.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosed(WindowEvent e) {
+          Screen.setTheresAWindow(false);
+        }
+      });
 
-		    List<Pair<Produk, Integer>> itemToko = toko.getItemList();
-		    Integer idx = 0;
-		    JPanel contentPane = new JPanel();
-		    contentPane.setLayout(null); // Set custom layout for manual positioning
+      List<Pair<Produk, Integer>> itemToko = toko.getItemList();
+   Player player = testPlayers.get(turn%2);
+      Integer idx = 0;
+      JPanel contentPane = new JPanel();
+      contentPane.setLayout(null); // Set custom layout for manual positioning
+   System.out.println(itemToko.size());
 
-		    while (idx < itemToko.size()) {
-		      Integer yValue = 35 * idx;
-		      for (int j = 0; j < 3; j++) {
-		        if (idx < itemToko.size()) {
-		          Integer xValue = 210 * j;
+      while (idx < itemToko.size()) {
+        Integer yValue = 35 * idx;
+        for (int j = 0; j < 3; j++) {
+          if (idx < itemToko.size()) {
+            Integer xValue = 210 * j;
 
-		          // Create JPanel for each product display
-		          JPanel productPanel = new JPanel();
-		          productPanel.setBounds(xValue, yValue, 200, 100);
-		          productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		          contentPane.add(productPanel);
+      Produk pro = itemToko.get(idx).getFirst();
+      EtalaseToko etalase = new EtalaseToko(idx, xValue, yValue, pro.getNama(), itemToko.get(idx).getSecond(), pro.getHarga());
+      System.out.println(etalase.getJumlah());
+            // Create JPanel for each product display
+            JPanel productPanel = new JPanel();
+            productPanel.setBounds(xValue, yValue, 200, 100);
+            productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            contentPane.add(productPanel);
 
-		          // Image (assuming image path stored in 'imagePath' variable)
-		          Image temp =  new ImageIcon(getClass().getResource(getImagePath(itemToko.get(idx).getFirst()))).getImage();
-		          ImageIcon imageIcon = new ImageIcon(temp.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-		          JLabel imageLabel = new JLabel(imageIcon);
-		          imageLabel.setBounds(10, 10, 50, 50);
-		          productPanel.add(imageLabel);
+      System.out.println(etalase.getImage());
+            // Image (assuming image path stored in 'imagePath' variable)
+            Image temp =  etalase.getImage();
+            ImageIcon imageIcon = new ImageIcon(temp.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+            JLabel imageLabel = new JLabel(imageIcon);
+            imageLabel.setLocation(50, 50);
+            productPanel.add(imageLabel);
 
-		          // Product Name
-		          JLabel nameLabel = new JLabel(itemToko.get(idx).getFirst().getNama());
-		          nameLabel.setBounds(70, 10, 100, 20);
-		          productPanel.add(nameLabel);
+            // Product Name
+            JLabel nameLabel = new JLabel(etalase.getNama());
+            nameLabel.setLocation(70, 10);
+            productPanel.add(nameLabel);
 
-		          // Price
-		          String priceText = "Harga: " + ((Integer) itemToko.get(idx).getFirst().getHarga()).toString();
-		          JLabel priceLabel = new JLabel(priceText);
-		          priceLabel.setBounds(70, 35, 100, 20);
-		          productPanel.add(priceLabel);
+            // Price
+            String priceText = "Harga: " + etalase.getHarga();
+            JLabel priceLabel = new JLabel(priceText);
+            priceLabel.setLocation(70, 35);
+            productPanel.add(priceLabel);
 
-		          // Quantity
-		          String quantityText = "Jumlah: " + itemToko.get(idx).getSecond().toString();
-		          JLabel quantityLabel = new JLabel(quantityText);
-		          quantityLabel.setBounds(70, 60, 100, 20);
-		          productPanel.add(quantityLabel);
-		          // Create and configure button
-		          JButton removeButton = new JButton("Buy");
-		          removeButton.setBounds(130, 75, 60, 20);
-		          removeButton.addActionListener(new ActionListener() {
-		            @Override
-		            public void actionPerformed(ActionEvent e) {
-		              // lakukan buy
-		            	// umtuk sekarang baru menghapus doang
-		              contentPane.remove(productPanel);
-		              // Might need to repaint the content pane for the change to be reflected
-		              contentPane.repaint();
-		            }
-		          });
-		          productPanel.add(removeButton);
-
-		          idx++;
-		        }
-		      }
-		    }
-		    //render kartu
-		    idx = 0;
-		    ArrayList<Card> kartuOnDisplay= testPlayers.get(turn%2).kartuAktif;
-		    while (idx < kartuOnDisplay.size()) {
-		        Integer yValue = 500+(35 * idx);
-		        
-		        for (int j = 0; j < 3; j++) {
-		        	if (idx < kartuOnDisplay.size()&& !kartuOnDisplay.get(idx).isinLadang() && kartuOnDisplay.get(idx).getIsi() instanceof Produk) {
-		            Integer xValue = 210 * j;
-
-		            // Create JPanel for each product display
-		            JPanel productPanel = new JPanel();
-		            productPanel.setBounds(xValue, yValue, 200, 100);
-		            productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		            contentPane.add(productPanel);
-
-		            // Image (assuming image path stored in 'imagePath' variable)
-			          Image temp =  new ImageIcon(getClass().getResource(getImagePath(kartuOnDisplay.get(idx).getIsi()))).getImage();
-			          ImageIcon imageIcon = new ImageIcon(temp.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-		            JLabel imageLabel = new JLabel(imageIcon);
-		            imageLabel.setBounds(10, 10, 50, 50);
-		            productPanel.add(imageLabel);
-
-		            // Product Name
-		            JLabel nameLabel = new JLabel(kartuOnDisplay.get(idx).getIsi().getNama());
-		            nameLabel.setBounds(70, 10, 100, 20);
-		            productPanel.add(nameLabel);
-
-		            // Create and configure button
-		            JButton removeButton = new JButton("Sell");
-		            removeButton.setBounds(130, 75, 60, 20);
-		            removeButton.addActionListener(new ActionListener() {
-		              @Override
-		              public void actionPerformed(ActionEvent e) {
-		            	//Lakukan sell
-		            	// Again for now will just delete it
-		                // Remove the product panel from its parent (contentPane)
-		                contentPane.remove(productPanel);
-		                // Might need to repaint the content pane for the change to be reflected
-		                contentPane.repaint();
-		                // Potentially update frame size if needed
-		                // frame.pack();
-		              }
-		            });
-		            productPanel.add(removeButton);
-		          }
-		          idx++;
-		        }
-		      }
-		    
-		    frame.getContentPane().add(contentPane);
-		    frame.setVisible(true);
-		  }
+            // Quantity
+            String quantityText = "Jumlah: " + etalase.getJumlah();
+            JLabel quantityLabel = new JLabel(quantityText);
+            quantityLabel.setLocation(70, 60);
+            productPanel.add(quantityLabel);
+            // Create and configure button
+            JButton removeButton = new JButton("Buy");
+            removeButton.setBounds(130, 75, 60, 20);
+            removeButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                // lakukan buy
+               // umtuk sekarang baru menghapus doang
+       try {
+      player.beli(pro);
+	  try {
+	  	toko.buyProduk(pro);
+		  etalase.decrJumlah();
 		}
+		catch (Exception ex) {
+		}
+		if (etalase.getJumlah() == 0){
+			contentPane.remove(productPanel);
+		} else {
+       String quantityText = "Jumlah: " + etalase.getJumlah();
+       quantityLabel.setText(quantityText);
+       productPanel.repaint();
+      }
+      contentPane.repaint();
+       } catch (Exception ex) {
+      System.err.println(ex.getMessage());
+       }
+        }
+    });
+    productPanel.add(removeButton);
+    contentPane.add(productPanel);
+          idx++;
+          }
+        }
+      }
+      //render kartu
+      idx = 0;
+      ArrayList<Card> kartuOnDisplay= testPlayers.get(turn%2).kartuAktif;
+      while (idx < kartuOnDisplay.size()) {
+          Integer yValue = 500+(35 * idx);
+          
+          for (int j = 0; j < 3; j++) {
+           if (idx < kartuOnDisplay.size()&& !kartuOnDisplay.get(idx).isinLadang() && kartuOnDisplay.get(idx).getIsi() instanceof Produk) {
+              Integer xValue = 210 * j;
+
+     Produk pro = (Produk) kartuOnDisplay.get(idx).getIsi();
+        EtalaseToko etalase = new EtalaseToko(idx, xValue, yValue, pro.getNama(), 0, pro.getHarga());
+
+              // Create JPanel for each product display
+              JPanel productPanel = new JPanel();
+              productPanel.setBounds(xValue, yValue, 200, 100);
+              productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+              contentPane.add(productPanel);
+
+              // Image (assuming image path stored in 'imagePath' variable)
+             Image temp =  etalase.getImage();
+             ImageIcon imageIcon = new ImageIcon(temp.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+              JLabel imageLabel = new JLabel(imageIcon);
+              imageLabel.setBounds(10, 10, 50, 50);
+              productPanel.add(imageLabel);
+
+              // Product Name
+              JLabel nameLabel = new JLabel(etalase.getNama());
+              nameLabel.setBounds(70, 10, 100, 20);
+              productPanel.add(nameLabel);
+
+              // Create and configure button
+              JButton removeButton = new JButton("Sell");
+              removeButton.setBounds(130, 75, 60, 20);
+              removeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+               //Lakukan sell
+               // Again for now will just delete it
+                  // Remove the product panel from its parent (contentPane)
+      player.jual(pro, etalase.getId());
+                  toko.sellProduk(pro);
+      contentPane.remove(productPanel);
+                  // Might need to repaint the content pane for the change to be reflected
+                  contentPane.repaint();
+                  // Potentially update frame size if needed
+                  // frame.pack();
+                }
+              });
+              productPanel.add(removeButton);
+            }
+            idx++;
+          }
+        }
+      
+      frame.getContentPane().add(contentPane);
+      frame.setVisible(true);
+    }
+  }
 	/**
 	 * Create the application.
 	 */
 	public Screen() {
 		testPlayers = new ArrayList<Player>();
-		Player player1 = new Player(0);
+		Player player1 = new Player(1000000);
 		Player player2 = new Player(1);
 		testPlayers.add(player1);
 		testPlayers.add(player2);
 		//testing toko
 		Produk example2 = new ProdukTumbuhan("Jagung",player1,100,25);
 		Produk example3 = new ProdukHewan("Susu",player1,23,23);
-		Produk example4 =new ProdukHewan("Daging Domba",player1,23,23);
-		Produk example5 =new ProdukHewan("Daging Kuda",player1,23,23);
+		Produk example4 = new ProdukTumbuhan("Jagung",player1,100,25);
+		Produk example5 = new ProdukHewan("Susu",player1,23,23);
 		toko.sellProduk(example2);
 		toko.sellProduk(example3);
 		toko.sellProduk(example4);
@@ -267,8 +293,7 @@ public class Screen {
 		// deckAktif.addKartu();
 
 		ArrayList<Holdable> currentCards = deckAktif.getTopKartu(deckAktif.getJumlahKartu());
-		System.out.println(currentCards);
-		System.out.println(deckAktif.getJumlahKartu());
+		
 		for (int j = 0; j < currentCards.size(); j++) {
 				current.kartuAktif.add(new Card(slots, currentCards.get(j)));
 				if(current.kartuAktif.get(j).getPrevPosIdx()==999) {

@@ -84,4 +84,5 @@ public abstract class Makhluk implements Holdable {
     abstract public void nextTurn();
     abstract public void makan(Produk p);
     abstract public Makhluk turnToMakhluk();
+    abstract public Holdable turnToHoldable();
 }

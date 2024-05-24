@@ -1,5 +1,6 @@
 package P98.Makhluk.Hewan;
 
+import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
 import P98.Player.Player;
 import P98.Produk.Produk;
@@ -17,4 +18,6 @@ abstract public class Hewan extends Makhluk {
         // do nothing
         return;
     }
+
+    abstract public Holdable turnToHoldable();
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import P98.Exception.TokoNoProdukException;
+import P98.Player.Player;
 import P98.Produk.Produk;
 
 public class Toko {
@@ -18,7 +19,7 @@ public class Toko {
     public void sellProduk(Produk p) {
         boolean found = false;
         for (int i = 0; i < itemList.size(); i++) {
-            if (itemList.get(i).getFirst().equals(p)) {
+            if (itemList.get(i).getFirst().getNama().equals(p.getNama())) {
                 Pair<Produk,Integer> item = itemList.get(i);
                 item.setSecond(item.getSecond() + 1);
 
@@ -27,7 +28,7 @@ public class Toko {
         }
 
         if (!found) {
-            itemList.add(new Pair<Produk,Integer>(p.turnToProduk(), 0));
+            itemList.add(new Pair<Produk,Integer>(p.turnToProduk(), 1));
         }
     }
 
