@@ -13,11 +13,15 @@ public class Accelerate extends Item {
         super("Accelerate", pem);
     }
 
-    public void interact(Holdable m) {
+    public void interact(Holdable m) throws WrongItemException {
         if (m.getPemilik() == this.getPemilik()) {
-            if (m instanceof Tumbuhan t) {
+            if (m instanceof Tumbuhan) {
+                Tumbuhan t = (Tumbuhan) m;
+                t.addItem(this);
                 t.setUnitPanen(t.getUnitPanen() + 2);
-            } else if (m instanceof Hewan h) {
+            } else if (m instanceof Hewan) {
+                Hewan h = (Hewan) m;
+                h.addItem(this);
                 h.setUnitPanen(h.getUnitPanen() + 8);
             }
         } else {

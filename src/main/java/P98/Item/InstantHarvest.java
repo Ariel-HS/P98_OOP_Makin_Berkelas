@@ -13,9 +13,10 @@ public class InstantHarvest extends Item {
         super("Instant Harvest", pem);
     }
 
-    public void interact(Holdable m) {
+    public void interact(Holdable m) throws WrongItemException {
         if (m.getPemilik() == this.getPemilik()) {
-            if (m instanceof Produk pr) {
+            if (m instanceof Produk) {
+                Produk pr = (Produk) m;
                 try {
                     this.getPemilik().addToDeck(pr);
                 }

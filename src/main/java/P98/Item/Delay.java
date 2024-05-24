@@ -12,12 +12,16 @@ public class Delay extends Item {
         super("Delay", pem);
     }
 
-    public void interact(Holdable m) {
+    public void interact(Holdable m) throws WrongItemException {
         if (m.getPemilik() == this.getPemilik()) {
-            if (m instanceof Tumbuhan t) {
+            if (m instanceof Tumbuhan) {
+                Tumbuhan t = (Tumbuhan) m;
+                t.addItem(this);
                 t.setUnitPanen(t.getUnitPanen() - 2);
                 if (t.getUnitPanen() < 0 ) t.setUnitPanen(0);
-            } else if (m instanceof Hewan h) {
+            } else if (m instanceof Hewan) {
+                Hewan h = (Hewan) m;
+                h.addItem(this);
                 h.setUnitPanen(h.getUnitPanen() - 5);
                 if (h.getUnitPanen() < 0 ) h.setUnitPanen(0);
             }

@@ -40,7 +40,8 @@ public class SeranganBeruang extends Thread {
 
     public boolean startAttack() {
         for (int i = 0; i < 6; i++) {
-            if (ladang.getContent(subgrid.get(i)) instanceof Mahkluk attacked) {
+            if (ladang.getContent(subgrid.get(i)) instanceof Makhluk) {
+                Makhluk attacked = (Makhluk) ladang.getContent(subgrid.get(i));
                 if (attacked.hasTrap()) {
                     return false; // beruang tertangkap
                 }
@@ -53,5 +54,7 @@ public class SeranganBeruang extends Thread {
         for (int i = 0; i < subgrid.size(); i++) {
             ladang.addMakhluk(new Tumbuhan(), subgrid.get(i));
         }
+
+        return true;
     }
 }

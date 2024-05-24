@@ -24,7 +24,8 @@ public class ProdukHewan extends Produk {
     }
 
     public void interact(Holdable m) throws WrongItemException {
-        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk ma) {
+        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk) {
+            Makhluk ma = (Makhluk) m;
             ma.makan(this);
         }
         throw new WrongItemException("pemain lain");

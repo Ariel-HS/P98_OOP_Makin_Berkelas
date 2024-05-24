@@ -12,7 +12,9 @@ public class Protect extends Item {
     }
 
     public void interact(Holdable m) throws WrongItemException {
-        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk ma) {
+        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk) {
+            Makhluk ma = (Makhluk) m;
+            ma.addItem(this);
             ma.giveShield();
         } else {
             throw new WrongItemException("pemain lain");

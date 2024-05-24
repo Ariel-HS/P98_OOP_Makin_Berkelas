@@ -1,8 +1,12 @@
 package P98.testDnD;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import P98.Interface.Holdable;
+import P98.Item.Accelerate;
+import P98.Item.Delay;
+import P98.Ladang.Ladang;
 import P98.Player.Player;
 import P98.Deck.*;
 import P98.newComponent.*;
@@ -14,6 +18,12 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+
+import P98.Makhluk.Tumbuhan.*;
+import P98.Player.*;
+import P98.Produk.*;
+import P98.Interface.*;
+import P98.Deck.*;
 
 public class Screen {
 
@@ -67,36 +77,58 @@ public class Screen {
 
 	public void setCards(Integer idx,boolean punyaLawan) {
 		Player current = this.testPlayers.get(idx);
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getTopKartu(current.getDeckAktif().getJumlahKartu());
+		System.out.println("ldkjfsldkfj");
+		Deck deckAktif = current.getDeckAktif();
+
+		// HAPUS
+		Accelerate i1 = new Accelerate(current);
+		Accelerate i2 = new Accelerate(current);
+		Delay i3 = new Delay(current);
+		Tumbuhan t1 = new Tumbuhan("Jagung", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		t1.addItem(i1);
+		t1.addItem(i2);
+		t1.addItem(i3);
+		// // for testing
+		try {
+			current.addToDeckAktif(t1);
+			// current.addToDeckAktif(new Acc);
+			// current.addToDeckAktif(new Tumbuhan("Zomm"));
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// deckAktif.addKartu();
+
+		ArrayList<Holdable> currentCards = deckAktif.getTopKartu(deckAktif.getJumlahKartu());
 		System.out.println(currentCards);
+		System.out.println(deckAktif.getJumlahKartu());
 		for (int j = 0; j < currentCards.size(); j++) {
-																									// time setting up											// cards
-				current.kartuAktif.add(new Card(slots, currentCards.get(j)));
-				if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
-					for (int i = 0; i < slots.size(); i++) {
-						if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
-							// Place the card to unoccupied hand
-							current.kartuAktif.get(j).insertSlot(i);
-							if(punyaLawan) {
-								current.kartuAktif.get(j).setPunyaLawan();
-							} else {
-								current.kartuAktif.get(j).setPunyaSaya();
-							}
-							f.getContentPane().add(current.kartuAktif.get(j));
-							System.out.println("masuk sini");
+			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
+			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
+				for (int i = 0; i < slots.size(); i++) {
+					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
+						// Place the card to unoccupied hand
+						current.kartuAktif.get(j).insertSlot(i, current.getLadang());
+						if(punyaLawan) {
+							current.kartuAktif.get(j).setPunyaLawan();
+						} else {
+							current.kartuAktif.get(j).setPunyaSaya();
 						}
-					}				
-				}else {
-					current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
-					if(punyaLawan) {
-						current.kartuAktif.get(j).setPunyaLawan();
-					} else {
-						current.kartuAktif.get(j).setPunyaSaya();
+						f.getContentPane().add(current.kartuAktif.get(j));
+						System.out.println("masuk sini");
 					}
-					f.getContentPane().add(current.kartuAktif.get(j));
-					System.out.println("masuk sono");
+				}				
+			}else {
+				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
+				if(punyaLawan) {
+					current.kartuAktif.get(j).setPunyaLawan();
+				} else {
+					current.kartuAktif.get(j).setPunyaSaya();
 				}
-			} 
+				f.getContentPane().add(current.kartuAktif.get(j));
+				System.out.println("masuk sono");
+			}
+		} 
 	}
 
 	public void clearCards() {
@@ -309,6 +341,71 @@ public class Screen {
 		JButton SaveButton = new JButton("Save State");
 		SaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				f.setEnabled(false);
+				JFrame loadFrame = new JFrame();
+				loadFrame.setSize(1440, 1080);
+				
+				// Add title
+				JLabel loadTitle = new JLabel("Save State", SwingConstants.CENTER);
+				loadTitle.setFont(new Font("Tahoma", Font.PLAIN, 30));
+				loadTitle.setBounds(720, 20, 300, 60);
+				loadFrame.setLayout(null);
+				loadFrame.add(loadTitle);
+				
+				JPanel panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+				panel.setBounds(600, 100, 500, 50);
+			
+				// Add combo box
+				JComboBox<String> extOptions = new JComboBox<>();
+				extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				List<String> supportedExtensions = new ArrayList<>();  
+				supportedExtensions.add("TXT");
+				supportedExtensions.add("JSON");
+				supportedExtensions.add("XML");
+			
+				for (String ext : supportedExtensions)
+					extOptions.addItem(ext);
+			
+				JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
+				formatField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				formatField.setBounds((loadFrame.getWidth() / 2) - 0, 20, 300, 60);
+				
+				panel.add(formatField);
+				panel.add(extOptions);
+				loadFrame.add(panel);
+			
+				JPanel panel2 = new JPanel();
+				panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
+				panel2.setBounds(600, 200, 500, 50);
+			
+				// Add folder path
+				JLabel folderField = new JLabel("Folder:", SwingConstants.CENTER);
+				folderField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				folderField.setBounds((loadFrame.getWidth() / 2) - 150, 30, 600, 30);
+				panel2.add(folderField);
+				loadFrame.add(panel2);
+
+				JTextField folderInputField = new JTextField();
+				folderInputField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				folderInputField.setPreferredSize(new Dimension(300, 30));
+				panel2.add(folderInputField);
+			
+				JButton saveButton = new JButton("Save");
+				saveButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				saveButton.setBounds(600, 300, 500, 50);
+				loadFrame.add(saveButton);
+
+				JButton exit = new JButton("Keluar");
+				exit.setBounds((loadFrame.getWidth()/2)-50, 600, 100, 30);
+				exit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loadFrame.dispose(); // Close the frame
+					f.setEnabled(true);
+				}
+				});
+				loadFrame.add(exit);
+				loadFrame.setVisible(true);
 			}
 		});
 		SaveButton.setBounds(1204, 369, 143, 53);
@@ -316,6 +413,82 @@ public class Screen {
 
 		JButton LoadButton = new JButton("Load State");
 		LoadButton.setBounds(1204, 467, 143, 53);
+		LoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				f.setEnabled(false);
+				f.setFocusableWindowState(false);
+				JFrame loadFrame = new JFrame();
+				loadFrame.setSize(1440, 1080);
+				
+				// Add title
+				JLabel loadTitle = new JLabel("Load State", SwingConstants.CENTER);
+				loadTitle.setFont(new Font("Tahoma", Font.PLAIN, 30));
+				loadTitle.setBounds(720, 20, 300, 60);
+				loadFrame.setLayout(null);
+				loadFrame.add(loadTitle);
+				
+				JPanel panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+				panel.setBounds(600, 100, 500, 50);
+			
+				// Add combo box
+				JComboBox<String> extOptions = new JComboBox<>();
+				extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				List<String> supportedExtensions = new ArrayList<>();  
+				supportedExtensions.add("TXT");
+				supportedExtensions.add("JSON");
+				supportedExtensions.add("XML");
+			
+				for (String ext : supportedExtensions)
+					extOptions.addItem(ext);
+			
+				JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
+				formatField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				formatField.setBounds((loadFrame.getWidth() / 2) - 0, 20, 300, 60);
+				
+				panel.add(formatField);
+				panel.add(extOptions);
+				loadFrame.add(panel);
+			
+				JPanel panel2 = new JPanel();
+				panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
+				panel2.setBounds(600, 200, 500, 50);
+			
+				// Add folder path
+				JLabel folderField = new JLabel("Folder:", SwingConstants.CENTER);
+				folderField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				folderField.setBounds((loadFrame.getWidth() / 2) - 150, 30, 600, 30);
+				panel2.add(folderField);
+				loadFrame.add(panel2);
+
+				JTextField folderInputField = new JTextField();
+				folderInputField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				folderInputField.setPreferredSize(new Dimension(300, 30));
+				panel2.add(folderInputField);
+			
+				JButton loadButton = new JButton("Load");
+				loadButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				loadButton.setBounds(600, 300, 500, 50);
+				loadFrame.add(loadButton);
+				loadButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// load folder, throw exception if invalid
+					}
+				});
+
+				JButton exit = new JButton("Keluar");
+				exit.setBounds((loadFrame.getWidth()/2)-50, 600, 100, 30);
+				exit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loadFrame.dispose(); // Close the frame
+					f.setEnabled(true);
+					f.setFocusableWindowState(true);
+				}
+				});
+				loadFrame.add(exit);
+				loadFrame.setVisible(true);
+			}
+		});
 		f.getContentPane().add(LoadButton);
 
 		JButton PluginButton = new JButton("Plugin");
@@ -444,6 +617,8 @@ public class Screen {
 				turn += 1;
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);
+				testPlayers.get(0).nextTurn();
+				testPlayers.get(1).nextTurn();
 			}
 		});
 		nextButton.setBounds(875, 228, 143, 53);

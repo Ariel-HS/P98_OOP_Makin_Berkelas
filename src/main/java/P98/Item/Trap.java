@@ -11,7 +11,9 @@ public class Trap extends Item {
     }
 
     public void interact(Holdable m) throws WrongItemException {
-        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk ma) {
+        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk) {
+            Makhluk ma = (Makhluk) m;
+            ma.addItem(this);
             ma.giveTrap();
         } else {
             throw new WrongItemException("pemain lain");

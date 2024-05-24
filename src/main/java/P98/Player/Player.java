@@ -2,6 +2,8 @@ package P98.Player;
 import P98.Produk.*;
 import P98.newComponent.Card;
 import P98.Ladang.*;
+import P98.Makhluk.Makhluk;
+import P98.Makhluk.Tumbuhan.Tumbuhan;
 
 import java.util.ArrayList;
 
@@ -80,5 +82,18 @@ public class Player {
     
     public Deck getDeckAktif() {
         return this.deckAktif;
+    }
+
+    public Ladang getLadang() {
+        return this.ladang;
+    }
+
+    public void nextTurn() {
+        for (int i = 0; i < ladang.getKartu().size(); i++) {
+            Makhluk m = (Makhluk) ladang.getKartu().get(i);
+            if (m.getUnitAsli() != -1) {
+                m.nextTurn();
+            }
+        }
     }
 }

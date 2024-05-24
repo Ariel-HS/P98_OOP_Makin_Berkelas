@@ -9,6 +9,10 @@ import javax.swing.border.*;
 
 import P98.testDnD.Screen;
 import P98.Interface.*;
+import P98.Ladang.Ladang;
+import P98.Makhluk.Makhluk;
+import P98.Makhluk.Hewan.Hewan;
+import P98.Makhluk.Tumbuhan.Tumbuhan;
 
 public class Card extends JComponent {
 
@@ -108,12 +112,8 @@ public class Card extends JComponent {
 			if (content != temp.get(slotNumber).getContent().getIsi()) {
 				// if area ladang interact(getMakhluk)
 				// else if area dek akfif interact(getisi)
-				try {
-					content.interact(temp.get(slotNumber).getContent().getIsi());
-				}
-				catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
+				// content.interact(temp.get(slotNumber).getContent().getIsi());
+				System.out.println("lsdkfslkfj");
 			}
 			setLocation(tempX, tempY);
 			myX = tempX;
@@ -128,7 +128,7 @@ public class Card extends JComponent {
 		System.out.println(myX + "," + myY);
 	}
 
-	public void insertSlot(Integer idx) {
+	public void insertSlot(Integer idx, Ladang l) {
 		int prevSlot = inSlot(temp);
 		Integer slotX = temp.get(idx).getSlotX() + 5;
 		Integer slotY = temp.get(idx).getSlotY() + 5;
@@ -136,6 +136,8 @@ public class Card extends JComponent {
 		myY = temp.get(idx).getSlotY() + 5;
 		this.setLocation(slotX, slotY);
 		temp.get(idx).setContent(thisCard);
+		if (idx < 20)
+			l.addMakhluk(thisCard.getIsi(), new Point(idx%5, (int) (idx / 5)));
 		this.setPrevPosIdx(idx);
 		if (prevSlot >= 0) {
 			temp.get(prevSlot).setContent(null);
@@ -143,7 +145,8 @@ public class Card extends JComponent {
 	}
 
 	private void showWindow() {
-		if (!Screen.getTheresAWindow()) {
+		if (!Screen.getTheresAWindow() && content instanceof Makhluk) {
+			Makhluk m = (Makhluk) content;
 			Screen.setTheresAWindow(true);
 			JFrame frame = new JFrame("New Window");
 			frame.setSize(800, 400);
@@ -161,23 +164,26 @@ public class Card extends JComponent {
 			nameOfContent.setBounds(300, 20, 700, 80);
 			frame.add(nameOfContent);
 			JLabel gambar = new JLabel();
+			
 			StringBuilder firstField = new StringBuilder();
-			if (this.content.getClass().getName().contains("foo")) {
-				firstField.append("Umur : ");
-				String placeHolderUmur = "12";
-				firstField.append(placeHolderUmur);
-				String placeHolderEfekUmur = "(13)";
-				firstField.append(placeHolderEfekUmur);
+			if (content instanceof Tumbuhan) {
+				firstField.append("Umur: ");
 			} else {
-				System.out.println(this.content.getClass().getName());
-				firstField.append("Berat : ");
+				firstField.append("Berat: ");
 			}
+			firstField.append(Integer.toString(m.getUnitAsli()));
+			firstField.append(" (");
+			firstField.append(Integer.toString(m.getUnitPanen()));
+			firstField.append(")");
+
 			JLabel field1Label = new JLabel(firstField.toString());
 			field1Label.setFont(new Font("Serif", Font.BOLD, 30));
 			field1Label.setBounds(20, 120, 600, 40);
 			frame.add(field1Label);
 			StringBuilder secondField = new StringBuilder();
 			secondField.append("Efek : ");
+			secondField.append(m.getItems());
+
 			JLabel field2Label = new JLabel(secondField.toString());
 			field2Label.setFont(new Font("Serif", Font.BOLD, 30));
 			field2Label.setBounds(20, 170, 600, 40);

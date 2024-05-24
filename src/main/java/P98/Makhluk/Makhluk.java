@@ -54,18 +54,34 @@ public abstract class Makhluk implements Holdable {
     public Player getPemilik() { return pemilik; }
     public boolean isProtected() { return hasProtect; }
     public boolean hasTrap() { return hasTrap; }
-    public Map<String, Integer> getItems() { return items; }
+    public String getItems() { 
+        StringBuilder ret = new StringBuilder();
+        for (String item : items.keySet()) {
+            ret.append(item);
+            ret.append("(");
+            ret.append(items.get(item));
+            ret.append("), ");
+        }
+        if (!items.isEmpty())
+            ret.replace(ret.length()-2, ret.length(), "");
+
+        return ret.toString();
+    }
 
     public void setPos(int x_pos, int y_pos) { posisi = new Point(x_pos, y_pos); }
     public void addItem(Item x) {
-        items.put(x.getNama(), items.get(x.getNama()) + 1);
+        if (items.containsKey(x.getNama())) {
+            items.replace(x.getNama(), items.get(x.getNama())+1);
+        } else {
+            items.put(x.getNama(), 1);
+        }
     }
     public void giveTrap() { hasProtect = true; }
     public void giveShield() { hasProtect = true; }
 
     public boolean siapPanen() { return unitPanen >= batasPanen; }
 
-    abstract protected void nextTurn();
+    abstract public void nextTurn();
     abstract public void makan(Produk p);
     abstract public Makhluk turnToMakhluk();
 }
