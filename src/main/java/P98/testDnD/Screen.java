@@ -351,7 +351,7 @@ public class Screen {
 
 		JLabel turnCountLable = new JLabel("0");
 		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		turnCountLable.setBounds(943, 128, 21, 27);
+		turnCountLable.setBounds(943, 128, 27, 27);
 		f.getContentPane().add(turnCountLable);
 
 		JButton deck = new JButton("DECK (cur/max)");
@@ -406,10 +406,13 @@ public class Screen {
 		JButton nextButton = new JButton("NEXT");
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				GameController.getCurrentPlayer().kartuAktif.clear();
 				clearCards();
 				GameController.next();
 				// showShuffleWindow();
-				ShuffleDialog dialog = new ShuffleDialog(frame);
+				if (GameController.getCurrentPlayer().getActiveCardCount() < 6) {
+					ShuffleDialog dialog = new ShuffleDialog(frame);
+				} 
 				Integer turn = GameController.getTurn();
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);

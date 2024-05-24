@@ -114,7 +114,7 @@ public class Player {
 
         ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
         for (Holdable h: drawnKartu) {
-            this.deckAktif.addKartu(h);
+            this.deckAktif.addKartu(h.turnToHoldable());
             h.print();
         }
         this.deck.drawTopKartu(numKartu);
@@ -122,5 +122,9 @@ public class Player {
 
     public Integer getDeckCardCount() {
         return this.deck.getJumlahKartu();
+    }
+
+    public Integer getActiveCardCount() {
+        return this.deckAktif.getJumlahKartu();
     }
 }

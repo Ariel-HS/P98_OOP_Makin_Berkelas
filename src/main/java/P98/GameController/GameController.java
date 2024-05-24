@@ -246,6 +246,12 @@ public class GameController {
         }
 
         System.out.println(turnNumber);
+
+        ArrayList<Holdable> deckAktif = currentPlayer.getDeckAktif().getDeck();
+        System.out.println("Deck Aktif next");
+        for (Holdable h: deckAktif) {
+            h.print();
+        }
     }
 
     public static String loadPlugin() {
@@ -550,6 +556,11 @@ public class GameController {
 
     public static void callDraw() {
         currentPlayer.draw();
+        ArrayList<Holdable> deckAktif = currentPlayer.getDeckAktif().getDeck();
+        System.out.println("Deck Aktif draw");
+        for (Holdable h: deckAktif) {
+            h.print();
+        }
     }
 
     public static void callShuffle() {
