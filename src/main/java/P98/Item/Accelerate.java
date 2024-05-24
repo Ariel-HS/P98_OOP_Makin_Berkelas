@@ -28,4 +28,8 @@ public class Accelerate extends Item {
             throw new WrongItemException("pemain lain");
         }
     }
+
+    public Holdable turnToHoldable() {
+        return new Accelerate(getPemilik());
+    }
 }

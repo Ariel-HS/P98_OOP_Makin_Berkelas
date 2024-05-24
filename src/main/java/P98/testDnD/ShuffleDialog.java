@@ -14,13 +14,15 @@ import java.awt.event.ActionEvent;
 
 public class ShuffleDialog extends javax.swing.JDialog {
     private ArrayList<Slot> slots = new ArrayList<Slot>();
+    private Player pemilik;
 
-    public ShuffleDialog(java.awt.Frame parent) {
+    public ShuffleDialog(java.awt.Frame parent, Player pemilik) {
         super(parent);
         this.setSize(340, 650);
         this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setLayout(null);
+        this.pemilik = pemilik;
 
 		Slot Slot1 = new Slot(30, 30, false);
 		Slot1.setBounds(30, 30, 110, 160);
@@ -89,12 +91,12 @@ public class ShuffleDialog extends javax.swing.JDialog {
         System.out.println("Show cards");
 
         for (int i = 0; i < cards.size(); i++) {
-			Card newCard = new Card(slots, cards.get(i));
+			Card newCard = new Card(slots, cards.get(i), pemilik);
             newCard.setCanMove(false);
             for (int j = 0; j < slots.size(); j++) {
                 if (!slots.get(j).occupied) {
                     // Place the card to unoccupied hand
-                    newCard.insertSlot(i, new Ladang());
+                    newCard.insertSlot(i);
                     this.getContentPane().add(newCard);
                 }
             }				

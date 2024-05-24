@@ -17,4 +17,8 @@ public class Destroy extends Item {
             throw new WrongItemException("Anda");
         }
     }
+
+    public Holdable turnToHoldable() {
+        return new Destroy(getPemilik());
+    }
 }

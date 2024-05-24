@@ -24,6 +24,10 @@ public class Omnivora extends Hewan {
             setUnitAsli(getUnitAsli() + p.getBobot());
         }
     }
+
+    public Holdable turnToHoldable() {
+        return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    }
     
     public Makhluk turnToMakhluk() {
         return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());

@@ -29,4 +29,8 @@ public class Delay extends Item {
             throw new WrongItemException("pemain lain");
         }
     }
+
+    public Holdable turnToHoldable() {
+        return new Delay(getPemilik());
+    }
 }

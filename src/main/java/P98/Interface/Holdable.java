@@ -7,4 +7,5 @@ public interface Holdable {
     public String getNama();
     public Player getPemilik();
     public void interact(Holdable h) throws WrongItemException;
+    public Holdable turnToHoldable();
 }

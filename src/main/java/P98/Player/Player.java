@@ -3,7 +3,6 @@ import P98.Produk.*;
 import P98.newComponent.Card;
 import P98.Ladang.*;
 import P98.Makhluk.Makhluk;
-import P98.Makhluk.Tumbuhan.Tumbuhan;
 
 import java.util.ArrayList;
 
@@ -75,6 +74,10 @@ public class Player {
     public void shuffleDeck() {
         this.deck.shuffleDeck();
     }
+    
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
 
     public Deck getDeck() {
         return this.deck;
@@ -95,5 +98,45 @@ public class Player {
                 m.nextTurn();
             }
         }
+    }
+    public ArrayList<Holdable> getTopDeck() {
+        Integer numKartu = 4;
+        if (this.deck.getJumlahKartu() <= 5) {
+            numKartu = 1;
+        }
+        else if (this.deckAktif.getJumlahKartu() > 2) {
+            numKartu = 6-this.deckAktif.getJumlahKartu();
+        }
+
+        ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
+        // for (Holdable h: drawnKartu) {
+        //     h.print();
+        // }
+
+        return drawnKartu;
+    }
+
+    public void draw() {
+        Integer numKartu = 4;
+        if (this.deck.getJumlahKartu() <= 5) {
+            numKartu = 1;
+        }
+        else if (this.deckAktif.getJumlahKartu() > 2) {
+            numKartu = 6-this.deckAktif.getJumlahKartu();
+        }
+
+        ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
+        for (Holdable h: drawnKartu) {
+            this.deckAktif.addKartu(h);
+        }
+        this.deck.drawTopKartu(numKartu);
+    }
+
+    public Integer getDeckCardCount() {
+        return this.deck.getJumlahKartu();
+    }
+
+    public Integer getActiveCardCount() {
+        return this.deckAktif.getJumlahKartu();
     }
 }

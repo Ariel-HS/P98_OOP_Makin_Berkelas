@@ -8,11 +8,13 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
+import P98.GameController.GameController;
 import P98.Interface.*;
 import P98.Ladang.Ladang;
 import P98.Makhluk.Makhluk;
 import P98.Makhluk.Hewan.Hewan;
 import P98.Makhluk.Tumbuhan.Tumbuhan;
+import P98.Player.*;
 
 public class Card extends JComponent {
 
@@ -28,6 +30,8 @@ public class Card extends JComponent {
 	private boolean isMine = true;
 	private Image image;
 	private Integer prevPosIdx = 999;
+	private boolean canMove = true;
+	private Player pemilik;
 	
 	public Integer getPrevPosIdx(){
 		return prevPosIdx;
@@ -68,6 +72,10 @@ public class Card extends JComponent {
 	public int getmyY() {
 		return myY;
 	}
+	
+	public ArrayList<Slot> getTemp(){
+		return this.temp;
+	}
 
 	// return the index of slot in temp if found
 	// else return -1 as false
@@ -90,28 +98,35 @@ public class Card extends JComponent {
 		}
 		return -1; // Return -1 if the card is not on top of any slot
 	}
+	
+	public boolean isinLadang() {
+		return temp.get(inSlot(temp)).isLadang();
+	}
 
-	public void insertSlot() {
+	public void insertSlot(Ladang l) {
 		int prevSlot = inSlot(temp); // before index of slot before myX and myY is updated
 		int tempX = myX;
 		int tempY = myY;
 		myX = getX();
 		myY = getY();
 		int slotNumber = inSlot(temp);
-		
+		if(temp.get(slotNumber).getOccupied()) {
+			System.out.println("aaaaaaaaaaaaaaaa");
+		}
+		System.out.println(slotNumber);
 		if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
+			if (temp.get(slotNumber).isLadang())
+				l.addMakhluk(thisCard.getIsi(), new Point((slotNumber - 6) % 5, (int) ((slotNumber - 6) / 5))) ;
 			System.out.println("ada dalam slot");
 			myX = temp.get(slotNumber).getSlotX() + 5;// +5 biar goodlooking, dihilangkan bisa tapi ga center
 			myY = temp.get(slotNumber).getSlotY() + 5;
 			setLocation(temp.get(slotNumber).getSlotX() + 5, temp.get(slotNumber).getSlotY() + 5);
 			temp.get(slotNumber).setContent(thisCard);
 			if (prevSlot >= 0) {
-				temp.get(prevSlot).setContent(null);
+				temp.get(prevSlot).setContent(new Card(new ArrayList<>(), new Tumbuhan(), pemilik));
 			}
 		} else if (slotNumber >= 0 && temp.get(slotNumber).getOccupied()) { // Check if slotNumber is valid
 			if (content != temp.get(slotNumber).getContent().getIsi()) {
-				// if area ladang interact(getMakhluk)
-				// else if area dek akfif interact(getisi)
 				// content.interact(temp.get(slotNumber).getContent().getIsi());
 				System.out.println("lsdkfslkfj");
 			}
@@ -128,7 +143,7 @@ public class Card extends JComponent {
 		System.out.println(myX + "," + myY);
 	}
 
-	public void insertSlot(Integer idx, Ladang l) {
+	public void insertSlot(Integer idx) {
 		int prevSlot = inSlot(temp);
 		Integer slotX = temp.get(idx).getSlotX() + 5;
 		Integer slotY = temp.get(idx).getSlotY() + 5;
@@ -136,16 +151,17 @@ public class Card extends JComponent {
 		myY = temp.get(idx).getSlotY() + 5;
 		this.setLocation(slotX, slotY);
 		temp.get(idx).setContent(thisCard);
-		if (idx < 20)
-			l.addMakhluk(thisCard.getIsi(), new Point(idx%5, (int) (idx / 5)));
 		this.setPrevPosIdx(idx);
 		if (prevSlot >= 0) {
-			temp.get(prevSlot).setContent(null);
+			temp.get(prevSlot).setContent(new Card(new ArrayList<>(), new Tumbuhan(), pemilik));
 		}
 	}
 
 	private void showWindow() {
+		System.out.println("mhehe");
 		if (!Screen.getTheresAWindow() && content instanceof Makhluk) {
+			System.out.println("halohai");
+			System.out.println(content.getNama());
 			Makhluk m = (Makhluk) content;
 			Screen.setTheresAWindow(true);
 			JFrame frame = new JFrame("New Window");
@@ -182,7 +198,11 @@ public class Card extends JComponent {
 			frame.add(field1Label);
 			StringBuilder secondField = new StringBuilder();
 			secondField.append("Efek : ");
-			secondField.append(m.getItems());
+			if (!m.getItems().isEmpty()) {
+				secondField.append(m.getItems());
+			} else {
+				secondField.append("(no effects)");
+			}			
 
 			JLabel field2Label = new JLabel(secondField.toString());
 			field2Label.setFont(new Font("Serif", Font.BOLD, 30));
@@ -192,7 +212,14 @@ public class Card extends JComponent {
 			frame.setVisible(true);
 		}
 	}
-
+	
+	public void intersectOccupation(ArrayList<Slot> otherTemp) {
+		for(int i=0;i < this.temp.size();i++) {
+			if(otherTemp.get(i).occupied) {
+				this.temp.get(i).occupied = true;
+			}
+		}
+	}
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -202,36 +229,38 @@ public class Card extends JComponent {
 		}
 	}
 
-	public void determineImage() {
-		String pathToImage = "/src/main/java/Assets/Hewan/Missingno_RB.png";
-		if (this.content.getNama().equals("Domba")) {
-			System.out.println("Working Directory = " + System.getProperty("user.dir"));
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/mareep.png")).getImage();
-		} else if (this.content.getNama().equals("Beruang")) {
-			pathToImage = "/src/main/java/Assets/Hewan/ursaring.png";
-		} else if (this.content.getNama().equals("Hiu Darat")) {
-			pathToImage = "/src/main/java/Assets/Hewan/sharpedo.png";
-		} else if (this.content.getNama().equals("Sapi")) {
-			pathToImage = "/src/main/java/Assets/Hewan/miltank.png";
-		} else if (this.content.getNama().equals("Kuda")) {
-			pathToImage = "/src/main/java/Assets/Hewan/rapidash.png";
-		} else if (this.content.getNama().equals("Ayam")) {
-			pathToImage = "/src/main/java/Assets/Hewan/torchic.png";
-		} else if (this.content.getNama().equals("Jagung")) {
-			System.out.println("Working Directory = " + System.getProperty("user.dir"));
-			image = new ImageIcon(getClass().getResource("/Assets/Produk/corn.png")).getImage();
-		}
-		// lanjutkan nanti malas
-		// return pathToImage;
-	}
+  public void determineImage() {
+	  if(this.content.getNama().equals("Domba")) {
+		  image = new ImageIcon(getClass().getResource("/Hewan/mareep.png")).getImage();
+	  } else if (this.content.getNama().equals("Beruang")) {
+		  image = new ImageIcon(getClass().getResource("/Hewan/ursaring.png")).getImage();
+	  } else if (this.content.getNama().equals("Hiu Darat")) {
+		  image = new ImageIcon(getClass().getResource("/Hewan/sharpedo.png")).getImage();
+	  } else if (this.content.getNama().equals("Sapi")) {
+		  image = new ImageIcon(getClass().getResource("/Hewan/miltank.png")).getImage();
+	  } else if (this.content.getNama().equals("Kuda")) {
+		  image = new ImageIcon(getClass().getResource("/Hewan/rapidash.png")).getImage();
+	  } else if(this.content.getNama().equals("Ayam")) {
+		  image = new ImageIcon(getClass().getResource("/Hewan/torchic.png")).getImage();
+	  } else if(this.content.getNama().equals("Jagung")) {
+		  image = new ImageIcon(getClass().getResource("/Produk/corn.png")).getImage();
+	  }
+	  // lanjutkan nanti malas
+	  //return pathToImage;
+  }
 
-	public Card(ArrayList<Slot> _temp, Holdable Content) {
+  public void setCanMove(boolean bool) {
+	this.canMove = bool;
+  }
+
+	public Card(ArrayList<Slot> _temp, Holdable Content, Player pemilik) {
 		temp = _temp;
 		setBorder(new LineBorder(Color.BLUE, 3));
 		setBackground(Color.WHITE);
 		setBounds(10, 10, width, height);
 		setOpaque(false);
 		thisCard = this;
+		this.pemilik = pemilik;
 		content = Content;
 		this.determineImage();
 		// image = new ImageIcon(this.determineImage());
@@ -242,6 +271,8 @@ public class Card extends JComponent {
 			public void mouseClicked(MouseEvent e) {
 				if (isMine) {
 					System.out.println("tampilin belakang kartu");
+					System.out.println(content);
+					System.out.println(content.getNama());
 					showWindow();
 				}
 			}
@@ -258,7 +289,7 @@ public class Card extends JComponent {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				thisCard.insertSlot();
+				thisCard.insertSlot(pemilik.getLadang());
 			}
 
 			@Override
@@ -274,7 +305,7 @@ public class Card extends JComponent {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(isMine) {
+				if(isMine && canMove) {
 				int deltaX = e.getXOnScreen() - screenX;
 				int deltaY = e.getYOnScreen() - screenY;
 

@@ -29,6 +29,10 @@ public class Karnivora extends Hewan {
         return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 
+    public Holdable turnToHoldable() {
+        return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    }
+
     public void interact(Holdable m) {
         //
     }

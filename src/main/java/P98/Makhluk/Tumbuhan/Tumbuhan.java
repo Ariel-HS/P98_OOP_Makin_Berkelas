@@ -35,4 +35,8 @@ public class Tumbuhan extends Makhluk {
     public void interact(Holdable m) {
         //
     }
+
+    public Holdable turnToHoldable() {
+        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    }
 }

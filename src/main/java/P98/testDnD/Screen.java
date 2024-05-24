@@ -9,7 +9,10 @@ import P98.Item.Delay;
 import P98.Ladang.Ladang;
 import P98.Player.Player;
 import P98.Deck.*;
+import P98.GameController.GameController;
 import P98.newComponent.*;
+import P98.Interface.*;
+import P98.Player.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.*;
 import java.awt.event.ActionEvent;
 
 import P98.Makhluk.Tumbuhan.*;
@@ -33,7 +37,7 @@ public class Screen {
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
-	public static Integer turn =0;
+	private ArrayList<String> supportedExtensions = new ArrayList<>();  
 
 	/**
 	 * Launch the application.
@@ -44,6 +48,7 @@ public class Screen {
 			public void run() {
 				try {
 					Screen window = new Screen();
+					// window.frame.setVisible(true);
 					// window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,6 +69,8 @@ public class Screen {
 	
 
 		//cardsInFocus = player1.kartuAktif;
+		// cardsInFocus = new ArrayList<Card>();
+		supportedExtensions.add("TXT");
 		initialize();
 	}
 
@@ -99,16 +106,18 @@ public class Screen {
 		}
 		// deckAktif.addKartu();
 
-		ArrayList<Holdable> currentCards = deckAktif.getTopKartu(deckAktif.getJumlahKartu());
+		current = GameController.getCurrentPlayer();
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
 		System.out.println(currentCards);
 		System.out.println(deckAktif.getJumlahKartu());
 		for (int j = 0; j < currentCards.size(); j++) {
-			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
+			// time setting up											// cards
+			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
 			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
 				for (int i = 0; i < slots.size(); i++) {
 					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
 						// Place the card to unoccupied hand
-						current.kartuAktif.get(j).insertSlot(i, current.getLadang());
+						current.kartuAktif.get(j).insertSlot(i);
 						if(punyaLawan) {
 							current.kartuAktif.get(j).setPunyaLawan();
 						} else {
@@ -119,7 +128,7 @@ public class Screen {
 					}
 				}				
 			}else {
-				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
+				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
 				if(punyaLawan) {
 					current.kartuAktif.get(j).setPunyaLawan();
 				} else {
@@ -129,6 +138,34 @@ public class Screen {
 				System.out.println("masuk sono");
 			}
 		} 
+	}
+	
+	public void setCards2(Integer idx,boolean punyaLawan) {
+		Player current = GameController.getCurrentPlayer();
+		Player previous = GameController.getPreviousPlayer();
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
+		
+		ArrayList<Holdable> previousCards = previous.getDeckAktif().getDeck();
+		for (int j = 0; j < currentCards.size(); j++) {// cards
+			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
+			if(current.kartuAktif.get(j).getPrevPosIdx()!= 999 && current.kartuAktif.get(j).isinLadang()) {
+				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
+				current.kartuAktif.get(j).setPunyaLawan();
+				f.getContentPane().add(current.kartuAktif.get(j));
+				System.out.println("masuk sono");
+			}
+		}
+		for (int j = 0; j < previousCards.size(); j++) {																// cards
+			previous.kartuAktif.add(new Card(slots, previousCards.get(j), previous));
+			if(!previous.kartuAktif.get(j).isinLadang()) {
+				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx());
+				//previous.kartuAktif.get(j).intersectOccupation(current.kartuAktif.get(0).getTemp());
+				
+				previous.kartuAktif.get(j).setPunyaSaya();
+				f.getContentPane().add(previous.kartuAktif.get(j));
+				System.out.println("masuk sono");
+			}
+	}
 	}
 
 	public void clearCards() {
@@ -151,6 +188,8 @@ public class Screen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		// initialize game controller
+		GameController.loadConfig();
 
 		// by doing this, we prevent Swing from resizing
 		// our nice component
@@ -323,11 +362,16 @@ public class Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clearCards();
+				Integer turn = GameController.getTurn();
 				if(ladangkuButton.isSelected()) {
 					setCards((turn)%2,false);
 				} else {
-					setCards((turn+1)%2,true);
-					
+					setCards2((turn+1)%2,true);
+//					for(int i=0;i<slots.size();i++) {
+//						if(slots.get(i).isLadang()) {
+//							slots.get(i).occupied = true;
+//						}
+//					}
 				}
 			}
 		};
@@ -340,76 +384,26 @@ public class Screen {
 
 		JButton SaveButton = new JButton("Save State");
 		SaveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				f.setEnabled(false);
-				JFrame loadFrame = new JFrame();
-				loadFrame.setSize(1440, 1080);
-				
-				// Add title
-				JLabel loadTitle = new JLabel("Save State", SwingConstants.CENTER);
-				loadTitle.setFont(new Font("Tahoma", Font.PLAIN, 30));
-				loadTitle.setBounds(720, 20, 300, 60);
-				loadFrame.setLayout(null);
-				loadFrame.add(loadTitle);
-				
-				JPanel panel = new JPanel();
-				panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-				panel.setBounds(600, 100, 500, 50);
-			
-				// Add combo box
-				JComboBox<String> extOptions = new JComboBox<>();
-				extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				List<String> supportedExtensions = new ArrayList<>();  
-				supportedExtensions.add("TXT");
-				supportedExtensions.add("JSON");
-				supportedExtensions.add("XML");
-			
-				for (String ext : supportedExtensions)
-					extOptions.addItem(ext);
-			
-				JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
-				formatField.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				formatField.setBounds((loadFrame.getWidth() / 2) - 0, 20, 300, 60);
-				
-				panel.add(formatField);
-				panel.add(extOptions);
-				loadFrame.add(panel);
-			
-				JPanel panel2 = new JPanel();
-				panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-				panel2.setBounds(600, 200, 500, 50);
-			
-				// Add folder path
-				JLabel folderField = new JLabel("Folder:", SwingConstants.CENTER);
-				folderField.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				folderField.setBounds((loadFrame.getWidth() / 2) - 150, 30, 600, 30);
-				panel2.add(folderField);
-				loadFrame.add(panel2);
-
-				JTextField folderInputField = new JTextField();
-				folderInputField.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				folderInputField.setPreferredSize(new Dimension(300, 30));
-				panel2.add(folderInputField);
-			
-				JButton saveButton = new JButton("Save");
-				saveButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				saveButton.setBounds(600, 300, 500, 50);
-				loadFrame.add(saveButton);
-
-				JButton exit = new JButton("Keluar");
-				exit.setBounds((loadFrame.getWidth()/2)-50, 600, 100, 30);
-				exit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					loadFrame.dispose(); // Close the frame
-					f.setEnabled(true);
-				}
-				});
-				loadFrame.add(exit);
-				loadFrame.setVisible(true);
-			}
+		public void actionPerformed(ActionEvent e) {
+			SaveFrame saveFrame = new SaveFrame(f, supportedExtensions);
+		}
 		});
 		SaveButton.setBounds(1204, 369, 143, 53);
 		f.getContentPane().add(SaveButton);
+
+		JLabel turnLable = new JLabel("Turn :");
+		turnLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		turnLable.setBounds(923, 86, 66, 39);
+		f.getContentPane().add(turnLable);
+
+		JLabel turnCountLable = new JLabel("0");
+		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		turnCountLable.setBounds(943, 128, 27, 27);
+		f.getContentPane().add(turnCountLable);
+
+		JButton deck = new JButton("DECK (cur/max)");
+		deck.setBounds(1134, 844, 203, 109);
+		f.getContentPane().add(deck);
 
 		JButton LoadButton = new JButton("Load State");
 		LoadButton.setBounds(1204, 467, 143, 53);
@@ -490,6 +484,17 @@ public class Screen {
 			}
 		});
 		f.getContentPane().add(LoadButton);
+		LoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCards();
+				LoadFrame loadFrame = new LoadFrame(f, supportedExtensions);
+				Integer turn = GameController.getTurn();
+				setCards(turn%2,false);
+				ladangkuButton.setSelected(true);
+				turnCountLable.setText(String.valueOf(turn));
+				deck.setText("DECK ("+String.valueOf(GameController.getCurrentCardCount())+"/40)");
+			}
+		});
 
 		JButton PluginButton = new JButton("Plugin");
 		PluginButton.addActionListener(new ActionListener() {
@@ -581,14 +586,12 @@ public class Screen {
 		});
 		PluginButton.setBounds(1204, 565, 143, 53);
 		f.getContentPane().add(PluginButton);
-
-		JButton deck = new JButton("DECK (cur/max)");
-		deck.addActionListener(new ActionListener() {
+		PluginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String message = GameController.loadPlugin();
+				JOptionPane.showMessageDialog(PluginButton, message);
 			}
 		});
-		deck.setBounds(1134, 844, 203, 109);
-		f.getContentPane().add(deck);
 
 		JLabel player1label = new JLabel("Player 1 :");
 		player1label.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -613,26 +616,23 @@ public class Screen {
 		JButton nextButton = new JButton("NEXT");
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				GameController.getCurrentPlayer().kartuAktif.clear();
 				clearCards();
-				turn += 1;
+				GameController.next();
+				// showShuffleWindow();
+				if (GameController.getCurrentPlayer().getActiveCardCount() < 6) {
+					ShuffleDialog dialog = new ShuffleDialog(frame, GameController.getCurrentPlayer());
+				} 
+				Integer turn = GameController.getTurn();
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);
 				testPlayers.get(0).nextTurn();
 				testPlayers.get(1).nextTurn();
+				turnCountLable.setText(String.valueOf(turn));
 			}
 		});
 		nextButton.setBounds(875, 228, 143, 53);
 		f.getContentPane().add(nextButton);
-
-		JLabel turnLable = new JLabel("Turn :");
-		turnLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		turnLable.setBounds(923, 86, 66, 39);
-		f.getContentPane().add(turnLable);
-
-		JLabel turnCountLable = new JLabel("0");
-		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		turnCountLable.setBounds(943, 128, 21, 27);
-		f.getContentPane().add(turnCountLable);
 
 		setCards(0,false);
 
@@ -670,5 +670,11 @@ public class Screen {
 		// Card kartuBe = new Card(slots, testBryan);
 		// kartuBe.insertSlot(11);
 		// f.getContentPane().add(kartuBe);
+//		foo testBryan = new foo();
+//		Card kartuBe = new Card(slots, testBryan);
+//		kartuBe.insertSlot(11);
+//		f.getContentPane().add(kartuBe);
+
 	}
+
 }
