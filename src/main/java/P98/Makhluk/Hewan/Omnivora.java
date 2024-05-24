@@ -2,8 +2,8 @@ package P98.Makhluk.Hewan;
 
 import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
+import P98.Player.Player;
 import P98.Produk.Produk;
-import P98.Tumbuhan.Tumbuhan;
 
 public class Omnivora extends Hewan {
     public Omnivora() {
@@ -15,12 +15,13 @@ public class Omnivora extends Hewan {
     }
 
     public Omnivora(Omnivora other) {
-        this(other.getNama(), other.getBatasPanen(), other.getBatasPanen(), other.getUnitPanen(), other.getBatasPanen(), other.harvest(), getPemilik());
+        this(other.getNama(), other.getBatasPanen(), other.getBatasPanen(), other.getUnitPanen(), other.getBatasPanen(), other.harvest(), other.getPemilik());
     }
     
     public void makan(Produk p) {
         if (p.tryEat("Omnivora")) {
             setUnitPanen(getUnitPanen() + p.getBobot());
+            setUnitAsli(getUnitAsli() + p.getBobot());
         }
     }
     
@@ -28,11 +29,7 @@ public class Omnivora extends Hewan {
         return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 
-    public Holdable turnToHoldable() {
-        return new Omnivora(this);
-    }
-
-    public void interact(Makhluk m) {
+    public void interact(Holdable m) {
         //
     }
 }

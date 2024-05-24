@@ -5,13 +5,14 @@ import java.awt.*;
 import javax.swing.JComponent;
 import javax.swing.border.LineBorder;
 
+
 public class Slot extends JComponent {
 	private int screenX;
 	private int screenY;
 	private int width = 110;
 	private int height = 160;
-	private boolean special; // true means only hands
-	private Card<? extends Holdable> content;
+	private boolean special; // special means ladang
+	private Card content;
 	public boolean occupied;
 	
 	
@@ -49,7 +50,7 @@ public class Slot extends JComponent {
 		return width ;
 	}
 	
-	public void setContent(Card<? extends Holdable> _content) {
+	public void setContent(Card _content) {
 		content = _content;
 		changeOccupied();
 	}
@@ -62,7 +63,11 @@ public class Slot extends JComponent {
 		occupied = !occupied;
 	}
 	
-	public Card<? extends Holdable> getContent() {
+	public Card getContent() {
 			return content;
+	}
+	
+	public boolean isLadang() {
+		return special;
 	}
 }

@@ -10,12 +10,12 @@ public class ProdukTumbuhan extends Produk {
         super();
     }
 
-    public ProdukTumbuhan(String nama, int harga, int bobot) {
-        super(nama, harga, bobot);
+    public ProdukTumbuhan(String nama, Player pem, int harga, int bobot) {
+        super(nama, pem, harga, bobot);
     }
 
     public ProdukTumbuhan(ProdukTumbuhan ohter) {
-        this(ohter.getNama(), ohter.getHarga(), ohter.getBobot());
+        this(ohter.getNama(), ohter.getPemilik(), ohter.getHarga(), ohter.getBobot());
     }
 
     public boolean tryEat(String s) {
@@ -23,15 +23,12 @@ public class ProdukTumbuhan extends Produk {
         return true;
     }
 
-    public Holdable turnToHoldable() {
-        return new ProdukTumbuhan(this);
-    }
-
-    public void interact(Makhluk m, Player p) throws WrongItemException {
-        if (m.getPemilik() != p) {
-            throw new WrongItemException("pemain lain");
+    public void interact(Holdable m) throws WrongItemException {
+        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk) {
+            Makhluk ma = (Makhluk) m;
+            ma.makan(this);
         }
-        m.makan(this);
+        throw new WrongItemException("pemain lain");
     }
 
     public Produk turnToProduk() {
