@@ -1,32 +1,24 @@
 package P98.testDnD;
 
-import tc.*;
-
-import java.awt.EventQueue;
-
 import java.util.ArrayList;
 
+import P98.Interface.Holdable;
+import P98.Player.Player;
+import P98.Deck.*;
 import P98.newComponent.*;
 
-import javax.swing.JFrame;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Toolkit;
 
 public class Screen {
 
 	private JFrame frame;
-	private ArrayList<tempPlayer> testPlayers;
+	private ArrayList<Player> testPlayers;
 	private ArrayList<Slot> slots;
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
@@ -42,7 +34,7 @@ public class Screen {
 			public void run() {
 				try {
 					Screen window = new Screen();
-					window.frame.setVisible(true);
+					// window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -54,9 +46,9 @@ public class Screen {
 	 * Create the application.
 	 */
 	public Screen() {
-		testPlayers = new ArrayList<tempPlayer>();
-		tempPlayer player1 = new tempPlayer(0);
-		tempPlayer player2 = new tempPlayer(1);
+		testPlayers = new ArrayList<Player>();
+		Player player1 = new Player(0);
+		Player player2 = new Player(1);
 		testPlayers.add(player1);
 		testPlayers.add(player2);
 	
@@ -74,8 +66,8 @@ public class Screen {
 	}
 
 	public void setCards(Integer idx,boolean punyaLawan) {
-		tempPlayer current = this.testPlayers.get(idx);
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+		Player current = this.testPlayers.get(idx);
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getTopKartu(current.getDeckAktif().getJumlahKartu());
 		System.out.println(currentCards);
 		for (int j = 0; j < currentCards.size(); j++) {
 																									// time setting up											// cards
@@ -327,6 +319,93 @@ public class Screen {
 		f.getContentPane().add(LoadButton);
 
 		JButton PluginButton = new JButton("Plugin");
+		PluginButton.addActionListener(new ActionListener() {
+			File selectedFile;
+			public void actionPerformed(ActionEvent e) {
+				f.setEnabled(false);
+				f.setFocusable(false);
+				JFrame plugin_frame = new JFrame("Plugin Frame");
+				plugin_frame.setSize(1440, 1080);
+				plugin_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				plugin_frame.setLayout(null);
+		
+				JLabel heading_plugin = new JLabel("Plugin");
+				heading_plugin.setFont(new Font("Tahoma", Font.PLAIN, 30));
+				heading_plugin.setBounds((plugin_frame.getWidth() / 2) - 50, 20, 100, 60); // Adjusted for better centering
+				plugin_frame.add(heading_plugin);
+		
+				// Create a JPanel for the file plugin part
+				JPanel f_plugin = new JPanel();
+				f_plugin.setLayout(new BoxLayout(f_plugin, BoxLayout.X_AXIS)); // Corrected layout for vertical arrangement
+				f_plugin.setBounds(450, 100, 300, 200); // Set bounds for the JPanel
+		
+				JLabel fileLabel = new JLabel("File Plugin:");
+				fileLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align the label within the JPanel
+		
+				JButton chooseFileButton = new JButton("Choose File");
+				chooseFileButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align the button within the JPanel
+				chooseFileButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JFileChooser fileChooser = new JFileChooser();
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("jar File", "jar");
+						fileChooser.setFileFilter(filter);
+		
+						int result = fileChooser.showOpenDialog(plugin_frame);
+		
+						if (result == JFileChooser.APPROVE_OPTION) {
+							selectedFile = fileChooser.getSelectedFile();
+							fileLabel.setText("File Plugin: " + selectedFile.getName());
+						}
+					}
+				});
+		
+				JButton upload_button = new JButton("Upload");
+				upload_button.setBounds((plugin_frame.getWidth() / 2) - 250, 250, 500, 20);
+		
+				JLabel infoLabel = new JLabel();
+				infoLabel.setBounds((plugin_frame.getWidth() / 2) - 250, 300, 500, 20); // Set bounds below the upload button
+				infoLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+		
+				upload_button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// panggil jar reader
+						if (selectedFile != null) { // jika file valid dan berhasil
+							infoLabel.setText("Plugin file loaded successfully");
+							infoLabel.setForeground(Color.GREEN);
+						} else {
+							infoLabel.setText("Error: File is not a valid jar");
+							infoLabel.setForeground(Color.RED);
+						}
+					}
+				});
+		
+				JButton exit = new JButton("Keluar");
+				exit.setBounds((plugin_frame.getWidth()/2)-50, 600, 100, 30);
+				exit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						plugin_frame.dispose(); // Close the frame
+						f.setEnabled(true);
+						f.setFocusable(true);
+					}
+				});
+
+				
+				f_plugin.add(Box.createVerticalStrut(10));
+				f_plugin.add(chooseFileButton);
+				f_plugin.add(Box.createVerticalStrut(10));
+				f_plugin.add(fileLabel);
+				f_plugin.add(Box.createVerticalStrut(10));
+		
+				// Add the JPanel to the frame
+				plugin_frame.add(f_plugin);
+				plugin_frame.add(upload_button);
+				plugin_frame.add(infoLabel);
+				plugin_frame.add(exit);
+		
+				plugin_frame.setVisible(true);
+			}
+		});
 		PluginButton.setBounds(1204, 565, 143, 53);
 		f.getContentPane().add(PluginButton);
 
@@ -412,9 +491,9 @@ public class Screen {
 
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setVisible(true);
-//		foo testBryan = new foo();
-//		Card kartuBe = new Card(slots, testBryan);
-//		kartuBe.insertSlot(11);
-//		f.getContentPane().add(kartuBe);
+		// foo testBryan = new foo();
+		// Card kartuBe = new Card(slots, testBryan);
+		// kartuBe.insertSlot(11);
+		// f.getContentPane().add(kartuBe);
 	}
 }

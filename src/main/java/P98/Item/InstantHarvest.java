@@ -20,7 +20,7 @@ public class InstantHarvest extends Item {
                     this.getPemilik().addToDeck(pr);
                 }
                 catch (Exception e) {
-                    e.getMessage();
+                    System.out.println(e.getMessage());
                 }
                 finally {
                     m = new Tumbuhan();

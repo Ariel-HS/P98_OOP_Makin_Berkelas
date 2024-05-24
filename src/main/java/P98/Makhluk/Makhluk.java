@@ -58,6 +58,8 @@ public abstract class Makhluk implements Holdable {
     public void giveTrap() { hasProtect = true; }
     public void giveShield() { hasProtect = true; }
 
+    public boolean siapPanen() { return unitPanen >= batasPanen; }
+
     abstract protected void nextTurn();
     abstract public void makan(Produk p);
     abstract public Makhluk turnToMakhluk();

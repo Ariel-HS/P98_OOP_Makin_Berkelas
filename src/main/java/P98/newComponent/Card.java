@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
-import tc.*;
+import P98.Interface.*;
 
 public class Card extends JComponent {
 
@@ -108,7 +108,12 @@ public class Card extends JComponent {
 			if (content != temp.get(slotNumber).getContent().getIsi()) {
 				// if area ladang interact(getMakhluk)
 				// else if area dek akfif interact(getisi)
-				content.interact(temp.get(slotNumber).getContent().getIsi());
+				try {
+					content.interact(temp.get(slotNumber).getContent().getIsi());
+				}
+				catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 			}
 			setLocation(tempX, tempY);
 			myX = tempX;
