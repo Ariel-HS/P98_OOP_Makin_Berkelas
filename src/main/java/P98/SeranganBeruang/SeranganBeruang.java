@@ -1,4 +1,4 @@
-package P98.SeranganBeruang.java;
+package P98.SeranganBeruang;
 
 import java.util.Random;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.awt.Point;
 
 import P98.Ladang.Ladang;
 import P98.Makhluk.Makhluk;
-import P98.Tumbuhan.Tumbuhan;
+import P98.Makhluk.Tumbuhan.Tumbuhan;
 
 public class SeranganBeruang {
     private List<Point> subgrid;
