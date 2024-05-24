@@ -1,0 +1,34 @@
+8
+Sirip Hiu
+Hewan
+500
+12
+Susu
+Hewan
+100
+4
+Daging Domba
+Hewan
+120
+6
+Daging Kuda
+Hewan
+150
+8
+Telur
+Hewan
+50
+2
+Jagung
+Tumbuhan
+150
+3
+Labu
+Tumbuhan
+500
+10
+Stroberi
+Tumbuhan
+350
+5
+

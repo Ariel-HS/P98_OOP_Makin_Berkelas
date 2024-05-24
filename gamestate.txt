@@ -1,0 +1,7 @@
+1
+5
+Sirip_Hiu 5
+Susu 2
+Daging_Domba 3
+Daging_Kuda 10
+Daging_Beruang 1
