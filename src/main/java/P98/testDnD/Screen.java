@@ -2,26 +2,17 @@ package P98.testDnD;
 
 import tc.*;
 
-import java.awt.EventQueue;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import P98.newComponent.*;
 
-import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Toolkit;
 
 public class Screen {
 
@@ -32,6 +23,7 @@ public class Screen {
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
 	public static Integer turn =0;
+	private Toko toko = new Toko();
 
 	/**
 	 * Launch the application.
@@ -49,7 +41,164 @@ public class Screen {
 			}
 		});
 	}
+	
+	public String getImagePath(Holdable content) {
+		if (content.getNama().equals("Domba")) {
+			//System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			return "/Assets/Hewan/mareep.png";
+		} else if (content.getNama().equals("Beruang")) {
+			return "/Assets/Hewan/ursaring.png";
+		} else if (content.getNama().equals("Hiu Darat")) {
+			return "/Assets/Hewan/sharpedo.png";
+		} else if (content.getNama().equals("Sapi")) {
+			return "/Assets/Hewan/miltank.png";
+		} else if (content.getNama().equals("Kuda")) {
+			return "/Assets/Hewan/rapidash.png";
+		} else if (content.getNama().equals("Ayam")) {
+			return "/Assets/Hewan/torchic.png";
+		} else if (content.getNama().equals("Jagung")) {
+			//System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			return "/Assets/Produk/corn.png";
+		} else if (content.getNama().equals("Susu")) {
+			return "/Assets/Produk/susu.png";
+		} else if (content.getNama().equals("Daging Beruang")) {
+			return "/Assets/Produk/susu.png"; 
+		} else if (content.getNama().equals("Daging Domba")) {
+			return "/Assets/Produk/Daging Domba.png";
+		} else if (content.getNama().equals("Daging Kuda")) {
+			return "/Assets/Produk/Daging Kuda.png";
+		}
+		else {
+			return "/Assets/Hewan/torchic.png";
+		}
+	}
+	private void showToko() {
+		  if (!Screen.getTheresAWindow()) {
+		    Screen.setTheresAWindow(true);
+		    JFrame frame = new JFrame("Toko");
+		    frame.setSize(800, 800);
+		    frame.setResizable(false);
+		    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		    frame.addWindowListener(new WindowAdapter() {
+		      @Override
+		      public void windowClosed(WindowEvent e) {
+		        Screen.setTheresAWindow(false);
+		      }
+		    });
 
+		    List<Pair<Produk, Integer>> itemToko = toko.getItemList();
+		    Integer idx = 0;
+		    JPanel contentPane = new JPanel();
+		    contentPane.setLayout(null); // Set custom layout for manual positioning
+
+		    while (idx < itemToko.size()) {
+		      Integer yValue = 35 * idx;
+		      for (int j = 0; j < 3; j++) {
+		        if (idx < itemToko.size()) {
+		          Integer xValue = 210 * j;
+
+		          // Create JPanel for each product display
+		          JPanel productPanel = new JPanel();
+		          productPanel.setBounds(xValue, yValue, 200, 100);
+		          productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		          contentPane.add(productPanel);
+
+		          // Image (assuming image path stored in 'imagePath' variable)
+		          Image temp =  new ImageIcon(getClass().getResource(getImagePath(itemToko.get(idx).getFirst()))).getImage();
+		          ImageIcon imageIcon = new ImageIcon(temp.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+		          JLabel imageLabel = new JLabel(imageIcon);
+		          imageLabel.setBounds(10, 10, 50, 50);
+		          productPanel.add(imageLabel);
+
+		          // Product Name
+		          JLabel nameLabel = new JLabel(itemToko.get(idx).getFirst().getNama());
+		          nameLabel.setBounds(70, 10, 100, 20);
+		          productPanel.add(nameLabel);
+
+		          // Price
+		          String priceText = "Harga: " + ((Integer) itemToko.get(idx).getFirst().getHarga()).toString();
+		          JLabel priceLabel = new JLabel(priceText);
+		          priceLabel.setBounds(70, 35, 100, 20);
+		          productPanel.add(priceLabel);
+
+		          // Quantity
+		          String quantityText = "Jumlah: " + itemToko.get(idx).getSecond().toString();
+		          JLabel quantityLabel = new JLabel(quantityText);
+		          quantityLabel.setBounds(70, 60, 100, 20);
+		          productPanel.add(quantityLabel);
+		          // Create and configure button
+		          JButton removeButton = new JButton("Buy");
+		          removeButton.setBounds(130, 75, 60, 20);
+		          removeButton.addActionListener(new ActionListener() {
+		            @Override
+		            public void actionPerformed(ActionEvent e) {
+		              // lakukan buy
+		            	// umtuk sekarang baru menghapus doang
+		              contentPane.remove(productPanel);
+		              // Might need to repaint the content pane for the change to be reflected
+		              contentPane.repaint();
+		            }
+		          });
+		          productPanel.add(removeButton);
+
+		          idx++;
+		        }
+		      }
+		    }
+		    //render kartu
+		    idx = 0;
+		    ArrayList<Card> kartuOnDisplay= testPlayers.get(turn%2).kartuAktif;
+		    while (idx < kartuOnDisplay.size()) {
+		        Integer yValue = 500+(35 * idx);
+		        
+		        for (int j = 0; j < 3; j++) {
+		        	if (idx < kartuOnDisplay.size()&& !kartuOnDisplay.get(idx).isinLadang() && kartuOnDisplay.get(idx).getIsi() instanceof Produk) {
+		            Integer xValue = 210 * j;
+
+		            // Create JPanel for each product display
+		            JPanel productPanel = new JPanel();
+		            productPanel.setBounds(xValue, yValue, 200, 100);
+		            productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		            contentPane.add(productPanel);
+
+		            // Image (assuming image path stored in 'imagePath' variable)
+			          Image temp =  new ImageIcon(getClass().getResource(getImagePath(kartuOnDisplay.get(idx).getIsi()))).getImage();
+			          ImageIcon imageIcon = new ImageIcon(temp.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+		            JLabel imageLabel = new JLabel(imageIcon);
+		            imageLabel.setBounds(10, 10, 50, 50);
+		            productPanel.add(imageLabel);
+
+		            // Product Name
+		            JLabel nameLabel = new JLabel(kartuOnDisplay.get(idx).getIsi().getNama());
+		            nameLabel.setBounds(70, 10, 100, 20);
+		            productPanel.add(nameLabel);
+
+		            // Create and configure button
+		            JButton removeButton = new JButton("Sell");
+		            removeButton.setBounds(130, 75, 60, 20);
+		            removeButton.addActionListener(new ActionListener() {
+		              @Override
+		              public void actionPerformed(ActionEvent e) {
+		            	//Lakukan sell
+		            	// Again for now will just delete it
+		                // Remove the product panel from its parent (contentPane)
+		                contentPane.remove(productPanel);
+		                // Might need to repaint the content pane for the change to be reflected
+		                contentPane.repaint();
+		                // Potentially update frame size if needed
+		                // frame.pack();
+		              }
+		            });
+		            productPanel.add(removeButton);
+		          }
+		          idx++;
+		        }
+		      }
+		    
+		    frame.getContentPane().add(contentPane);
+		    frame.setVisible(true);
+		  }
+		}
 	/**
 	 * Create the application.
 	 */
@@ -59,7 +208,15 @@ public class Screen {
 		tempPlayer player2 = new tempPlayer(1);
 		testPlayers.add(player1);
 		testPlayers.add(player2);
-	
+		//testing toko
+		Produk example2 = new Produk("Jagung",100,25);
+		Produk example3 = new Produk("Susu",23,23);
+		Produk example4 =new Produk("Daging Domba",23,23);
+		Produk example5 =new Produk("Daging Kuda",23,23);
+		toko.sellProduk(example2);
+		toko.sellProduk(example3);
+		toko.sellProduk(example4);
+		toko.sellProduk(example5);
 
 		//cardsInFocus = player1.kartuAktif;
 		initialize();
@@ -78,7 +235,6 @@ public class Screen {
 		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
 		System.out.println(currentCards);
 		for (int j = 0; j < currentCards.size(); j++) {
-																									// time setting up											// cards
 				current.kartuAktif.add(new Card(slots, currentCards.get(j)));
 				if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
 					for (int i = 0; i < slots.size(); i++) {
@@ -308,6 +464,7 @@ public class Screen {
 		JButton TokoButton = new JButton("Toko");
 		TokoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				showToko();
 			}
 		});
 		TokoButton.setBounds(1204, 273, 143, 53);
@@ -389,16 +546,19 @@ public class Screen {
 		p2gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		p2gulden.setBounds(976, 389, 77, 27);
 		f.getContentPane().add(p2gulden);
-
+		JLabel cp1 = new JLabel("Current Player");
+		cp1.setForeground(new Color(0, 128, 0));
+		cp1.setBackground(new Color(0, 255, 0));
+		cp1.setBounds(1045, 312, 90, 27);
+		f.getContentPane().add(cp1);
+		
+		JLabel cp2 = new JLabel("Current Player");
+		cp2.setForeground(new Color(0, 128, 0));
+		cp2.setBackground(Color.GREEN);
+		cp2.setBounds(1045, 393, 90, 27);
+		f.getContentPane().add(cp2);
+		cp2.setVisible(false);
 		JButton nextButton = new JButton("NEXT");
-		nextButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearCards();
-				turn += 1;
-				setCards(turn%2,false);
-				ladangkuButton.setSelected(true);
-			}
-		});
 		nextButton.setBounds(875, 228, 143, 53);
 		f.getContentPane().add(nextButton);
 
@@ -407,10 +567,28 @@ public class Screen {
 		turnLable.setBounds(923, 86, 66, 39);
 		f.getContentPane().add(turnLable);
 
-		JLabel turnCountLable = new JLabel("0");
+		JLabel turnCountLable = new JLabel(turn.toString());
 		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		turnCountLable.setBounds(943, 128, 21, 27);
+		turnCountLable.setBounds(943, 128, 32, 27);
 		f.getContentPane().add(turnCountLable);
+		
+		///actions
+		nextButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCards();
+				turn += 1;
+				setCards(turn%2,false);
+				ladangkuButton.setSelected(true);
+				if(cp1.isVisible()) {
+					cp2.setVisible(true);
+					cp1.setVisible(false);
+				} else {
+					cp2.setVisible(false);
+					cp1.setVisible(true);					
+				}
+				turnCountLable.setText(turn.toString());
+			}
+		});
 
 		setCards(0,false);
 

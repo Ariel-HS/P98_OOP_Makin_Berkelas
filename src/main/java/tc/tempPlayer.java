@@ -11,16 +11,16 @@ public class tempPlayer {
 		deckAktif = new testDeckAktif();
 		if(i == 0) {
 			bar example1 = new bar();
-			foo example2 = new foo();
-			foo example3 = new foo();
+			Produk example2 = new Produk("Jagung",100,25);
+			Produk example3 = new Produk("Jagung",100,25);
 			deckAktif.addCard(example1);
 			deckAktif.addCard(example2);
 			deckAktif.addCard(example3);
 		} else {
-			foo example1 = new foo();
-			foo example2 = new foo();
-			foo example3 = new foo();
-			foo example4 = new foo();
+			Produk example1 = new Produk("Jagung",100,25);
+			Produk example2 = new Produk("Jagung",100,25);
+			Produk example3 = new Produk("Jagung",100,25);
+			Produk example4 = new Produk("Jagung",100,25);
 			deckAktif.addCard(example1);
 			deckAktif.addCard(example2);
 			deckAktif.addCard(example3);
