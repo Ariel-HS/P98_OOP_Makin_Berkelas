@@ -1,5 +1,3 @@
-package P98.Plugin;
-
 import java.io.*;
 
 public interface Plugin {

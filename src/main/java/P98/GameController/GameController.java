@@ -1,7 +1,11 @@
 package P98.GameController;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.io.*;
 import java.lang.reflect.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -39,6 +43,7 @@ public class GameController {
     private static ArrayList<Tumbuhan> listTumbuhan = new ArrayList<>();
     private static ArrayList<Item> listItem = new ArrayList<>();
     private static Boolean isOn = false;
+    public static ClassLoader classLoader;
 
     public static void clearConfig() {
         listHewan.clear();
@@ -250,11 +255,12 @@ public class GameController {
         }
     }
 
-    public static String loadPlugin() {
+    public static ArrayList<String> loadPlugin() {
+        ArrayList<String> result = new ArrayList<>();
         try {
             JFileChooser openFileChooser = new JFileChooser();
             openFileChooser.setCurrentDirectory(new File("./"));
-            openFileChooser.setFileFilter(new FileNameExtensionFilter("Plugin files", "XML", "JSON"));
+            openFileChooser.setFileFilter(new FileNameExtensionFilter("Jar files", "JAR"));
 
             int retcode = openFileChooser.showOpenDialog(openFileChooser);
             if (retcode != JFileChooser.APPROVE_OPTION) {
@@ -262,81 +268,33 @@ public class GameController {
             }
 
             File file = openFileChooser.getSelectedFile();
-            String fileName = file.toString();
-            int index = fileName.lastIndexOf(".");
-            String extension = fileName.substring(index+1);
-            
-            if (extension.equals("xml")) {
-                return loadPluginXML(file);
-            } else {
-                return loadPluginJSON(file);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            return "Plugin not found";
-        }
-    }
+            classLoader = new URLClassLoader(new URL[] {file.toURI().toURL()});
 
-    public static String loadPluginXML(File file) {
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document doc = documentBuilder.parse(file);
+            JarFile jarFile = new JarFile(file);
+            Enumeration<JarEntry> entries = jarFile.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.getName().endsWith(".class")) {
+                    String className = entry.getName().replace('/', '.').substring(0, entry.getName().length() - 6);
+                    Class<?> aClass = Class.forName(className,true,classLoader);
+                    Class<?>[] interfaces = aClass.getInterfaces();
+                    for (Class c: interfaces) {
+                        String name = c.getSimpleName();
 
-            NodeList nodeList = doc.getElementsByTagName("Plugin");
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
-                if (node.getNodeType() != Element.TEXT_NODE) {
-                    // get Plugin class
-                    Class<?> aClass = Class.forName("P98.Plugin."+node.getNodeName());
-                    // create instance of Plugin class
-                    Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
-                                        .newInstance(node.getAttributes().getNamedItem("nama").getNodeValue(), 
-                                        node.getAttributes().getNamedItem("message").getNodeValue());
-
-                    // call method
-                    return (String) aClass.getMethod("printMessage").invoke(pluginObj);
+                        if (name.equals("Plugin")) {
+                            classLoader.loadClass(className);
+                            result.add(className);
+                            // System.out.println(className);
+                        }
+                    }
                 }
             }
-
-            return "Plugin not found";
+            jarFile.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-
-            return "Plugin not found";
         }
-        
-    }
-
-    public static String loadPluginJSON(File file) {
-        try {
-            JSONObject jObject = (JSONObject)JSONValue.parse(new FileReader(file));
-
-            if (jObject.containsKey("Plugin")) {
-                JSONObject jPlugin = (JSONObject)jObject.get("Plugin");
-                if (jPlugin.containsKey("nama") && jPlugin.containsKey("message")) {
-                    Class<?> aClass = Class.forName("P98.Plugin.Plugin");
-                    // create instance of Plugin class
-                    Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
-                                        .newInstance(jPlugin.get("nama"), 
-                                        jPlugin.get("message"));
-
-                    // call method
-                    return (String) aClass.getMethod("printMessage").invoke(pluginObj);
-                }
-            }
-
-            return "Plugin not found";
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            return "Plugin not found";
-        }
-        
+        return result;
     }
 
     public static void save(File directory) {

@@ -1,7 +1,10 @@
 package P98.testDnD;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,19 +17,20 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import P98.GameController.GameController;
+import P98.Plugin.Plugin;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LoadFrame extends javax.swing.JDialog {
-    private ArrayList<String> supportedExtensions = new ArrayList<>();  
+    private HashMap<String,String> supportedExtensions = new HashMap<>();  
     private File directory;
 
-    public LoadFrame(java.awt.Frame parent, ArrayList<String> extensions) {
+    public LoadFrame(java.awt.Frame parent, HashMap<String,String> extensions) {
         super(parent);
-        for (String s: extensions) {
-            supportedExtensions.add(s);
+        for (Map.Entry<String,String> entry: extensions.entrySet()) {
+            supportedExtensions.put(entry.getKey(), entry.getValue());
         }
         this.setSize(1440, 1080);
         this.setResizable(false);
@@ -48,7 +52,7 @@ public class LoadFrame extends javax.swing.JDialog {
         JComboBox<String> extOptions = new JComboBox<>();
         extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
     
-        for (String ext : supportedExtensions)
+        for (String ext : supportedExtensions.keySet())
         extOptions.addItem(ext);
     
         JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
@@ -103,7 +107,20 @@ public class LoadFrame extends javax.swing.JDialog {
                     String extChosen = extOptions.getSelectedItem().toString();
                     if (extChosen.equals("TXT")){
                         GameController.load(directory);
-                    } // else call plugin
+                    } else {
+                        try {
+                            String className = supportedExtensions.get(extChosen);
+                            Class<?> pluginClass = GameController.classLoader.loadClass(className);
+                            Object pluginObj = pluginClass.getDeclaredConstructor().newInstance();
+
+                            pluginClass.getMethod("load",File.class).invoke(pluginObj, directory);
+                            // if (extension.equals("XML")) {
+                            //     classToLoad.getMethod("printMessage").invoke(pluginObj);
+                            // }
+                        } catch (Exception exc) {
+                            System.out.println(exc.getMessage());
+                        }                       
+                    }
                     dispose();
                 }
             }

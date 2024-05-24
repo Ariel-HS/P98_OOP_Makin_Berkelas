@@ -1,6 +1,7 @@
 package P98.testDnD;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import P98.GameController.GameController;
 import P98.newComponent.*;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.*;
 
 public class Screen {
 
@@ -20,7 +22,7 @@ public class Screen {
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
-	private ArrayList<String> supportedExtensions = new ArrayList<>();  
+	private HashMap<String,String> supportedExtensions = new HashMap<>();  
 
 	/**
 	 * Launch the application.
@@ -44,7 +46,7 @@ public class Screen {
 	 */
 	public Screen() {
 		// cardsInFocus = new ArrayList<Card>();
-		supportedExtensions.add("TXT");
+		supportedExtensions.put("TXT", "null");
 		initialize();
 	}
 
@@ -375,8 +377,25 @@ public class Screen {
 		f.getContentPane().add(PluginButton);
 		PluginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String message = GameController.loadPlugin();
-				JOptionPane.showMessageDialog(PluginButton, message);
+				ArrayList<String> results = GameController.loadPlugin();
+				if (results.size()>0) {
+					try{
+						// System.out.println(results.size());
+						for (String s:results) {
+							Class pluginClass = GameController.classLoader.loadClass(s);
+							// System.out.println(pluginClass.getSimpleName());
+							Method method = pluginClass.getDeclaredMethod("getExtension");
+							Object pluginObj = pluginClass.getDeclaredConstructor().newInstance();
+							String extension = (String) method.invoke(pluginObj);
+							supportedExtensions.put(extension.toUpperCase(), s);
+						}
+					} catch (Exception exc) {
+						System.out.println(exc.getMessage());
+						System.out.println("hey");
+					}
+				}
+
+				// JOptionPane.showMessageDialog(PluginButton, message);
 			}
 		});
 
