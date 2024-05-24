@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
-import tc.*;
+import P98.Interface.*;
 
 public class Card extends JComponent {
 
@@ -97,7 +97,8 @@ public class Card extends JComponent {
           }
       } else if (slotNumber >= 0 && temp.get(slotNumber).getOccupied()) { // Check if slotNumber is valid
           if(content != temp.get(slotNumber).getContent().getIsi()) {
-    	  content.interact(temp.get(slotNumber).getContent().getIsi());}
+    	      // content.interact(temp.get(slotNumber).getContent().getIsi());
+          }
           setLocation(tempX, tempY);
           myX = tempX;
           myY = tempY;
@@ -182,7 +183,7 @@ public class Card extends JComponent {
 	  String pathToImage = "/src/main/java/Assets/Hewan/Missingno_RB.png";
 	  if(this.content.getNama().equals("Domba")) {
 		  System.out.println("Working Directory = " + System.getProperty("user.dir"));
-		  image = new ImageIcon("main/java/Assets/Hewan/mareep.png").getImage();
+		  image = new ImageIcon("src/main/java/Assets/Hewan/mareep.png").getImage();
 	  } else if (this.content.getNama().equals("Beruang")) {
 		  pathToImage = "/src/main/java/Assets/Hewan/ursaring.png";
 	  } else if (this.content.getNama().equals("Hiu Darat")) {
@@ -202,7 +203,7 @@ public class Card extends JComponent {
   }
   
   public Card(ArrayList<Slot> _temp, Holdable Content) {
-	temp = _temp;
+	  temp = _temp;
     setBorder(new LineBorder(Color.BLUE, 3));
     setBackground(Color.WHITE);
     setBounds(10, 10, width, height);

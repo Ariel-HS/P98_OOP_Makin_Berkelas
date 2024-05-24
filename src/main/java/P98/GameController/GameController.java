@@ -259,10 +259,7 @@ public class GameController {
         // player.draw
     }
 
-    public static void loadPlugin() {
-        // GUI Stuff
-        ClassLoader classLoader = App.class.getClassLoader();
-
+    public static String loadPlugin() {
         try {
             JFileChooser openFileChooser = new JFileChooser();
             openFileChooser.setCurrentDirectory(new File("./"));
@@ -279,17 +276,18 @@ public class GameController {
             String extension = fileName.substring(index+1);
             
             if (extension.equals("xml")) {
-                loadPluginXML(file);
+                return loadPluginXML(file);
             } else {
-                loadPluginJSON(file);
+                return loadPluginJSON(file);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+            return "Plugin not found";
         }
     }
 
-    public static void loadPluginXML(File file) {
+    public static String loadPluginXML(File file) {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -308,17 +306,21 @@ public class GameController {
                                         node.getAttributes().getNamedItem("message").getNodeValue());
 
                     // call method
-                    aClass.getMethod("printMessage").invoke(pluginObj);
+                    return (String) aClass.getMethod("printMessage").invoke(pluginObj);
                 }
             }
+
+            return "Plugin not found";
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+
+            return "Plugin not found";
         }
         
     }
 
-    public static void loadPluginJSON(File file) {
+    public static String loadPluginJSON(File file) {
         try {
             JSONObject jObject = (JSONObject)JSONValue.parse(new FileReader(file));
 
@@ -332,13 +334,16 @@ public class GameController {
                                         jPlugin.get("message"));
 
                     // call method
-                    aClass.getMethod("printMessage").invoke(pluginObj);
+                    return (String) aClass.getMethod("printMessage").invoke(pluginObj);
                 }
             }
+
+            return "Plugin not found";
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+            return "Plugin not found";
         }
         
     }
@@ -520,5 +525,17 @@ public class GameController {
         }
 
         throw new NoKartuException(nama);
+    }
+
+    public static Integer getCurrentCardCount() {
+        return currentPlayer.getDeckCardCount();
+    }
+
+    public static Deck getCurrentDeck() {
+        return currentPlayer.getDeck();
+    }
+
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
     }
 }

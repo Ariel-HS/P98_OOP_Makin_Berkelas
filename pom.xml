@@ -78,7 +78,7 @@
           <artifactId>exec-maven-plugin</artifactId>
           <version>1.6.0</version>
           <configuration>
-              <mainClass>P98.App</mainClass>
+              <mainClass>P98.testDnD.Screen</mainClass>
           </configuration>
       </plugin>
       </plugins>

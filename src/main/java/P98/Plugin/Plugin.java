@@ -9,7 +9,9 @@ public class Plugin {
         this.message = message;
     }
 
-    public void printMessage() {
-        System.out.println(this.message+" ~"+this.nama+"'s final message");
+    public String printMessage() {
+        String message = this.message+" ~"+this.nama+"'s final message";
+        System.out.println(message);
+        return message;
     }
 }

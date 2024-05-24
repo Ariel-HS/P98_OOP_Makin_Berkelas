@@ -1,6 +1,7 @@
 package P98.Player;
 import java.util.*;
 import P98.Produk.*;
+import P98.newComponent.Card;
 import P98.Ladang.*;
 import P98.Deck.*;
 import P98.Exception.DeckFullException;
@@ -12,6 +13,10 @@ public class Player {
     private Integer gulden;
     private Deck deckAktif;
     private Deck deck;
+
+    public ArrayList<Integer> previousPositionX = new ArrayList<>();
+	public ArrayList<Integer> previousPositionY = new ArrayList<>();
+    public ArrayList<Card> kartuAktif = new ArrayList<>();
 
     public Player() {
         this.gulden = 0;
@@ -111,5 +116,9 @@ public class Player {
             h.print();
         }
         this.deck.drawTopKartu(numKartu);
+    }
+
+    public Integer getDeckCardCount() {
+        return this.deck.getJumlahKartu();
     }
 }

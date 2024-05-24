@@ -1,11 +1,13 @@
 package P98.testDnD;
-import tc.*;
 
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
 
+import P98.GameController.GameController;
 import P98.newComponent.*;
+import P98.Interface.*;
+import P98.Player.*;
 
 import javax.swing.JFrame;
 import java.awt.Color;
@@ -17,13 +19,14 @@ import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
 public class Screen {
 
-	private JFrame frame;
-	private ArrayList<tempPlayer> testPlayers;
+	public JFrame frame;
 	private ArrayList<Slot> slots;
 	private JFrame f = new JFrame("Swing Hello World");
 	private ArrayList<Card> cardsInFocus;
@@ -38,7 +41,7 @@ public class Screen {
 			public void run() {
 				try {
 					Screen window = new Screen();
-					window.frame.setVisible(true);
+					// window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,13 +53,8 @@ public class Screen {
 	 * Create the application.
 	 */
 	public Screen() {
-		testPlayers = new ArrayList<tempPlayer>();
-		tempPlayer player1 = new tempPlayer(0);
-		tempPlayer player2 = new tempPlayer(1);
-		testPlayers.add(player1);
-		testPlayers.add(player2);
-
-		cardsInFocus = player1.kartuAktif;
+		// cardsInFocus = player1.kartuAktif;
+		cardsInFocus = new ArrayList<Card>();
 		initialize();
 	}
 	
@@ -68,12 +66,12 @@ public class Screen {
 		return theresAwindow;
 	}
 	
-	public void setCards(tempPlayer current) {
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getKartu();
+	public void setCards(Player current) {
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
 		System.out.println(currentCards);
 		for(int j=0;j<currentCards.size();j++) {
 			if(current.previousPositionX.size() == 0 && current.previousPositionY.size() == 0) { // if it's the first time setting up cards
-				current.kartuAktif.add(new Card(slots,currentCards.get(j)));
+				current.kartuAktif.add(new Card(slots,currentCards.get(j))); 
 				for(int i=0;i<slots.size();i++) {
 					if(!slots.get(i).occupied && !slots.get(i).isLadang()) {
 						//Place the card to unoccupied hand
@@ -83,21 +81,22 @@ public class Screen {
 					}
 				} 
 			} else {
-					current.kartuAktif.get(j).setX(current.previousPositionX.get(j));
-					current.kartuAktif.get(j).setY(current.previousPositionY.get(j));
-					System.out.println("masuk sono");
+				current.kartuAktif.get(j).setX(current.previousPositionX.get(j));
+				current.kartuAktif.get(j).setY(current.previousPositionY.get(j));
+				System.out.println("masuk sono");
 			}
 		}
 	}
 	
-	public void clearCards(tempPlayer previous) {
+	public void clearCards(Player previous) {
 		
 	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+		// initialize game controller
+		GameController.loadConfig();
 
 	    // by doing this, we prevent Swing from resizing
 	    // our nice component
@@ -277,16 +276,26 @@ public class Screen {
 	    JButton LoadButton = new JButton("Load State");
 	    LoadButton.setBounds(1204, 467, 143, 53);
 	    f.getContentPane().add(LoadButton);
+		LoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GameController.load();
+				setCards(GameController.getCurrentPlayer());
+			}
+		});
 	    
 	    JButton PluginButton = new JButton("Plugin");
 	    PluginButton.setBounds(1204, 565, 143, 53);
 	    f.getContentPane().add(PluginButton);
+		PluginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String message = GameController.loadPlugin();
+				JOptionPane.showMessageDialog(PluginButton, message);
+			}
+		});
 	    
-	    JButton deck = new JButton("DECK (cur/max)");
-	    deck.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
+	    JButton deck = new JButton();
+		String currentCount = String.valueOf(GameController.getCurrentCardCount());
+		deck.setText("DECK ("+currentCount+"/40)");
 	    deck.setBounds(1134, 844, 203, 109);
 	    f.getContentPane().add(deck);
 	    
@@ -328,8 +337,7 @@ public class Screen {
 	    turnCountLable.setBounds(943, 128, 21, 27);
 	    f.getContentPane().add(turnCountLable);
 	    
-	    setCards(testPlayers.get(0));
-	    
+	    // setCards(GameController.getCurrentPlayer());
     
 //	    Slot Ladang2_1 = new Slot(0, 400, false);
 //	    Ladang2_1.setBounds(10, 261, 110, 160);
