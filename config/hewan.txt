@@ -1,0 +1,21 @@
+5
+Hiu Darat
+Karnivora
+Sirip Hiu
+20
+Sapi
+Herbivora
+Susu
+10
+Domba
+Herbivora
+Daging Domba
+12
+Kuda
+Herbivora
+Daging Kuda
+14
+Ayam
+Omnivora
+Telur
+5
