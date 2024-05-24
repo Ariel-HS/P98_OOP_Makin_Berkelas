@@ -13,6 +13,8 @@ public class Toko {
         itemList = new ArrayList<>();
     }
 
+    public List<Pair<Produk,Integer>> getItemList() { return itemList; }
+
     public void sellProduk(Produk p) {
         boolean found = false;
         for (int i = 0; i < itemList.size(); i++) {
