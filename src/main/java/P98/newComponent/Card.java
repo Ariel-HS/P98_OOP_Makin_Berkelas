@@ -1,5 +1,5 @@
 package P98.newComponent;
-
+import P98.Item.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import javax.swing.border.*;
 
 import P98.testDnD.Screen;
 import P98.Interface.*;
+import P98.Item.Item;
 import P98.Ladang.Ladang;
 import P98.Makhluk.Makhluk;
 import P98.Makhluk.Hewan.Hewan;
@@ -157,7 +158,8 @@ public class Card extends JComponent {
 	}
 
 	private void showWindow() {
-		if (!Screen.getTheresAWindow() && content instanceof Makhluk) {
+		if (!Screen.getTheresAWindow() ) {
+			if(content instanceof Makhluk) {
 			Makhluk m = (Makhluk) content;
 			Screen.setTheresAWindow(true);
 			JFrame frame = new JFrame("New Window");
@@ -206,6 +208,63 @@ public class Card extends JComponent {
 			gambar.setIcon(icon);
 			frame.add(gambar);
 			frame.setVisible(true);
+			} else if (content instanceof Item) {
+				// pilih holdable yang ingin dipilih
+				Screen.setTheresAWindow(true);
+				JFrame frame = new JFrame("New Window");
+				frame.setSize(800, 400);
+				frame.setResizable(false);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent e) {
+						Screen.setTheresAWindow(false);
+					}
+				});
+				frame.setLayout(null); // Use absolute positioning
+				JLabel nameOfContent = new JLabel(this.content.getNama());
+				nameOfContent.setFont(new Font("Serif", Font.BOLD, 56));
+				nameOfContent.setBounds(300, 20, 700, 80);
+				frame.add(nameOfContent);
+				Integer idx =0;
+				Integer forPositionX = 0;
+				Integer forPositionY = 0;
+				while (idx <temp.size()) {
+					Integer yValue = 40 * forPositionY ;
+					for(int j=0;j<5;j++) {
+						if(idx<temp.size()) {
+						if(temp.get(idx).getContent()!=null) {
+							if(temp.get(idx).getContent().isinLadang()) {
+								Integer xValue = 160 * forPositionX;
+								final Integer finalIdx = idx;
+								JButton pilihanButton = new JButton(temp.get(idx).getContent().getIsi().getNama());
+								pilihanButton.setFont(new Font("Serif", Font.BOLD, 15));
+								pilihanButton.setBounds(xValue, yValue, 150, 40);
+						          pilihanButton.addActionListener(new ActionListener() {
+						              @Override
+						              public void actionPerformed(ActionEvent e) {
+						                try {
+						                  content.interact(temp.get(finalIdx).getContent().getIsi());
+						                } catch (Exception excep) {
+						                  System.out.println(excep.toString());
+						                }
+						                frame.dispose();
+						              }
+						            });
+						            frame.add(pilihanButton);
+								forPositionX++;
+							}
+						}
+						}
+						idx++;
+					}
+					forPositionX = 0;
+					forPositionY++;
+				}
+
+				
+				frame.setVisible(true);
+			}
 		}
 	}
 	
@@ -244,6 +303,10 @@ public class Card extends JComponent {
 			image = new ImageIcon(getClass().getResource("/Assets/Produk/corn.png")).getImage();
 		} else if (this.content.getNama().equals("Susu")) {
 			image = new ImageIcon(getClass().getResource("/Assets/Produk/susu.png")).getImage();
+		} else if (this.content.getNama().equals("Accelerate")){
+			image = new ImageIcon(getClass().getResource("/Assets/Item/Accelerate.png")).getImage();
+		} else if (this.content.getNama().equals("Destroy")) {
+			image = new ImageIcon(getClass().getResource("/Assets/Item/Destroy.png")).getImage();
 		}
 		// lanjutkan nanti
 		// return pathToImage;

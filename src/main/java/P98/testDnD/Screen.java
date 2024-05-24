@@ -252,12 +252,15 @@ public class Screen {
 		Accelerate i2 = new Accelerate(current);
 		Delay i3 = new Delay(current);
 		Tumbuhan t1 = new Tumbuhan("Jagung", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		Tumbuhan t2 = new Tumbuhan("Jagung", 0, 0, 10, 0, new ProdukTumbuhan(), current);
 		t1.addItem(i1);
 		t1.addItem(i2);
 		t1.addItem(i3);
 		// // for testing
 		try {
 			current.addToDeckAktif(t1);
+			current.addToDeckAktif(t2);
+			current.addToDeckAktif(i1);
 			// current.addToDeckAktif(new Acc);
 			// current.addToDeckAktif(new Tumbuhan("Zomm"));
 		}
@@ -523,11 +526,11 @@ public class Screen {
 					setCards((turn)%2,false);
 				} else {
 					setCards2((turn+1)%2,true);
-//					for(int i=0;i<slots.size();i++) {
-//						if(slots.get(i).isLadang()) {
-//							slots.get(i).occupied = true;
-//						}
-//					}
+					for(int i=0;i<slots.size();i++) {
+						if(slots.get(i).isLadang()) {
+							slots.get(i).occupied = true;
+						}
+					}
 				}
 			}
 		};
