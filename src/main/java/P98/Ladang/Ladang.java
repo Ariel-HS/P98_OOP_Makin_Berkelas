@@ -5,7 +5,7 @@ import java.util.List;
 
 import P98.Makhluk.Makhluk;
 import P98.Produk.Produk;
-import P98.Tumbuhan.Tumbuhan;
+import P98.Makhluk.Tumbuhan.*;
 import java.awt.Point;
 
 public class Ladang {

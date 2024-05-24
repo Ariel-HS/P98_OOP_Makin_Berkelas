@@ -7,19 +7,15 @@ import P98.Player.*;
 
 
 public class Protect extends Item {
-    public Protect() {
-        super("Protect");
+    public Protect(Player pem) {
+        super("Protect", pem);
     }
 
-    public void interact(Makhluk m, Player p) throws WrongItemException {
-        if (m.getPemilik() == p) {
-            m.giveShield();
+    public void interact(Holdable m) throws WrongItemException {
+        if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk ma) {
+            ma.giveShield();
         } else {
             throw new WrongItemException("pemain lain");
         }
-    }
-
-    public Holdable turnToHoldable() {
-        return new Protect();
     }
 }

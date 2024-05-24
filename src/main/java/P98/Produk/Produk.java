@@ -1,26 +1,31 @@
 package P98.Produk;
 
 import P98.Interface.Holdable;
+import P98.Player.Player;
 
 public abstract class Produk implements Holdable {
     private String nama;
+    private Player pemilik;
     private int harga;
     private int bobot;
 
     public Produk() {
         nama = "";
+        pemilik = null;
         harga = -1;
         bobot = -1;
     }
 
-    public Produk(String nama, int harga, int bobot) {
+    public Produk(String nama, Player pemilik, int harga, int bobot) {
         this.nama = nama;
+        this.pemilik = pemilik;
         this.harga = harga;
         this.bobot = bobot;
     }
 
     // Getter
     public String getNama() { return nama; }
+    public Player getPemilik() { return pemilik; }
     public int getHarga() { return harga; }
     public int getBobot() { return bobot; }
 
