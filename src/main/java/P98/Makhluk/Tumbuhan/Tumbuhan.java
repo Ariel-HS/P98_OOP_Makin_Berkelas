@@ -20,6 +20,7 @@ public class Tumbuhan extends Makhluk {
 
     public void nextTurn() {
         // makhluk ditambahin protected void setUnitPanen()
+        setUnitAsli(getUnitAsli() + 1);
         setUnitPanen(getUnitPanen() + 1);
     }
 

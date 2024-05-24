@@ -21,6 +21,7 @@ public class Karnivora extends Hewan {
     public void makan(Produk p) {
         if (p.tryEat("Karnivora")) {
             setUnitPanen(getUnitPanen() + p.getBobot());
+            setUnitAsli(getUnitAsli() + p.getBobot());
         }
     }
 

@@ -10,7 +10,8 @@ import java.awt.Point;
 public abstract class Makhluk implements Holdable {
     private String name;
     private Point posisi;
-    private int unitPanen;
+    private int unitAsli; // Tanpa tambahan item
+    private int unitPanen; // Dengan tambahan item
     private int batasPanen;
     private Map<String, Integer> items;
     private Produk produk;
@@ -22,6 +23,7 @@ public abstract class Makhluk implements Holdable {
         name = "";
         posisi = new Point();
         unitPanen = -1;
+        unitAsli = 0;
         batasPanen = -1;
         items = new HashMap<>();
         hasTrap = false;
@@ -32,6 +34,7 @@ public abstract class Makhluk implements Holdable {
         name = _nama;
         posisi = new Point(x_pos, y_pos);
         unitPanen = _unitPanen;
+        unitAsli = 0;
         batasPanen = _batasPanen;
         produk = p;
         items = new HashMap<>();
@@ -42,6 +45,8 @@ public abstract class Makhluk implements Holdable {
  
     public String getNama() { return name; }
     public Point getPos() { return posisi; }
+    public int getUnitAsli() { return unitAsli; }
+    public void setUnitAsli(int n) { unitAsli = n; }
     public int getUnitPanen() { return unitPanen; }
     public void setUnitPanen(int unitPanen) { this.unitPanen = unitPanen; }
     public int getBatasPanen() { return batasPanen; }
