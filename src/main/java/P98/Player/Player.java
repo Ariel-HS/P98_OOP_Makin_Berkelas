@@ -86,7 +86,7 @@ public class Player {
         return this.deckAktif;
     }
 
-    public void showDraw() {
+    public ArrayList<Holdable> getTopDeck() {
         Integer numKartu = 4;
         if (this.deck.getJumlahKartu() <= 5) {
             numKartu = 1;
@@ -96,9 +96,11 @@ public class Player {
         }
 
         ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
-        for (Holdable h: drawnKartu) {
-            h.print();
-        }
+        // for (Holdable h: drawnKartu) {
+        //     h.print();
+        // }
+
+        return drawnKartu;
     }
 
     public void draw() {

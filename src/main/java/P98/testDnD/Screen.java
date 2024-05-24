@@ -1,7 +1,5 @@
 package P98.testDnD;
 
-import java.awt.EventQueue;
-
 import java.util.ArrayList;
 
 import P98.GameController.GameController;
@@ -12,8 +10,6 @@ import P98.Player.*;
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -23,9 +19,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Font;
-import java.awt.Toolkit;
-
 public class Screen {
 
 	public JFrame frame;
@@ -33,7 +26,6 @@ public class Screen {
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
-	public static Integer turn =0;
 
 	/**
 	 * Launch the application.
@@ -66,30 +58,6 @@ public class Screen {
 
 	public static boolean getTheresAWindow() {
 		return theresAwindow;
-	}
-	
-	public void setCards(Player current) {
-		
-		for(int j=0;j<currentCards.size();j++) {
-			if(current.previousPositionX.size() == 0 && current.previousPositionY.size() == 0) { // if it's the first time setting up cards
-				current.kartuAktif.add(new Card(slots,currentCards.get(j))); 
-				for(int i=0;i<slots.size();i++) {
-					if(!slots.get(i).occupied && !slots.get(i).isLadang()) {
-						//Place the card to unoccupied hand
-						current.kartuAktif.get(j).insertSlot(i);
-						f.getContentPane().add(current.kartuAktif.get(j));
-						System.out.println("masuk sini");
-					}
-				} 
-			} else {
-				current.kartuAktif.get(j).setX(current.previousPositionX.get(j));
-				current.kartuAktif.get(j).setY(current.previousPositionY.get(j));
-				System.out.println("masuk sono");
-			}
-		}
-	}
-	
-	public void clearCards(Player previous) {
 	}
 
 	public void setCards(Integer idx,boolean punyaLawan) {
@@ -348,6 +316,7 @@ public class Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clearCards();
+				Integer turn = GameController.getTurn();
 				if(ladangkuButton.isSelected()) {
 					setCards((turn)%2,false);
 				} else {
@@ -375,21 +344,44 @@ public class Screen {
 		SaveButton.setBounds(1204, 369, 143, 53);
 		f.getContentPane().add(SaveButton);
 
+		JLabel turnLable = new JLabel("Turn :");
+		turnLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		turnLable.setBounds(923, 86, 66, 39);
+		f.getContentPane().add(turnLable);
+
+		JLabel turnCountLable = new JLabel("0");
+		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		turnCountLable.setBounds(943, 128, 21, 27);
+		f.getContentPane().add(turnCountLable);
+
+		JButton deck = new JButton("DECK (cur/max)");
+		deck.setBounds(1134, 844, 203, 109);
+		f.getContentPane().add(deck);
+
 		JButton LoadButton = new JButton("Load State");
 		LoadButton.setBounds(1204, 467, 143, 53);
 		f.getContentPane().add(LoadButton);
+		LoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCards();
+				GameController.load();
+				Integer turn = GameController.getTurn();
+				setCards(turn%2,false);
+				ladangkuButton.setSelected(true);
+				turnCountLable.setText(String.valueOf(turn));
+				deck.setText("DECK ("+String.valueOf(GameController.getCurrentCardCount())+"/40)");
+			}
+		});
 
 		JButton PluginButton = new JButton("Plugin");
 		PluginButton.setBounds(1204, 565, 143, 53);
 		f.getContentPane().add(PluginButton);
-
-		JButton deck = new JButton("DECK (cur/max)");
-		deck.addActionListener(new ActionListener() {
+		PluginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String message = GameController.loadPlugin();
+				JOptionPane.showMessageDialog(PluginButton, message);
 			}
 		});
-		deck.setBounds(1134, 844, 203, 109);
-		f.getContentPane().add(deck);
 
 		JLabel player1label = new JLabel("Player 1 :");
 		player1label.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -415,23 +407,17 @@ public class Screen {
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearCards();
-				turn += 1;
+				GameController.next();
+				// showShuffleWindow();
+				ShuffleDialog dialog = new ShuffleDialog(frame);
+				Integer turn = GameController.getTurn();
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);
+				turnCountLable.setText(String.valueOf(turn));
 			}
 		});
 		nextButton.setBounds(875, 228, 143, 53);
 		f.getContentPane().add(nextButton);
-
-		JLabel turnLable = new JLabel("Turn :");
-		turnLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		turnLable.setBounds(923, 86, 66, 39);
-		f.getContentPane().add(turnLable);
-
-		JLabel turnCountLable = new JLabel("0");
-		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		turnCountLable.setBounds(943, 128, 21, 27);
-		f.getContentPane().add(turnCountLable);
 
 		setCards(0,false);
 
@@ -469,5 +455,7 @@ public class Screen {
 //		Card kartuBe = new Card(slots, testBryan);
 //		kartuBe.insertSlot(11);
 //		f.getContentPane().add(kartuBe);
+
 	}
+
 }

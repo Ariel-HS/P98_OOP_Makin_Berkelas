@@ -24,6 +24,7 @@ public class Card extends JComponent {
 	private boolean isMine = true;
 	private Image image;
 	private Integer prevPosIdx = 999;
+	private boolean canMove = true;
 	
 	public Integer getPrevPosIdx(){
 		return prevPosIdx;
@@ -230,6 +231,10 @@ public class Card extends JComponent {
 	  //return pathToImage;
   }
 
+  public void setCanMove(boolean bool) {
+	this.canMove = bool;
+  }
+
 	public Card(ArrayList<Slot> _temp, Holdable Content) {
 		temp = _temp;
 		setBorder(new LineBorder(Color.BLUE, 3));
@@ -279,7 +284,7 @@ public class Card extends JComponent {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(isMine) {
+				if(isMine && canMove) {
 				int deltaX = e.getXOnScreen() - screenX;
 				int deltaY = e.getYOnScreen() - screenY;
 

@@ -245,18 +245,7 @@ public class GameController {
             currentPlayer = player1;
         }
 
-        // lihat ladang
-        // next turn
-        // show top deck
         System.out.println(turnNumber);
-
-        // show draw gui
-        // get top cards from currentPlayer.showDraw();
-        // if confirm: call currentPlayer.draw();
-        // else call currentPlayer.shuffleDeck(); currentPlayer.showDraw()
-
-        // if ok
-        // player.draw
     }
 
     public static String loadPlugin() {
@@ -353,12 +342,11 @@ public class GameController {
     }
 
     public static void load() {
-        // saveToko = toko
-
         try {
             Integer newTurn;
             Player newPlayer1 = new Player();
             Player newPlayer2 = new Player();
+            // Toko newToko = new Toko();
             JFileChooser openFileChooser = new JFileChooser();
             openFileChooser.setCurrentDirectory(new File("./"));
             openFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -407,9 +395,11 @@ public class GameController {
                         // System.out.println(namaItem);
                         throw new Exception("Item untuk makhluk not found");
                     }
+
+                    // add item to makhluk
                 }
 
-                // do things
+                // add makhluk to ladang
             }
             player1Scanner.close();
 
@@ -444,9 +434,11 @@ public class GameController {
                         player2Scanner.close();
                         throw new Exception("Item untuk makhluk not found");
                     }
+
+                    // add item to makhluk
                 }
 
-                // do things
+                // add makhluk to ladang
             }
             player2Scanner.close();
             
@@ -467,13 +459,14 @@ public class GameController {
                 }
                 Integer jumlahProduk = Integer.valueOf(line[1]);
 
-                // append produk ke toko
+                // add produk to toko
             }
             gamestateScanner.close();
 
             turnNumber = newTurn-1;
             player1 = newPlayer1;
             player2 = newPlayer2;
+            // toko = newToko
             next();
             // System.out.println("Here ps");
             // for (Holdable h: player1.getDeck().getDeck()) {
@@ -537,5 +530,29 @@ public class GameController {
 
     public static Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public static Player getPreviousPlayer() {
+        if (turnNumber % 2 == 0) {
+            return player1;
+        }
+
+        return player2;
+    }
+    
+    public static Integer getTurn() {
+        return turnNumber;
+    }
+
+    public static ArrayList<Holdable> getTopDeck() {
+        return currentPlayer.getTopDeck();
+    }
+
+    public static void callDraw() {
+        currentPlayer.draw();
+    }
+
+    public static void callShuffle() {
+        currentPlayer.shuffleDeck();
     }
 }
