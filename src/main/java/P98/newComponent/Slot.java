@@ -9,14 +9,16 @@ import javax.swing.border.LineBorder;
 public class Slot extends JComponent {
 	private int screenX;
 	private int screenY;
-	private int width = 110;
-	private int height = 160;
+	private int width;
+	private int height;
 	private boolean special; // special means ladang
 	private Card content;
 	public boolean occupied;
 	
 	
 	public Slot(int x, int y, boolean Special) {
+		width = 110;
+		height = 160;
 		occupied = false;
 		screenX = x;
 		screenY = y;
@@ -30,6 +32,21 @@ public class Slot extends JComponent {
 		    setBackground(Color.BLACK);			
 		}
 	    setBounds(screenX, screenY, width, height);
+	    setOpaque(false);
+	    setLocation(screenX,screenY);
+	}
+
+	public Slot(int x, int y, Color color, int widths, int heights) { // For frame serangan beruang
+		occupied = false;
+		screenX = x;
+		screenY = y;
+		special = false;
+		width = widths;
+		height = heights;
+		setBorder(new LineBorder(color, 3));
+		setBackground(color);	
+		
+	    setBounds(screenX, screenY, widths, heights);
 	    setOpaque(false);
 	    setLocation(screenX,screenY);
 	}
