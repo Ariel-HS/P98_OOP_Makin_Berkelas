@@ -239,6 +239,8 @@ public class GameController {
 
     public static void next() {
         turnNumber++;
+        player1.nextTurn();
+        player2.nextTurn();
         if (turnNumber%2 == 0) {
             currentPlayer = player2;
         } else {

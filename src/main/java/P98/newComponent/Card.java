@@ -118,13 +118,6 @@ public class Card extends JComponent {
 			System.out.println("aaaaaaaaaaaaaaaa");
 		}
 		System.out.println("Prev Slot: "+prevSlot+"\nNow Slot: "+slotNumber);
-		if (temp.get(prevSlot).isLadang() && !temp.get(slotNumber).isLadang()) {
-			System.out.println("Gk bisa masuk hand lagi");
-			setLocation(tempX, tempY);
-			myX = tempX;
-			myY = tempY;
-			return;
-		}
 
 		if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
 			if (temp.get(slotNumber).isLadang()) {
@@ -141,6 +134,13 @@ public class Card extends JComponent {
 					return;
 				}
 			} else {
+				if (temp.get(prevSlot).isLadang()) {
+					System.out.println("Gk bisa masuk hand lagi");
+					setLocation(tempX, tempY);
+					myX = tempX;
+					myY = tempY;
+					return;
+				}
 				deckAktif.addKartu(thisCard.getIsi());
 			}
 			System.out.println("Prev " + prevSlot);

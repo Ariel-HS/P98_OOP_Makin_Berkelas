@@ -539,7 +539,6 @@ public class Screen {
 				if (GameController.getCurrentPlayer().getActiveCardCount() < 6) {
 					ShuffleDialog dialog = new ShuffleDialog(frame, GameController.getCurrentPlayer());
 				} 
-				Integer turn = GameController.getTurn();
 				// setCards(turn%2,false);
 				setCardDeck(true);
 				setCardLadang(true);

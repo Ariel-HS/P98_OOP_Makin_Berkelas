@@ -36,7 +36,7 @@ public class InstantHarvest extends Item {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new InstantHarvest(getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new InstantHarvest(p);
     }
 }
