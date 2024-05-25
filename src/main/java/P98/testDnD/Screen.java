@@ -92,7 +92,7 @@ public class Screen {
 		}
 	}
 
-	private void showToko() {
+	private void showToko(JLabel p1gulden, JLabel p2gulden) {
 		if (!Screen.getTheresAWindow()) {
 			Screen.setTheresAWindow(true);
 			JFrame frame = new JFrame("Toko");
@@ -176,8 +176,11 @@ public class Screen {
 										productPanel.repaint();
 									}
 									contentPane.repaint();
+									p1gulden.setText(GameController.getPlayer1().getGulden().toString());
+									p2gulden.setText(GameController.getPlayer2().getGulden().toString());
 								} catch (Exception ex) {
 									System.err.println(ex.getMessage());
+									JOptionPane.showMessageDialog(frame, ex.getMessage());
 								}
 							}
 						});
@@ -232,10 +235,18 @@ public class Screen {
 								player.jual(pro, etalase.getId());
 								toko.sellProduk(pro);
 								contentPane.remove(productPanel);
+								JPanel newProductPanel = new JPanel();
+								// Integer xInteger;
+								// Integer yInteger;
+								// newProductPanel.setBounds(, , 200, 100);
+								// newProductPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+								// contentPane.add(newProductPanel);
 								// Might need to repaint the content pane for the change to be reflected
 								contentPane.repaint();
 								// Potentially update frame size if needed
 								// frame.pack();
+								p1gulden.setText(GameController.getPlayer1().getGulden().toString());
+								p2gulden.setText(GameController.getPlayer2().getGulden().toString());
 							}
 							});
 						productPanel.add(removeButton);
@@ -284,7 +295,7 @@ public class Screen {
 			current = GameController.getPreviousPlayer();
 		}
 		current = GameController.getCurrentPlayer();
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getCleanDeck();
 
 		for (int j = 0; j < currentCards.size(); j++) {
 			// time setting up											// cards
@@ -341,12 +352,7 @@ public class Screen {
 	}
 
 	public void clearCards() {
-		ArrayList<Holdable> deckAktif = GameController.getCurrentPlayer().getDeckAktif().getDeck();
-		deckAktif.removeIf(h -> h.getNama().equals(""));
 		System.out.println("Test here");
-		for (Holdable h: deckAktif) {
-			System.out.println(h.getNama());
-		}
 
 		GameController.getCurrentPlayer().kartuAktif.clear();
         Component[] components = f.getContentPane().getComponents();
@@ -521,15 +527,6 @@ public class Screen {
 		slots.add(tangan5);
 		slots.add(tangan6);
 
-		JButton TokoButton = new JButton("Toko");
-		TokoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showToko();
-			}
-		});
-		TokoButton.setBounds(1204, 273, 143, 53);
-		f.getContentPane().add(TokoButton);
-
 		ButtonGroup G = new ButtonGroup();
 
 		JRadioButton LadangLawanButton = new JRadioButton("Ladang Lawan");
@@ -689,6 +686,15 @@ public class Screen {
 		});
 		nextButton.setBounds(875, 228, 143, 53);
 		f.getContentPane().add(nextButton);
+
+		JButton TokoButton = new JButton("Toko");
+		TokoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showToko(p1gulden, p2gulden);
+			}
+		});
+		TokoButton.setBounds(1204, 273, 143, 53);
+		f.getContentPane().add(TokoButton);
 
 		// setCards(0,false);
 		setCardDeck(true);

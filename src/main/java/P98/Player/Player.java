@@ -8,13 +8,15 @@ import P98.Exception.UangTidakCukupException;
 import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Player {
     private Ladang ladang;
     private Integer gulden;
-    private Deck deckAktif;
-    private Deck deck;
+    private DeckAktif deckAktif;
+    private ArrayList<Holdable> deck;
 
     public ArrayList<Integer> previousPositionX = new ArrayList<>();
 	public ArrayList<Integer> previousPositionY = new ArrayList<>();
@@ -23,15 +25,15 @@ public class Player {
     public Player() {
         this.gulden = 0;
         this.ladang = new Ladang();
-        this.deckAktif = new Deck();
-        this.deck = new Deck();
+        this.deckAktif = new DeckAktif();
+        this.deck = new ArrayList<>();
     }
 
     public Player(Integer gulden) {
         this.gulden = gulden;
         this.ladang = new Ladang(); 
-        this.deckAktif = new Deck();
-        this.deck = new Deck();
+        this.deckAktif = new DeckAktif();
+        this.deck = new ArrayList<>();
     }
 
     public Player(Player player) {
@@ -52,13 +54,9 @@ public class Player {
 
     public void beli(Produk p) throws UangTidakCukupException, DeckFullException {
         if (gulden < p.getHarga()) throw new UangTidakCukupException();
-        try {
-            addToDeckAktif(p.turnToHoldable(this));
-            setGulden(gulden - p.getHarga());
-            p.setPemilik(this);
-        } catch (DeckFullException e) {
-            throw e;
-        }
+        addToDeckAktif(p.turnToHoldable(this));
+        setGulden(gulden - p.getHarga());
+        p.setPemilik(this);
     }
 
     public void setGulden(Integer gulden) {
@@ -70,10 +68,10 @@ public class Player {
     }
 
     public void addToDeck(Holdable kartu) throws DeckFullException {
-        if (this.deck.getJumlahKartu() >= 40) {
+        if (this.deck.size() >= 40) {
             throw new DeckFullException();
         }
-        this.deck.addKartu(kartu);
+        this.deck.add(kartu);
     }
 
     public void addToDeckAktif(Holdable kartu) throws DeckFullException {
@@ -84,19 +82,19 @@ public class Player {
         this.deckAktif.addKartu(kartu);
     }
 
-    public void setDeck(Deck deck) {
+    public void setDeck(ArrayList<Holdable> deck) {
         this.deck = deck;
     }
 
     public void shuffleDeck() {
-        this.deck.shuffleDeck();
+        Collections.shuffle(this.deck);
     }
 
-    public Deck getDeck() {
+    public ArrayList<Holdable> getDeck() {
         return this.deck;
     }
     
-    public Deck getDeckAktif() {
+    public DeckAktif getDeckAktif() {
         return this.deckAktif;
     }
 
@@ -124,39 +122,49 @@ public class Player {
 
     public ArrayList<Holdable> getTopDeck() {
         Integer numKartu = 4;
-        if (this.deck.getJumlahKartu() <= 5) {
+        if (this.deck.size() <= 5) {
             numKartu = 1;
         }
         else if (this.deckAktif.getJumlahKartu() > 2) {
             numKartu = 6-this.deckAktif.getJumlahKartu();
         }
 
-        ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
-        // for (Holdable h: drawnKartu) {
-        //     h.print();
-        // }
+        ArrayList<Holdable> drawnKartu = new ArrayList<>();
+        for (int i=0; i<numKartu; i++) {
+            System.out.println(deck.get(i).getNama());
+            drawnKartu.add(deck.get(i).turnToHoldable(this));
+        }
+        // System.out.println("HUH");
+        for (Holdable h: drawnKartu) {
+            System.out.println(h.getNama());
+        }
 
         return drawnKartu;
     }
 
     public void draw() {
         Integer numKartu = 4;
-        if (this.deck.getJumlahKartu() <= 5) {
+        if (this.deck.size() <= 5) {
             numKartu = 1;
         }
         else if (this.deckAktif.getJumlahKartu() > 2) {
             numKartu = 6-this.deckAktif.getJumlahKartu();
         }
 
-        ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
+        ArrayList<Holdable> drawnKartu = getTopDeck();
+        System.out.println("DRAWWW");
         for (Holdable h: drawnKartu) {
+            System.out.println(h.getNama());
             this.deckAktif.addKartu(h.turnToHoldable(this));
         }
-        this.deck.drawTopKartu(numKartu);
+
+        for (int i=0; i<numKartu; i++) {
+            this.deck.remove(0);
+        }
     }
 
     public Integer getDeckCardCount() {
-        return this.deck.getJumlahKartu();
+        return this.deck.size();
     }
 
     public Integer getActiveCardCount() {

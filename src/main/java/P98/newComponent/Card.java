@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
-import P98.Deck.Deck;
+import P98.Deck.DeckAktif;
 import P98.GameController.GameController;
 import P98.Interface.*;
 import P98.Item.Item;
@@ -114,7 +114,7 @@ public class Card extends JComponent {
 		myY = getY();
 		int slotNumber = inSlot(temp);
 		Ladang l = p.getLadang();
-		Deck deckAktif = p.getDeckAktif();
+		DeckAktif deckAktif = p.getDeckAktif();
 
 		if(temp.get(slotNumber).getOccupied()) {
 			System.out.println("aaaaaaaaaaaaaaaa");

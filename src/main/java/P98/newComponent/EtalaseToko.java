@@ -52,18 +52,20 @@ public class EtalaseToko extends JComponent {
 			image = new ImageIcon(getClass().getResource("/Item/Accelerate.png")).getImage();
 		} else if (this.getNama().equals("Destroy")) {
 			image = new ImageIcon(getClass().getResource("/Item/Destroy.png")).getImage();
+		} else if (this.getNama().equals("Delay")) {
+			image = new ImageIcon(getClass().getResource("/Item/Delay.png")).getImage();
 		} else if(this.getNama().equals("Instant Harvest")) {
-			image = new ImageIcon(getClass().getResource("/Item/Instant Harvest.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Item/InstantHarvest.png")).getImage();
 		} else if(this.getNama().equals("Protect")) {
 			image = new ImageIcon(getClass().getResource("/Item/Protect.png")).getImage();
 		} else if(this.getNama().equals("Trap")) {
-			image = new ImageIcon(getClass().getResource("/Produk/bear trap.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Produk/Trap.png")).getImage();
 		} else if(this.getNama().equals("Daging Beruang")) {
-			image = new ImageIcon(getClass().getResource("/Produk/Daging Beruang.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Produk/Daging_Beruang.png")).getImage();
 		} else if(this.getNama().equals("Daging Domba")) {
-			image =new ImageIcon(getClass().getResource("/Produk/Daging Domba.png")).getImage();
+			image =new ImageIcon(getClass().getResource("/Produk/Daging_Domba.png")).getImage();
 		}else if(this.getNama().equals("Daging Kuda")) {
-			image = new ImageIcon(getClass().getResource("/Produk/Daging Kuda.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Produk/Daging_Kuda.png")).getImage();
 		}else if(this.getNama().equals("Pumpkin")) {
 			image = new ImageIcon(getClass().getResource("/Produk/pumpkin.png")).getImage();
 		} else if(this.getNama().equals("Shark Fin")) {
@@ -78,6 +80,8 @@ public class EtalaseToko extends JComponent {
 			image = new ImageIcon(getClass().getResource("/Tanaman/pumpkin seeds.png")).getImage();
 		} else if(this.getNama().equals("Strawberry Seeds")) {
 			image = new ImageIcon(getClass().getResource("/Tanaman/strawberry seeds.png")).getImage();
+		} else {
+			System.out.println("AAAAAAA"+this.getNama());
 		}
 		// lanjutkan nanti
 		// return pathToImage;

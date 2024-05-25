@@ -2,6 +2,7 @@ package P98.GameController;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URL;
@@ -184,44 +185,47 @@ public class GameController {
         player1.setDeck(randomDeck(40,player1));
         player2.setDeck(randomDeck(40,player2));
         // System.out.println("Here");
-        // for (Holdable h: player1.getDeck().getDeck()) {
-        //     h.print();
+        // for (Holdable h: player1.getDeck()) {
+        //     System.out.println(h.getNama());
         // }
         // System.out.println("Here");
-        // for (Holdable h: player2.getDeck().getDeck()) {
-        //     h.print();
+        // for (Holdable h: player2.getDeck()) {
+        //     System.out.println(h.getNama());
         // }        
         // System.out.println("Aman");
     }
 
-    public static Deck randomDeck(Integer num, Player p) {
-        Deck deck = new Deck();
+    public static ArrayList<Holdable> randomDeck(Integer num, Player p) {
+        ArrayList<Holdable> deck = new ArrayList<>();
         for (Hewan h:listHewan) {
             for (int j=0;j<2;j++) {
-                deck.addKartu(h.turnToHoldable(p));
+                deck.add(h.turnToHoldable(p));
             }
         }
         for (Produk pr:listProduk) {
             if (pr.getNama().equals("Labu") || pr.getNama().equals("Susu") || pr.getNama().equals("Jagung")) {
-                deck.addKartu(pr.turnToHoldable(p));
+                deck.add(pr.turnToHoldable(p));
             }
-            deck.addKartu(pr.turnToHoldable(p));
+            deck.add(pr.turnToHoldable(p));
         }
         for (Tumbuhan t:listTumbuhan) {
             for (int j=0;j<2;j++) {
-                deck.addKartu(t.turnToHoldable(p));
+                deck.add(t.turnToHoldable(p));
             }
         }
         for (Item i: listItem) {
             if (i.getNama().equals("Accelerate") || i.getNama().equals("Delay") 
                 || i.getNama().equals("Instant Harvest") || i.getNama().equals("Trap")) {
-                deck.addKartu(i.turnToHoldable(p));
+                deck.add(i.turnToHoldable(p));
             }
-            deck.addKartu(i.turnToHoldable(p));
+            deck.add(i.turnToHoldable(p));
         }
 
-        deck.shuffleDeck();
-        deck.drawTopKartu(40-num);
+        Collections.shuffle(deck);
+        for (int i=0; i<40-num; i++) {
+            deck.remove(0);
+        }
+        
         return deck;
     }
 
@@ -516,7 +520,7 @@ public class GameController {
         return currentPlayer.getDeckCardCount();
     }
 
-    public static Deck getCurrentDeck() {
+    public static ArrayList<Holdable> getCurrentDeck() {
         return currentPlayer.getDeck();
     }
 
