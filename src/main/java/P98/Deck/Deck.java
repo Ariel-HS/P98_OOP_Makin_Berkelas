@@ -19,6 +19,10 @@ public class Deck {
         this.kartu.add(newKartu);
     }
 
+    public void removeKartu(int idx) {
+        this.kartu.remove(idx);
+    }
+
     public ArrayList<Holdable> getTopKartu(Integer numKartu) {
         ArrayList<Holdable> listKartu = new ArrayList<>();
         

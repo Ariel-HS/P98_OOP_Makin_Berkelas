@@ -9,21 +9,26 @@ public class EtalaseToko extends JComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private int id;
 	private Image image;
     private String nama;
-    private String jumlah;
-    private String harga;
+    private Integer jumlah;
+    private Integer harga;
     private int rectX = 10, rectY = 10, rectWidth = 200, rectHeight = 100;
     
+    public int getId() {
+        return this.id;
+    }
+
     public String getNama() {
     	return this.nama;
     }
     
-    public String getJumlah() {
+    public Integer getJumlah() {
     	return this.jumlah;
     }
     
-    public String getHarga() {
+    public Integer getHarga() {
     	return this.harga;
     }
 	public void determineImage() {
@@ -49,9 +54,19 @@ public class EtalaseToko extends JComponent {
 		// lanjutkan nanti
 		// return pathToImage;
 	}
-    public EtalaseToko(Integer x, Integer y,String Nama, String Jumlah, String Harga) {
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void decrJumlah() {
+        jumlah--;
+    }
+
+    public EtalaseToko(int id, Integer x, Integer y,String Nama, Integer Jumlah, Integer Harga) {
+        this.id = id;
     	this.nama=Nama;
-    	this.jumlah=Jumlah;
+    	this.jumlah= Jumlah;
     	this.harga = Harga;
     	this.rectX = x;
     	this.rectY = y;
@@ -81,7 +96,7 @@ public class EtalaseToko extends JComponent {
         int lineHeight = 16;
         int textX = rectX + 70;
         int textY = rectY + 20;
-        String[] strings = {this.nama,"Harga",this.harga,"Jumlah",this.jumlah};
+        String[] strings = {this.nama,"Harga",this.harga.toString(),"Jumlah",this.jumlah.toString()};
         for (String str : strings) {
             g2d.drawString(str, textX, textY);
             textY += lineHeight;

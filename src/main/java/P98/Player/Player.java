@@ -4,6 +4,7 @@ import P98.newComponent.Card;
 import P98.Ladang.*;
 import P98.Deck.*;
 import P98.Exception.DeckFullException;
+import P98.Exception.UangTidakCukupException;
 import P98.Interface.Holdable;
 import P98.Makhluk.Makhluk;
 
@@ -40,12 +41,24 @@ public class Player {
         this.deck = player.deck;
     }
 
-    public Boolean jual(Produk p) {
-        return false;
+    public void removeFromDeckAktif(int idx) {
+        deckAktif.removeKartu(idx);
     }
 
-    public Boolean beli(Produk p) {
-        return false;
+    public void jual(Produk p, int index) {
+        setGulden(gulden + p.getHarga());
+        removeFromDeckAktif(index);
+    }
+
+    public void beli(Produk p) throws UangTidakCukupException, DeckFullException {
+        if (gulden < p.getHarga()) throw new UangTidakCukupException();
+        try {
+            addToDeckAktif(p.turnToHoldable());
+            setGulden(gulden - p.getHarga());
+            p.setPemilik(this);
+        } catch (DeckFullException e) {
+            throw e;
+        }
     }
 
     public void setGulden(Integer gulden) {
