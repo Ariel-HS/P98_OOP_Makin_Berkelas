@@ -522,6 +522,22 @@ public class GameController {
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+    public static Player getPreviousPlayer() {
+        if (turnNumber % 2 == 0) {
+            return player1;
+        }
+
+        return player2;
+    }
+
+    public static Player getPlayer1() {
+        return player1;
+    }
+
+    public static Player getPlayer2() {
+        return player2;
+    }
     
     public static String getTopPlayer() {
         Integer gulden1 = player1.getGulden();
@@ -534,14 +550,6 @@ public class GameController {
         } else {
             return "Kedua Pemain";
         }
-    }
-
-    public static Player getPreviousPlayer() {
-        if (turnNumber % 2 == 0) {
-            return player1;
-        }
-
-        return player2;
     }
     
     public static Integer getTurn() {

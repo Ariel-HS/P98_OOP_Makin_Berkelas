@@ -357,6 +357,16 @@ public class Screen {
 		deck.setBounds(1134, 844, 203, 109);
 		f.getContentPane().add(deck);
 
+		JLabel p1gulden = new JLabel("0000");
+		p1gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		p1gulden.setBounds(976, 308, 77, 27);
+		f.getContentPane().add(p1gulden);
+
+		JLabel p2gulden = new JLabel("0000");
+		p2gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		p2gulden.setBounds(976, 389, 77, 27);
+		f.getContentPane().add(p2gulden);
+
 		JButton LoadButton = new JButton("Load State");
 		LoadButton.setBounds(1204, 467, 143, 53);
 		f.getContentPane().add(LoadButton);
@@ -369,6 +379,8 @@ public class Screen {
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
 				deck.setText("DECK ("+String.valueOf(GameController.getCurrentCardCount())+"/40)");
+				p1gulden.setText(GameController.getPlayer1().getGulden().toString());
+				p2gulden.setText(GameController.getPlayer2().getGulden().toString());
 			}
 		});
 
@@ -412,16 +424,6 @@ public class Screen {
 		player2label.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		player2label.setBounds(865, 383, 111, 39);
 		f.getContentPane().add(player2label);
-
-		JLabel p1gulden = new JLabel("0000");
-		p1gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		p1gulden.setBounds(976, 308, 77, 27);
-		f.getContentPane().add(p1gulden);
-
-		JLabel p2gulden = new JLabel("0000");
-		p2gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		p2gulden.setBounds(976, 389, 77, 27);
-		f.getContentPane().add(p2gulden);
 
 		JButton nextButton = new JButton("NEXT");
 		nextButton.addActionListener(new ActionListener() {
