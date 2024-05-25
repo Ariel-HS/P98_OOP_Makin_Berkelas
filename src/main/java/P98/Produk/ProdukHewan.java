@@ -1,5 +1,6 @@
 package P98.Produk;
 
+import P98.Exception.GaBisaMakanException;
 import P98.Exception.WrongItemException;
 import P98.Interface.Holdable;
 import P98.Makhluk.*;
@@ -23,12 +24,15 @@ public class ProdukHewan extends Produk {
         return true;
     }
 
-    public void interact(Holdable m) throws WrongItemException {
+    public void interact(Holdable m) throws WrongItemException , GaBisaMakanException{
         if (m.getPemilik() == this.getPemilik() && m instanceof Makhluk) {
             Makhluk ma = (Makhluk) m;
-            ma.makan(this);
-        }
-        throw new WrongItemException("pemain lain");
+            boolean kesuksesanMakan = ma.makan(this);
+            if(kesuksesanMakan == false) {
+            	throw new GaBisaMakanException();
+            }
+        }else {
+        throw new WrongItemException("pemain lain");}
     }
 
     public Holdable turnToHoldable() {

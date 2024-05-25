@@ -6,6 +6,8 @@ import P98.Deck.Deck;
 import P98.Interface.Holdable;
 import P98.Item.Accelerate;
 import P98.Item.Delay;
+import P98.Makhluk.Hewan.Herbivora;
+import P98.Makhluk.Hewan.Hewan;
 import P98.Makhluk.Tumbuhan.Tumbuhan;
 import P98.Player.Player;
 import P98.Produk.Produk;
@@ -251,16 +253,21 @@ public class Screen {
 		Accelerate i1 = new Accelerate(current);
 		Accelerate i2 = new Accelerate(current);
 		Delay i3 = new Delay(current);
-		Tumbuhan t1 = new Tumbuhan("Jagung", 0, 0, 10, 0, new ProdukTumbuhan(), current);
-		Tumbuhan t2 = new Tumbuhan("Jagung", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		Tumbuhan t1 = new Tumbuhan("Corn Seeds", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		Tumbuhan t2 = new Tumbuhan("Corn Seeds", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		Herbivora h1 = new Herbivora("Sapi", 0, 0, 10, 0, new ProdukHewan(), current);
+		ProdukHewan ph1 = new ProdukHewan("Daging Beruang",current,120,123);
+		ProdukTumbuhan pt1 = new ProdukTumbuhan("Jagung",current,120,123);
 		t1.addItem(i1);
 		t1.addItem(i2);
 		t1.addItem(i3);
 		// // for testing
 		try {
 			current.addToDeckAktif(t1);
-			current.addToDeckAktif(t2);
+			current.addToDeckAktif(h1);
 			current.addToDeckAktif(i1);
+			current.addToDeckAktif(ph1);
+			current.addToDeckAktif(pt1);
 			// current.addToDeckAktif(new Acc);
 			// current.addToDeckAktif(new Tumbuhan("Zomm"));
 		}

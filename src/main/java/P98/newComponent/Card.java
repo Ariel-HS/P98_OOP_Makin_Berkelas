@@ -14,6 +14,7 @@ import P98.Ladang.Ladang;
 import P98.Makhluk.Makhluk;
 import P98.Makhluk.Hewan.Hewan;
 import P98.Makhluk.Tumbuhan.Tumbuhan;
+import P98.Produk.Produk;
 
 public class Card extends JComponent {
 
@@ -208,7 +209,9 @@ public class Card extends JComponent {
 			gambar.setIcon(icon);
 			frame.add(gambar);
 			frame.setVisible(true);
-			} else if (content instanceof Item) {
+			} 
+		else if (content instanceof Produk || content instanceof Item) {
+
 				// pilih holdable yang ingin dipilih
 				Screen.setTheresAWindow(true);
 				JFrame frame = new JFrame("New Window");
@@ -245,12 +248,12 @@ public class Card extends JComponent {
 						              public void actionPerformed(ActionEvent e) {
 						                try {
 						                  content.interact(temp.get(finalIdx).getContent().getIsi());
+							                frame.dispose();
+							                thisCard.setVisible(false);
+							                content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
 						                } catch (Exception excep) {
-						                  System.out.println(excep.toString());
+						                	JOptionPane.showMessageDialog(null,excep.toString());
 						                }
-						                frame.dispose();
-						                thisCard.setVisible(false);
-						                content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
 						              }
 						            });
 						            frame.add(pilihanButton);
@@ -266,6 +269,7 @@ public class Card extends JComponent {
 
 				
 				frame.setVisible(true);
+				
 			}
 		}
 	}
