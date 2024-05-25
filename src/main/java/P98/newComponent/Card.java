@@ -244,6 +244,40 @@ public class Card extends JComponent {
 		  image = new ImageIcon(getClass().getResource("/Hewan/torchic.png")).getImage();
 	  } else if(this.content.getNama().equals("Jagung")) {
 		  image = new ImageIcon(getClass().getResource("/Produk/corn.png")).getImage();
+	  } else if(this.content.getNama().equals("Accelerate")) {
+		  image = new ImageIcon(getClass().getResource("/Item/Accelerate.png")).getImage();
+	  } else if(this.content.getNama().equals("Trap")) {
+		image = new ImageIcon(getClass().getResource("/Item/Trap.png")).getImage();
+	  } else if(this.content.getNama().equals("Delay")) {
+		image = new ImageIcon(getClass().getResource("/Item/Delay.png")).getImage();
+	  } else if(this.content.getNama().equals("Destroy")) {
+		image = new ImageIcon(getClass().getResource("/Item/Destroy.png")).getImage();
+	  } else if(this.content.getNama().equals("Instant Harvest")) {
+		image = new ImageIcon(getClass().getResource("/Item/InstantHarvest.png")).getImage();
+	  } else if(this.content.getNama().equals("Protect")) {
+		image = new ImageIcon(getClass().getResource("/Item/Protect.png")).getImage();
+	  } else if(this.content.getNama().equals("Sirip Hiu")) {
+		image = new ImageIcon(getClass().getResource("/Produk/shark-fin.png")).getImage();
+	  } else if(this.content.getNama().equals("Susu")) {
+		image = new ImageIcon(getClass().getResource("/Produk/susu.png")).getImage();
+	  } else if(this.content.getNama().equals("Telur")) {
+		image = new ImageIcon(getClass().getResource("/Produk/telur.png")).getImage();
+	  } else if(this.content.getNama().equals("Labu")) {
+		image = new ImageIcon(getClass().getResource("/Produk/pumpkin.png")).getImage();
+	  } else if(this.content.getNama().equals("Stroberi")) {
+		image = new ImageIcon(getClass().getResource("/Produk/strawberry.png")).getImage();
+	  } else if(this.content.getNama().equals("Biji Stroberi")) {
+		image = new ImageIcon(getClass().getResource("/Tanaman/strawberry_seeds.png")).getImage();
+	  } else if(this.content.getNama().equals("Biji Labu")) {
+		image = new ImageIcon(getClass().getResource("/Tanaman/pumpkin_seeds.png")).getImage();
+	  } else if(this.content.getNama().equals("Biji Jagung")) {
+		image = new ImageIcon(getClass().getResource("/Tanaman/corn_seeds.png")).getImage();
+	  } else if(this.content.getNama().equals("Daging Kuda")) {
+		image = new ImageIcon(getClass().getResource("/Produk/Daging_Kuda.png")).getImage();
+	  } else if(this.content.getNama().equals("Daging Beruang")) {
+		image = new ImageIcon(getClass().getResource("/Produk/Daging_Beruang.png")).getImage();
+	  } else if(this.content.getNama().equals("Daging Domba")) {
+		image = new ImageIcon(getClass().getResource("/Produk/Daging Domba.png")).getImage();
 	  }
 	  // lanjutkan nanti malas
 	  //return pathToImage;
