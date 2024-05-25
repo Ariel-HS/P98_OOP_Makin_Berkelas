@@ -286,7 +286,6 @@ public class Card extends JComponent {
 			frame.setVisible(true);
 			} 
 		else if (content instanceof Produk || content instanceof Item) {
-
 				// pilih holdable yang ingin dipilih
 				Screen.setTheresAWindow(true);
 				JFrame frame = new JFrame("New Window");
@@ -307,34 +306,31 @@ public class Card extends JComponent {
 				Integer idx =0;
 				Integer forPositionX = 0;
 				Integer forPositionY = 0;
-				while (idx <temp.size()) {
+				while (idx < temp.size()) {
 					Integer yValue = 40 * forPositionY ;
 					for(int j=0;j<5;j++) {
-						if(idx<temp.size()) {
-						if(temp.get(idx).getContent()!=null) {
-							if(temp.get(idx).getContent().isinLadang()) {
-								Integer xValue = 160 * forPositionX;
-								final Integer finalIdx = idx;
-								JButton pilihanButton = new JButton(temp.get(idx).getContent().getIsi().getNama());
-								pilihanButton.setFont(new Font("Serif", Font.BOLD, 15));
-								pilihanButton.setBounds(xValue, yValue, 150, 40);
-						          pilihanButton.addActionListener(new ActionListener() {
-						              @Override
-						              public void actionPerformed(ActionEvent e) {
-						                try {
-						                  content.interact(temp.get(finalIdx).getContent().getIsi());
-							                frame.dispose();
-							                thisCard.setVisible(false);
-							                content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
-						                } catch (Exception excep) {
-						                	JOptionPane.showMessageDialog(null,excep.toString());
-						                }
-						              }
-						            });
-						            frame.add(pilihanButton);
-								forPositionX++;
-							}
-						}
+						if(idx<temp.size() && temp.get(idx).getContent()!=null && temp.get(idx).isLadang()
+						&& !temp.get(idx).getContent().getIsi().getNama().equals("")) {
+							Integer xValue = 160 * forPositionX;
+							final Integer finalIdx = idx;
+							JButton pilihanButton = new JButton(temp.get(idx).getContent().getIsi().getNama());
+							pilihanButton.setFont(new Font("Serif", Font.BOLD, 15));
+							pilihanButton.setBounds(xValue, yValue, 150, 40);
+							pilihanButton.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									try {
+									content.interact(temp.get(finalIdx).getContent().getIsi());
+										frame.dispose();
+										thisCard.setVisible(false);
+										content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
+									} catch (Exception excep) {
+										JOptionPane.showMessageDialog(null,excep.toString());
+									}
+								}
+								});
+								frame.add(pilihanButton);
+							forPositionX++;
 						}
 						idx++;
 					}
@@ -459,6 +455,7 @@ public class Card extends JComponent {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clicked");
 				if (isMine) {
 					System.out.println("tampilin belakang kartu");
 					System.out.println(content);

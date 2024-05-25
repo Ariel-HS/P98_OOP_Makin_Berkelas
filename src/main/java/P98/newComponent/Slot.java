@@ -70,7 +70,7 @@ public class Slot extends JComponent {
 	}
 	
 	public Card getContent() {
-			return content;
+		return content;
 	}
 	
 	public boolean isLadang() {
