@@ -53,7 +53,7 @@ public class Player {
     public void beli(Produk p) throws UangTidakCukupException, DeckFullException {
         if (gulden < p.getHarga()) throw new UangTidakCukupException();
         try {
-            addToDeckAktif(p.turnToHoldable());
+            addToDeckAktif(p.turnToHoldable(this));
             setGulden(gulden - p.getHarga());
             p.setPemilik(this);
         } catch (DeckFullException e) {
@@ -163,7 +163,4 @@ public class Player {
         return this.deckAktif.getJumlahKartu();
     }
     
-    public void removeFromDeckAktif(int idx) {
-        deckAktif.removeKartu(idx);
-    }
 }

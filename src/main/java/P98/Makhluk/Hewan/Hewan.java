@@ -22,6 +22,4 @@ abstract public class Hewan extends Makhluk {
         // do nothing
         return;
     }
-
-    abstract public Holdable turnToHoldable();
 }

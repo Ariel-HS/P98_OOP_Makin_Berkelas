@@ -429,7 +429,7 @@ public class Card extends JComponent {
 	  } else if(this.content.getNama().equals("Daging Beruang")) {
 		image = new ImageIcon(getClass().getResource("/Produk/Daging_Beruang.png")).getImage();
 	  } else if(this.content.getNama().equals("Daging Domba")) {
-		image = new ImageIcon(getClass().getResource("/Produk/Daging Domba.png")).getImage();
+		image = new ImageIcon(getClass().getResource("/Produk/Daging_Domba.png")).getImage();
 	  }
 	  // lanjutkan nanti malas
 	  //return pathToImage;

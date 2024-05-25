@@ -33,30 +33,58 @@ public class EtalaseToko extends JComponent {
     }
 	public void determineImage() {
 		if (this.getNama().equals("Domba")) {
-			//System.out.println("Working Directory = " + System.getProperty("user.dir"));
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/mareep.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Hewan/mareep.png")).getImage();
 		} else if (this.getNama().equals("Beruang")) {
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/ursaring.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Hewan/ursaring.png")).getImage();
 		} else if (this.getNama().equals("Hiu Darat")) {
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/sharpedo.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Hewan/sharpedo.png")).getImage();
 		} else if (this.getNama().equals("Sapi")) {
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/miltank.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Hewan/miltank.png")).getImage();
 		} else if (this.getNama().equals("Kuda")) {
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/rapidash.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Hewan/rapidash.png")).getImage();
 		} else if (this.getNama().equals("Ayam")) {
-			image = new ImageIcon(getClass().getResource("/Assets/Hewan/torchic.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Hewan/torchic.png")).getImage();
 		} else if (this.getNama().equals("Jagung")) {
-			//System.out.println("Working Directory = " + System.getProperty("user.dir"));
-			image = new ImageIcon(getClass().getResource("/Assets/Produk/corn.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Produk/corn.png")).getImage();
 		}else if (this.getNama().equals("Susu")) {
-			image = new ImageIcon(getClass().getResource("/Assets/Produk/susu.png")).getImage();
+			image = new ImageIcon(getClass().getResource("/Produk/susu.png")).getImage();
+		} else if (this.getNama().equals("Accelerate")){
+			image = new ImageIcon(getClass().getResource("/Item/Accelerate.png")).getImage();
+		} else if (this.getNama().equals("Destroy")) {
+			image = new ImageIcon(getClass().getResource("/Item/Destroy.png")).getImage();
+		} else if(this.getNama().equals("Instant Harvest")) {
+			image = new ImageIcon(getClass().getResource("/Item/Instant Harvest.png")).getImage();
+		} else if(this.getNama().equals("Protect")) {
+			image = new ImageIcon(getClass().getResource("/Item/Protect.png")).getImage();
+		} else if(this.getNama().equals("Trap")) {
+			image = new ImageIcon(getClass().getResource("/Produk/bear trap.png")).getImage();
+		} else if(this.getNama().equals("Daging Beruang")) {
+			image = new ImageIcon(getClass().getResource("/Produk/Daging Beruang.png")).getImage();
+		} else if(this.getNama().equals("Daging Domba")) {
+			image =new ImageIcon(getClass().getResource("/Produk/Daging Domba.png")).getImage();
+		}else if(this.getNama().equals("Daging Kuda")) {
+			image = new ImageIcon(getClass().getResource("/Produk/Daging Kuda.png")).getImage();
+		}else if(this.getNama().equals("Pumpkin")) {
+			image = new ImageIcon(getClass().getResource("/Produk/pumpkin.png")).getImage();
+		} else if(this.getNama().equals("Shark Fin")) {
+			image = new ImageIcon(getClass().getResource("/Produk/shark-fin.png")).getImage();
+		} else if(this.getNama().equals("Strawberry")) {
+			image = new ImageIcon(getClass().getResource("/Produk/strawberry.png")).getImage();
+		} else if(this.getNama().equals("Telur")) {
+			image = new ImageIcon(getClass().getResource("/Produk/telur.png")).getImage();
+		} else if(this.getNama().equals("Corn Seeds")) {
+			image = new ImageIcon(getClass().getResource("/Tanaman/corn seeds.png")).getImage();
+		} else if(this.getNama().equals("Pumpkin Seeds")) {
+			image = new ImageIcon(getClass().getResource("/Tanaman/pumpkin seeds.png")).getImage();
+		} else if(this.getNama().equals("Strawberry Seeds")) {
+			image = new ImageIcon(getClass().getResource("/Tanaman/strawberry seeds.png")).getImage();
 		}
 		// lanjutkan nanti
 		// return pathToImage;
 	}
 
     public Image getImage() {
-        return image;
+        return this.image;
     }
 
     public void decrJumlah() {
