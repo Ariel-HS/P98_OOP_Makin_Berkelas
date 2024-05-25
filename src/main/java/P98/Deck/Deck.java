@@ -1,6 +1,7 @@
 package P98.Deck;
 import java.util.*;
 import P98.Interface.*;
+import P98.Makhluk.Tumbuhan.Tumbuhan;
 
 public class Deck {
     private ArrayList<Holdable> kartu;
@@ -10,7 +11,7 @@ public class Deck {
     }
 
     public Deck(Deck deck) {
-        this.kartu = new ArrayList<>();
+        this.kartu = deck.getDeck();
         // for (Holdable)
     }
 
@@ -43,7 +44,13 @@ public class Deck {
     }
 
     public Integer getJumlahKartu() {
-        return this.kartu.size();
+        int cnt = 0;
+        for (Holdable h : kartu) {
+            if (!h.getNama().isEmpty())
+                cnt++;
+        }
+
+        return cnt;
     }
 
     public ArrayList<Holdable> getDeck() { // for testing purposes only

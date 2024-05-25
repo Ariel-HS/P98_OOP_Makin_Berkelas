@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
+import P98.Deck.Deck;
 import P98.GameController.GameController;
 import P98.Interface.*;
 import P98.Ladang.Ladang;
@@ -103,20 +104,48 @@ public class Card extends JComponent {
 		return temp.get(inSlot(temp)).isLadang();
 	}
 
-	public void insertSlot(Ladang l) {
+	public void insertSlot(Player p) {
 		int prevSlot = inSlot(temp); // before index of slot before myX and myY is updated
 		int tempX = myX;
 		int tempY = myY;
 		myX = getX();
 		myY = getY();
 		int slotNumber = inSlot(temp);
+		Ladang l = p.getLadang();
+		Deck deckAktif = p.getDeckAktif();
+
 		if(temp.get(slotNumber).getOccupied()) {
 			System.out.println("aaaaaaaaaaaaaaaa");
 		}
-		System.out.println(slotNumber);
+		System.out.println("Prev Slot: "+prevSlot+"\nNow Slot: "+slotNumber);
+		if (temp.get(prevSlot).isLadang() && !temp.get(slotNumber).isLadang()) {
+			System.out.println("Gk bisa masuk hand lagi");
+			setLocation(tempX, tempY);
+			myX = tempX;
+			myY = tempY;
+			return;
+		}
+
 		if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
-			if (temp.get(slotNumber).isLadang())
-				l.addMakhluk(thisCard.getIsi(), new Point((slotNumber - 6) % 5, (int) ((slotNumber - 6) / 5))) ;
+			if (temp.get(slotNumber).isLadang()) {
+				if (thisCard.getIsi() instanceof Makhluk) {
+					// System.out.println("EYA");
+					l.addMakhluk(thisCard.getIsi(), new Point(slotNumber % 5, (int) (slotNumber / 5)));
+					System.out.println("masuk ladang");
+					System.out.println(l.getTotalMakhluk());
+				} else {
+					// System.out.println("ATA");
+					setLocation(tempX, tempY);
+					myX = tempX;
+					myY = tempY;
+					return;
+				}
+			} else {
+				deckAktif.addKartu(thisCard.getIsi());
+			}
+			System.out.println("Prev " + prevSlot);
+			System.out.println("Current " + slotNumber);
+
 			System.out.println("ada dalam slot");
 			myX = temp.get(slotNumber).getSlotX() + 5;// +5 biar goodlooking, dihilangkan bisa tapi ga center
 			myY = temp.get(slotNumber).getSlotY() + 5;
@@ -124,6 +153,21 @@ public class Card extends JComponent {
 			temp.get(slotNumber).setContent(thisCard);
 			if (prevSlot >= 0) {
 				temp.get(prevSlot).setContent(new Card(new ArrayList<>(), new Tumbuhan(), pemilik));
+				if (temp.get(prevSlot).isLadang()) {
+					l.addMakhluk(new Tumbuhan(), new Point(prevSlot % 5, (int) (prevSlot / 5)));
+				} else {
+					// ArrayList<Holdable> currentCards = GameController.getCurrentPlayer().getDeckAktif().getDeck();
+					// System.out.println("Here 3");
+					// for (Holdable h: currentCards) {
+					// 	System.out.println(h.getNama());
+					// }
+					deckAktif.getDeck().set(25-prevSlot, new Tumbuhan());
+					ArrayList<Holdable> currentCards = GameController.getCurrentPlayer().getDeckAktif().getDeck();
+					System.out.println("Here 2");
+					for (Holdable h: currentCards) {
+						System.out.println(h.getNama());
+					}
+				}
 			}
 		} else if (slotNumber >= 0 && temp.get(slotNumber).getOccupied()) { // Check if slotNumber is valid
 			if (content != temp.get(slotNumber).getContent().getIsi()) {
@@ -323,7 +367,7 @@ public class Card extends JComponent {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				thisCard.insertSlot(pemilik.getLadang());
+				thisCard.insertSlot(pemilik);
 			}
 
 			@Override

@@ -67,16 +67,85 @@ public class Screen {
 	public static boolean getTheresAWindow() {
 		return theresAwindow;
 	}
+	public void setCardDeck(boolean currentPlayer) {
+		Player current;
+		if (currentPlayer) {
+			current = GameController.getCurrentPlayer();
+		} else {
+			current = GameController.getPreviousPlayer();
+		}
+		current = GameController.getCurrentPlayer();
+		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
+
+		for (int j = 0; j < currentCards.size(); j++) {
+			// time setting up											// cards
+			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
+			if (currentCards.get(j).getNama().isEmpty()) continue;
+
+			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
+				for (int i = 0; i < slots.size(); i++) {
+					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
+						// Place the card to unoccupied hand
+						current.kartuAktif.get(j).insertSlot(i);
+						if(!currentPlayer) {
+							current.kartuAktif.get(j).setPunyaLawan();
+						} else {
+							current.kartuAktif.get(j).setPunyaSaya();
+						}
+						f.getContentPane().add(current.kartuAktif.get(j));
+					}
+				}				
+			}else {
+				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
+				if(!currentPlayer) {
+					current.kartuAktif.get(j).setPunyaLawan();
+				} else {
+					current.kartuAktif.get(j).setPunyaSaya();
+				}
+				f.getContentPane().add(current.kartuAktif.get(j));
+			}
+		} 
+	}
+
+	public void setCardLadang(boolean currentPlayer) {
+		Player current;
+		if (currentPlayer) {
+			current = GameController.getCurrentPlayer();
+		} else {
+			current = GameController.getPreviousPlayer();
+		}
+		List<Holdable> currentCards = current.getLadang().getKartu();
+		
+		for (int j = 0; j < currentCards.size(); j++) {
+			// time setting up											// cards
+			Card newCard = new Card(slots, currentCards.get(j), current);
+			if (currentCards.get(j).getNama().isEmpty()) continue;
+
+			newCard.insertSlot(j);
+			if(!currentPlayer) {
+				newCard.setPunyaLawan();
+			} else {
+				newCard.setPunyaSaya();
+			}
+			f.getContentPane().add(newCard);			
+		}
+	}
 
 	public void setCards(Integer idx,boolean punyaLawan) {
 		Player current = GameController.getCurrentPlayer();
 		Deck deckAktif = current.getDeckAktif();
 		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
+		System.out.println("Here");
+		for (Holdable h: currentCards) {
+			System.out.println(h.getNama());
+		}
 		System.out.println(currentCards);
 		System.out.println(deckAktif.getJumlahKartu());
 		for (int j = 0; j < currentCards.size(); j++) {
 			// time setting up											// cards
 			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
+			if (currentCards.get(j).getNama().isEmpty()) continue;
+
 			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
 				for (int i = 0; i < slots.size(); i++) {
 					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
@@ -133,6 +202,14 @@ public class Screen {
 	}
 
 	public void clearCards() {
+		ArrayList<Holdable> deckAktif = GameController.getCurrentPlayer().getDeckAktif().getDeck();
+		deckAktif.removeIf(h -> h.getNama().equals(""));
+		System.out.println("Test here");
+		for (Holdable h: deckAktif) {
+			System.out.println(h.getNama());
+		}
+
+		GameController.getCurrentPlayer().kartuAktif.clear();
         Component[] components = f.getContentPane().getComponents();
 
         for (Component component : components) {
@@ -197,13 +274,6 @@ public class Screen {
 		Slot tangan6 = new Slot(865, 810, false);
 		tangan6.setBounds(865, 810, 110, 160);
 		f.getContentPane().add(tangan6);
-
-		slots.add(tangan1);
-		slots.add(tangan2);
-		slots.add(tangan3);
-		slots.add(tangan4);
-		slots.add(tangan5);
-		slots.add(tangan6);
 
 		// testing purpose
 //	    foo example1 = new foo();
@@ -283,10 +353,11 @@ public class Screen {
 		Ladang4_1.setBounds(10, 592, 110, 160);
 		f.getContentPane().add(Ladang4_1);
 
-		slots.add(Ladang1_4);
+		
 		slots.add(Ladang1_1);
 		slots.add(Ladang1_2);
 		slots.add(Ladang1_3);
+		slots.add(Ladang1_4);
 		slots.add(Ladang1_5);
 		slots.add(Ladang2_1);
 		slots.add(Ladang2_2);
@@ -303,6 +374,13 @@ public class Screen {
 		slots.add(Ladang4_3);
 		slots.add(Ladang4_4);
 		slots.add(Ladang4_5);
+
+		slots.add(tangan1);
+		slots.add(tangan2);
+		slots.add(tangan3);
+		slots.add(tangan4);
+		slots.add(tangan5);
+		slots.add(tangan6);
 
 		JButton TokoButton = new JButton("Toko");
 		TokoButton.addActionListener(new ActionListener() {
@@ -325,12 +403,18 @@ public class Screen {
 		ActionListener actionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				clearCards();
+				// clearCards();
 				Integer turn = GameController.getTurn();
+				GameController.getCurrentPlayer().kartuAktif.clear();
+				clearCards();
 				if(ladangkuButton.isSelected()) {
-					setCards((turn)%2,false);
+					// setCards((turn)%2,false);
+					setCardDeck(true);
+					setCardLadang(true);
 				} else {
-					setCards2((turn+1)%2,true);
+					setCardDeck(true);
+					setCardLadang(false);
+					// setCards2((turn+1)%2,true);
 //					for(int i=0;i<slots.size();i++) {
 //						if(slots.get(i).isLadang()) {
 //							slots.get(i).occupied = true;
@@ -387,7 +471,9 @@ public class Screen {
 				clearCards();
 				LoadFrame loadFrame = new LoadFrame(f, supportedExtensions);
 				Integer turn = GameController.getTurn();
-				setCards(turn%2,false);
+				// setCards(turn%2,false);
+				setCardDeck(true);
+				setCardLadang(true);
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
 				deck.setText("DECK ("+String.valueOf(GameController.getCurrentCardCount())+"/40)");
@@ -440,7 +526,6 @@ public class Screen {
 		JButton nextButton = new JButton("NEXT");
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameController.getCurrentPlayer().kartuAktif.clear();
 				clearCards();
 				GameController.next();
 				// showShuffleWindow();
@@ -454,15 +539,21 @@ public class Screen {
 				if (GameController.getCurrentPlayer().getActiveCardCount() < 6) {
 					ShuffleDialog dialog = new ShuffleDialog(frame, GameController.getCurrentPlayer());
 				} 
-				setCards(turn%2,false);
+				Integer turn = GameController.getTurn();
+				// setCards(turn%2,false);
+				setCardDeck(true);
+				setCardLadang(true);
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
+
 			}
 		});
 		nextButton.setBounds(875, 228, 143, 53);
 		f.getContentPane().add(nextButton);
 
-		setCards(0,false);
+		// setCards(0,false);
+		setCardDeck(true);
+		setCardLadang(true);
 
 //	    Slot Ladang2_1 = new Slot(0, 400, false);
 //	    Ladang2_1.setBounds(10, 261, 110, 160);

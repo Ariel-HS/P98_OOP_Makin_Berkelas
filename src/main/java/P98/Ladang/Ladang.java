@@ -48,4 +48,14 @@ public class Ladang {
         addMakhluk(new Tumbuhan(), coor);
         return hasilPanen;
     }
+
+    public int getTotalMakhluk() {
+        int cnt = 0;
+        for (Holdable h : kartu) {
+            if (!h.getNama().isEmpty())
+                cnt++;
+        }
+
+        return cnt;
+    }
 }

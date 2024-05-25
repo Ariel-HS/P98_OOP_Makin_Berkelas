@@ -84,16 +84,16 @@ public class GameController {
 
             Scanner produkScanner = new Scanner(produkConfig);
             int nProduk = Integer.valueOf(produkScanner.nextLine());
-            System.out.println(nProduk);
+            // System.out.println(nProduk);
             for (int i=0; i<nProduk; i++) {
                 String nama = produkScanner.nextLine();
-                System.out.println(nama);
+                // System.out.println(nama);
                 String jenis = produkScanner.nextLine();
-                System.out.println(jenis);
+                // System.out.println(jenis);
                 Integer harga = Integer.valueOf(produkScanner.nextLine());
-                System.out.println(harga);
+                // System.out.println(harga);
                 Integer bobot = Integer.valueOf(produkScanner.nextLine());
-                System.out.println(bobot);
+                // System.out.println(bobot);
 
                 Produk produk;
                 if (jenis.equals("Hewan")) {
@@ -111,12 +111,12 @@ public class GameController {
 
             Scanner hewanScanner = new Scanner(hewanConfig);
             int nHewan = Integer.valueOf(hewanScanner.nextLine());
-            System.out.println(nHewan);
+            // System.out.println(nHewan);
             for (int i=0; i<nHewan; i++) {
                 String nama = hewanScanner.nextLine();
-                System.out.println(nama);
+                // System.out.println(nama);
                 String jenis = hewanScanner.nextLine();
-                System.out.println(jenis);
+                // System.out.println(jenis);
                 String produk = hewanScanner.nextLine();
                 System.out.println(produk);
                 Produk produkHewan = listProduk.stream().filter((p -> p.getNama().equals(produk))) // asumsi tipe sesuai
@@ -126,7 +126,7 @@ public class GameController {
                     throw new Exception("Produk untuk hewan not found");
                 }
                 Integer batasPanen = Integer.valueOf(hewanScanner.nextLine());
-                System.out.println(batasPanen);
+                // System.out.println(batasPanen);
                 
                 Hewan hewan;
                 if (jenis.equals("Karnivora")) {
@@ -146,10 +146,10 @@ public class GameController {
             
             Scanner tumbuhanScanner = new Scanner(tumbuhanConfig);
             int nTumbuhan = Integer.valueOf(tumbuhanScanner.nextLine());
-            System.out.println(nTumbuhan);
+            // System.out.println(nTumbuhan);
             for (int i=0; i<nTumbuhan; i++) {
                 String nama = tumbuhanScanner.nextLine();
-                System.out.println(nama);
+                // System.out.println(nama);
                 String produk = tumbuhanScanner.nextLine();
                 System.out.println(produk);
                 Produk produkTumbuhan = listProduk.stream().filter((p -> p.getNama().equals(produk))) // asumsi tipe sesuai
@@ -159,7 +159,7 @@ public class GameController {
                     throw new Exception("Produk untuk tumbuhan not found");
                 }
                 Integer batasPanen = Integer.valueOf(tumbuhanScanner.nextLine());
-                System.out.println(batasPanen);
+                // System.out.println(batasPanen);
                 
                 Tumbuhan tumbuhan = new Tumbuhan(nama, 0, 0, 0, batasPanen, produkTumbuhan);
 
