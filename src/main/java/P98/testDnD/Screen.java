@@ -196,24 +196,25 @@ public class Screen {
 	private void initialize() {
 		// initialize game controller
 		GameController.loadConfig();
+		List<JButton> listButt = new ArrayList<JButton>();
 
 		// by doing this, we prevent Swing from resizing
 		// our nice component
 		slots = new ArrayList<Slot>();
 		f.getContentPane().setLayout(null);
-		Slot Ladang1_4 = new Slot(508, 49, true);
-		Ladang1_4.setLocation(508, 49);
 		Slot Ladang1_1 = new Slot(10, 49, true);
 		Ladang1_1.setLocation(10, 49);
 		Slot Ladang1_2 = new Slot(171, 49, true);
 		Ladang1_2.setLocation(171, 49);
-
-		Slot Ladang1_3 = new Slot(344, 49, true);
-		Ladang1_3.setLocation(344, 49);
+		
+		Slot Ladang1_3 = new Slot(332, 49, true);
+		Ladang1_3.setLocation(332, 49);
 		f.getContentPane().add(Ladang1_3);
+		Slot Ladang1_4 = new Slot(493, 49, true);
+		Ladang1_4.setLocation(493, 49);
 
-		Slot Ladang1_5 = new Slot(686, 49, true);
-		Ladang1_5.setLocation(686, 49);
+		Slot Ladang1_5 = new Slot(654, 49, true);
+		Ladang1_5.setLocation(654, 49);
 		f.getContentPane().add(Ladang1_5);
 
 		Slot tangan1 = new Slot(10, 810, false);
@@ -224,20 +225,24 @@ public class Screen {
 		tangan2.setBounds(171, 810, 110, 160);
 		f.getContentPane().add(tangan2);
 
-		Slot tangan3 = new Slot(344, 810, false);
-		tangan3.setBounds(344, 810, 110, 160);
+		Slot tangan3 = new Slot(332, 810, false);
+		tangan3.setBounds(332, 810, 110, 160);
 		f.getContentPane().add(tangan3);
 
-		Slot tangan4 = new Slot(508, 810, false);
-		tangan4.setBounds(508, 810, 110, 160);
+		Slot tangan4 = new Slot(493, 810, false);
+		tangan4.setBounds(493, 810, 110, 160);
 		f.getContentPane().add(tangan4);
+		
+		f.getContentPane().add(Ladang1_4);
+		f.getContentPane().add(Ladang1_1);
+		f.getContentPane().add(Ladang1_2);
 
-		Slot tangan5 = new Slot(686, 810, false);
-		tangan5.setBounds(686, 810, 110, 160);
+		Slot tangan5 = new Slot(654, 810, false);
+		tangan5.setBounds(654, 810, 110, 160);
 		f.getContentPane().add(tangan5);
 
-		Slot tangan6 = new Slot(865, 810, false);
-		tangan6.setBounds(865, 810, 110, 160);
+		Slot tangan6 = new Slot(815, 810, false);
+		tangan6.setBounds(815, 810, 110, 160);
 		f.getContentPane().add(tangan6);
 
 		// testing purpose
@@ -254,9 +259,6 @@ public class Screen {
 //	    
 //	    f.getContentPane().add(mc);
 //	    f.getContentPane().add(mc2);
-		f.getContentPane().add(Ladang1_4);
-		f.getContentPane().add(Ladang1_1);
-		f.getContentPane().add(Ladang1_2);
 
 		Slot Ladang2_1 = new Slot(10, 230, true);
 		Ladang2_1.setBounds(10, 230, 110, 160);
@@ -266,16 +268,16 @@ public class Screen {
 		Ladang2_2.setBounds(171, 230, 110, 160);
 		f.getContentPane().add(Ladang2_2);
 
-		Slot Ladang2_3 = new Slot(344, 230, true);
-		Ladang2_3.setBounds(344, 230, 110, 160);
+		Slot Ladang2_3 = new Slot(332, 230, true);
+		Ladang2_3.setBounds(332, 230, 110, 160);
 		f.getContentPane().add(Ladang2_3);
 
-		Slot Ladang2_4 = new Slot(508, 230, true);
-		Ladang2_4.setBounds(508, 230, 110, 160);
+		Slot Ladang2_4 = new Slot(493, 230, true);
+		Ladang2_4.setBounds(493, 230, 110, 160);
 		f.getContentPane().add(Ladang2_4);
 
-		Slot Ladang2_5 = new Slot(686, 230, true);
-		Ladang2_5.setBounds(686, 230, 110, 160);
+		Slot Ladang2_5 = new Slot(654, 230, true);
+		Ladang2_5.setBounds(654, 230, 110, 160);
 		f.getContentPane().add(Ladang2_5);
 
 		Slot Ladang3_1 = new Slot(10, 411, true);
@@ -286,28 +288,28 @@ public class Screen {
 		Ladang3_2.setBounds(171, 411, 110, 160);
 		f.getContentPane().add(Ladang3_2);
 
-		Slot Ladang3_3 = new Slot(344, 411, true);
-		Ladang3_3.setBounds(344, 411, 110, 160);
+		Slot Ladang3_3 = new Slot(332, 411, true);
+		Ladang3_3.setBounds(332, 411, 110, 160);
 		f.getContentPane().add(Ladang3_3);
 
-		Slot Ladang3_4 = new Slot(508, 411, true);
-		Ladang3_4.setBounds(508, 411, 110, 160);
+		Slot Ladang3_4 = new Slot(493, 411, true);
+		Ladang3_4.setBounds(493, 411, 110, 160);
 		f.getContentPane().add(Ladang3_4);
 
-		Slot Ladang3_5 = new Slot(686, 411, true);
-		Ladang3_5.setBounds(686, 411, 110, 160);
+		Slot Ladang3_5 = new Slot(654, 411, true);
+		Ladang3_5.setBounds(654, 411, 110, 160);
 		f.getContentPane().add(Ladang3_5);
 
-		Slot Ladang4_5 = new Slot(686, 592, true);
-		Ladang4_5.setBounds(686, 592, 110, 160);
+		Slot Ladang4_5 = new Slot(654, 592, true);
+		Ladang4_5.setBounds(654, 592, 110, 160);
 		f.getContentPane().add(Ladang4_5);
 
-		Slot Ladang4_4 = new Slot(508, 592, true);
-		Ladang4_4.setBounds(508, 592, 110, 160);
+		Slot Ladang4_4 = new Slot(493, 592, true);
+		Ladang4_4.setBounds(493, 592, 110, 160);
 		f.getContentPane().add(Ladang4_4);
 
-		Slot Ladang4_3 = new Slot(344, 592, true);
-		Ladang4_3.setBounds(344, 592, 110, 160);
+		Slot Ladang4_3 = new Slot(332, 592, true);
+		Ladang4_3.setBounds(332, 592, 110, 160);
 		f.getContentPane().add(Ladang4_3);
 
 		Slot Ladang4_2 = new Slot(171, 592, true);
@@ -388,6 +390,7 @@ public class Screen {
 		G.add(LadangLawanButton);
 
 		JButton SaveButton = new JButton("Save State");
+		listButt.add(SaveButton);
 		SaveButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			SaveFrame saveFrame = new SaveFrame(f, supportedExtensions);
@@ -407,6 +410,7 @@ public class Screen {
 		f.getContentPane().add(turnCountLable);
 
 		JButton deck = new JButton("DECK (cur/max)");
+		listButt.add(deck);
 		deck.setBounds(1134, 844, 203, 109);
 		f.getContentPane().add(deck);
 
@@ -421,6 +425,7 @@ public class Screen {
 		f.getContentPane().add(p2gulden);
 
 		JButton LoadButton = new JButton("Load State");
+		listButt.add(LoadButton);
 		LoadButton.setBounds(1204, 467, 143, 53);
 		f.getContentPane().add(LoadButton);
 		LoadButton.addActionListener(new ActionListener() {
@@ -482,7 +487,9 @@ public class Screen {
 		f.getContentPane().add(player2label);
 
 		JButton nextButton = new JButton("NEXT");
+		listButt.add(nextButton);
 		nextButton.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				clearCards();
 				GameController.next();
@@ -503,7 +510,21 @@ public class Screen {
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
 
+				for (JButton butt : listButt) {
+					System.out.println(butt);
+					butt.setEnabled(false);
+				}
+				GameController.tahapSeranganBeruang(f);
+				
+				clearCards();
+				setCardDeck(true);
+				setCardLadang(true);
+				System.out.println("butt");
+				for (JButton butt : listButt) {
+					butt.setEnabled(true);
+				}
 			}
+
 		});
 		nextButton.setBounds(875, 228, 143, 53);
 		f.getContentPane().add(nextButton);

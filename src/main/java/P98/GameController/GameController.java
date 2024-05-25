@@ -4,6 +4,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.awt.Point;
 import java.awt.image.AreaAveragingScaleFilter;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URL;
@@ -29,13 +32,18 @@ import P98.Makhluk.Hewan.*;
 import P98.Makhluk.Tumbuhan.*;
 import P98.Produk.*;
 import P98.Toko.Toko;
+import P98.SeranganBeruang.SeranganBeruang;
+import P98.testDnD.Screen;
 import P98.Player.*;
 import P98.Item.*;
 import P98.Ladang.Ladang;
 import P98.App;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.Timer;
 
 public class GameController {
     private static Integer turnNumber = 1;
@@ -244,6 +252,55 @@ public class GameController {
 
     public static void bukaToko() {
         // GUI Stuff
+    }
+
+    private final static Object lock = new Object();
+    public static void tahapSeranganBeruang(JFrame frame) {
+        SeranganBeruang obj = new SeranganBeruang(currentPlayer.getLadang(), lock);
+        obj.start();
+        synchronized (lock) {
+            try {
+        for (int i = 0; i < 6; i++) {
+            frame.getContentPane().add(obj.getFrame(i));
+            System.out.println(obj.getFrame(i));
+        }
+        frame.repaint();
+
+                String temp = "Ladang anda diserang! Waktu tersisa: ";
+                JLabel text = new JLabel(temp + obj.getTimeLeft().toString());
+                text.setFont(new Font("Tahoma", Font.PLAIN, 22));
+                text.setBounds(10, 10, 500, 50);
+                frame.getContentPane().add(text);
+        
+                Timer timer = new Timer(100, new ActionListener() { // Update every 100 milliseconds
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (!obj.isAlive()) {
+                            text.setText("Serangan selesai!");
+                            ((Timer) e.getSource()).stop();
+                            for (int i = 0; i < 6; i++) {
+                                frame.remove(obj.getFrame(i));
+                            }
+                            if(!obj.startAttack()) {
+                                try {
+                                    currentPlayer.addToDeckAktif(new Omnivora("Beruang", 0, 0, 0, 25, new ProdukHewan("Daging Beruang", currentPlayer, 500, 12), currentPlayer));
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        } else {
+                            text.setText(temp + String.format("%.1f", obj.getTimeLeft()));
+                        }
+                        frame.repaint(); // Ensure the frame is repainted
+                    }
+                });
+                timer.start();
+                System.out.println("done!");
+                lock.wait();                
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
     }
 
     public static void next() {
