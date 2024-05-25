@@ -300,78 +300,6 @@ public class Screen {
 		}
 	}
 
-	public void setCards(Integer idx,boolean punyaLawan) {
-		Player current = GameController.getCurrentPlayer();
-		Deck deckAktif = current.getDeckAktif();
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
-		System.out.println("Here");
-		for (Holdable h: currentCards) {
-			System.out.println(h.getNama());
-		}
-		System.out.println(currentCards);
-		System.out.println(deckAktif.getJumlahKartu());
-		for (int j = 0; j < currentCards.size(); j++) {
-			// time setting up											// cards
-			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
-			if (currentCards.get(j).getNama().isEmpty()) continue;
-
-			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
-				for (int i = 0; i < slots.size(); i++) {
-					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
-						// Place the card to unoccupied hand
-						current.kartuAktif.get(j).insertSlot(i);
-						if(punyaLawan) {
-							current.kartuAktif.get(j).setPunyaLawan();
-						} else {
-							current.kartuAktif.get(j).setPunyaSaya();
-						}
-					}				
-				}else {
-					current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
-					if(punyaLawan) {
-						current.kartuAktif.get(j).setPunyaLawan();
-					} else {
-						current.kartuAktif.get(j).setPunyaSaya();
-					}
-				}				
-			}else {
-				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
-				if(punyaLawan) {
-					current.kartuAktif.get(j).setPunyaLawan();
-				} else {
-					current.kartuAktif.get(j).setPunyaSaya();
-				}
-			} 
-	}
-	
-	public void setCards2(Integer idx,boolean punyaLawan) {
-		Player current = GameController.getCurrentPlayer();
-		Player previous = GameController.getPreviousPlayer();
-		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
-		
-		ArrayList<Holdable> previousCards = previous.getDeckAktif().getDeck();
-		for (int j = 0; j < currentCards.size(); j++) {// cards
-			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
-			if(current.kartuAktif.get(j).getPrevPosIdx()!= 999 && current.kartuAktif.get(j).isinLadang()) {
-				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
-				current.kartuAktif.get(j).setPunyaLawan();
-				f.getContentPane().add(current.kartuAktif.get(j));
-				System.out.println("masuk sono");
-			}
-		}
-		for (int j = 0; j < previousCards.size(); j++) {																// cards
-			previous.kartuAktif.add(new Card(slots, previousCards.get(j), previous));
-			if(!previous.kartuAktif.get(j).isinLadang()) {
-				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx(), current.getLadang());
-				//previous.kartuAktif.get(j).intersectOccupation(current.kartuAktif.get(0).getTemp());
-				
-				previous.kartuAktif.get(j).setPunyaSaya();
-				f.getContentPane().add(previous.kartuAktif.get(j));
-				System.out.println("masuk sono");
-			}
-	}
-	}
-
 	public void clearCards() {
 		ArrayList<Holdable> deckAktif = GameController.getCurrentPlayer().getDeckAktif().getDeck();
 		deckAktif.removeIf(h -> h.getNama().equals(""));
@@ -766,7 +694,8 @@ public class Screen {
 //		f.getContentPane().add(kartuBe);
 
 		ShuffleDialog dialog = new ShuffleDialog(frame, GameController.getCurrentPlayer());
-		setCards(1,false);
+		setCardDeck(true);
+		setCardLadang(true);
 		ladangkuButton.setSelected(true);
 	}
 
