@@ -56,4 +56,7 @@ public class Deck {
     public ArrayList<Holdable> getDeck() { // for testing purposes only
         return this.kartu;
     }
+    public void removeKartu(int idx) {
+        this.kartu.remove(idx);
+    }
 }

@@ -32,8 +32,9 @@ public class Tumbuhan extends Makhluk {
         return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 
-    public void makan(Produk p) {
-        //
+    public boolean makan(Produk p) {
+        return false;
+    	//
     }
 
     public void interact(Holdable m) {

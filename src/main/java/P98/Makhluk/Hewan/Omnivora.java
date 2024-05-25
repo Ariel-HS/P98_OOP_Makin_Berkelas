@@ -22,10 +22,13 @@ public class Omnivora extends Hewan {
         this(other.getNama(), other.getBatasPanen(), other.getBatasPanen(), other.getUnitPanen(), other.getBatasPanen(), other.harvest(), other.getPemilik());
     }
     
-    public void makan(Produk p) {
+    public boolean makan(Produk p) {
         if (p.tryEat("Omnivora")) {
             setUnitPanen(getUnitPanen() + p.getBobot());
             setUnitAsli(getUnitAsli() + p.getBobot());
+            return true;
+        }else {
+        	return false;
         }
     }
 

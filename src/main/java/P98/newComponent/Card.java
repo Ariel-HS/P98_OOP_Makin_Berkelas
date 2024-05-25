@@ -1,5 +1,5 @@
 package P98.newComponent;
-
+import P98.Item.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -11,11 +11,13 @@ import P98.testDnD.Screen;
 import P98.Deck.Deck;
 import P98.GameController.GameController;
 import P98.Interface.*;
+import P98.Item.Item;
 import P98.Ladang.Ladang;
 import P98.Makhluk.Makhluk;
 import P98.Makhluk.Hewan.Hewan;
 import P98.Makhluk.Tumbuhan.Tumbuhan;
 import P98.Player.*;
+import P98.Produk.*;
 
 public class Card extends JComponent {
 
@@ -202,10 +204,8 @@ public class Card extends JComponent {
 	}
 
 	private void showWindow() {
-		System.out.println("mhehe");
-		if (!Screen.getTheresAWindow() && content instanceof Makhluk) {
-			System.out.println("halohai");
-			System.out.println(content.getNama());
+		if (!Screen.getTheresAWindow() ) {
+			if(content instanceof Makhluk) {
 			Makhluk m = (Makhluk) content;
 			Screen.setTheresAWindow(true);
 			JFrame frame = new JFrame("New Window");
@@ -223,7 +223,6 @@ public class Card extends JComponent {
 			nameOfContent.setFont(new Font("Serif", Font.BOLD, 56));
 			nameOfContent.setBounds(300, 20, 700, 80);
 			frame.add(nameOfContent);
-			JLabel gambar = new JLabel();
 			
 			StringBuilder firstField = new StringBuilder();
 			if (content instanceof Tumbuhan) {
@@ -252,9 +251,122 @@ public class Card extends JComponent {
 			field2Label.setFont(new Font("Serif", Font.BOLD, 30));
 			field2Label.setBounds(20, 170, 600, 40);
 			frame.add(field2Label);
-
+			//gambar
+			JLabel gambar = new JLabel();
+			gambar.setBounds(500, 75, 200, 200);
+			ImageIcon icon= new ImageIcon(this.image.getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+			gambar.setIcon(icon);
+			frame.add(gambar);
+			
+			JButton harvestButton = new JButton("Harvest");
+			harvestButton.setFont(new Font("Serif", Font.BOLD, 15));
+			harvestButton.setBounds(350,250,100,50);
+			final Integer currentX = myX;
+			final Integer currentY = myY;
+			
+			harvestButton.addActionListener(new ActionListener() {
+			      @Override
+			      public void actionPerformed(ActionEvent e) {
+			        try {
+			        	Integer idxOfLadang = getIndexofCardinLadang();
+			        	Produk harvested = content.getPemilik().getLadang().harvest(idxOfLadang);
+			        	System.out.println(harvested.getNama());
+			        	content.getPemilik().addToDeckAktif(harvested);
+			            frame.dispose();
+			            thisCard.setVisible(false);
+			            content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
+			            
+			        } catch (Exception excep) {
+			        	JOptionPane.showMessageDialog(null,excep.toString());
+			        }
+			      }
+			    });			
+			
+			frame.add(harvestButton);
 			frame.setVisible(true);
+			} 
+		else if (content instanceof Produk || content instanceof Item) {
+
+				// pilih holdable yang ingin dipilih
+				Screen.setTheresAWindow(true);
+				JFrame frame = new JFrame("New Window");
+				frame.setSize(800, 400);
+				frame.setResizable(false);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent e) {
+						Screen.setTheresAWindow(false);
+					}
+				});
+				frame.setLayout(null); // Use absolute positioning
+				JLabel nameOfContent = new JLabel(this.content.getNama());
+				nameOfContent.setFont(new Font("Serif", Font.BOLD, 56));
+				nameOfContent.setBounds(300, 20, 700, 80);
+				frame.add(nameOfContent);
+				Integer idx =0;
+				Integer forPositionX = 0;
+				Integer forPositionY = 0;
+				while (idx <temp.size()) {
+					Integer yValue = 40 * forPositionY ;
+					for(int j=0;j<5;j++) {
+						if(idx<temp.size()) {
+						if(temp.get(idx).getContent()!=null) {
+							if(temp.get(idx).getContent().isinLadang()) {
+								Integer xValue = 160 * forPositionX;
+								final Integer finalIdx = idx;
+								JButton pilihanButton = new JButton(temp.get(idx).getContent().getIsi().getNama());
+								pilihanButton.setFont(new Font("Serif", Font.BOLD, 15));
+								pilihanButton.setBounds(xValue, yValue, 150, 40);
+						          pilihanButton.addActionListener(new ActionListener() {
+						              @Override
+						              public void actionPerformed(ActionEvent e) {
+						                try {
+						                  content.interact(temp.get(finalIdx).getContent().getIsi());
+							                frame.dispose();
+							                thisCard.setVisible(false);
+							                content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
+						                } catch (Exception excep) {
+						                	JOptionPane.showMessageDialog(null,excep.toString());
+						                }
+						              }
+						            });
+						            frame.add(pilihanButton);
+								forPositionX++;
+							}
+						}
+						}
+						idx++;
+					}
+					forPositionX = 0;
+					forPositionY++;
+				}
+
+				
+				frame.setVisible(true);
+				
+			}
 		}
+	}
+	
+	public Integer getIndexofCardinPlayer() {
+		Integer retval = -999;
+		for(int i=0;i<content.getPemilik().getDeckAktif().getDeck().size();i++) {
+			if(content.getPemilik().getDeckAktif().getDeck().get(i)==content) {
+				return i;
+			}
+		}
+		return retval;
+	}
+	
+	public Integer getIndexofCardinLadang() {
+		Integer retval = -999;
+		for(int i=0;i<content.getPemilik().getLadang().getKartu().size();i++) {
+			if(content.getPemilik().getLadang().getKartu().get(i)==content) {
+				return i;
+			}
+		}		
+		return retval;
 	}
 	
 	public void intersectOccupation(ArrayList<Slot> otherTemp) {

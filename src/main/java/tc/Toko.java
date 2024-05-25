@@ -1,19 +1,15 @@
-package P98.Toko;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import P98.Exception.TokoNoProdukException;
-import P98.Produk.Produk;
-
+package tc;
+import java.util.*;
 public class Toko {
     private List<Pair<Produk,Integer>> itemList;
 
     public Toko() {
         itemList = new ArrayList<>();
     }
-
-    public List<Pair<Produk,Integer>> getItemList() { return itemList; }
+    
+    public List<Pair<Produk,Integer>> getItemList(){
+    	return itemList;
+    }
 
     public void sellProduk(Produk p) {
         boolean found = false;
@@ -27,12 +23,12 @@ public class Toko {
         }
 
         if (!found) {
-            itemList.add(new Pair<Produk,Integer>(p.turnToProduk(), 0));
+            itemList.add(new Pair<Produk,Integer>(p, 0)); // turn to produk dihapus sementara
         }
     }
 
-    public void buyProduk(Produk p) throws TokoNoProdukException {
-        boolean found = false;
+    public void buyProduk(Produk p){ // exception handling dihapus sementara, found dicomment
+        //boolean found = false;
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).getFirst().equals(p)) {
                 Pair<Produk,Integer> item = itemList.get(i);
@@ -42,12 +38,8 @@ public class Toko {
                     itemList.remove(i);
                 }
 
-                found = true;
+                //found = true;
             }
-        }
-
-        if (!found) {
-            throw new TokoNoProdukException(p.getNama());
         }
     }
 }

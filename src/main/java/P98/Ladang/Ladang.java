@@ -58,4 +58,16 @@ public class Ladang {
 
         return cnt;
     }
+    
+    public Produk harvest(Integer idx) throws BelumSiapException {
+        Holdable harvested = kartu.get(idx);
+        Produk hasilPanen = new ProdukTumbuhan();
+        if (harvested instanceof Makhluk) {
+            Makhluk m = (Makhluk) harvested;
+            if (!m.siapPanen()) throw new BelumSiapException();
+            hasilPanen = m.harvest();
+        }
+        kartu.set(idx, new Tumbuhan());
+        return hasilPanen;
+    }
 }

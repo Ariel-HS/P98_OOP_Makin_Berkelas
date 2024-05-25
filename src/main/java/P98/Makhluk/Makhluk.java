@@ -1,5 +1,6 @@
 package P98.Makhluk;
 
+import P98.Exception.GaBisaMakanException;
 import P98.Interface.*;
 import P98.Item.*;
 import P98.Player.Player;
@@ -94,6 +95,6 @@ public abstract class Makhluk implements Holdable {
     public boolean siapPanen() { return unitPanen >= batasPanen; }
 
     abstract public void nextTurn();
-    abstract public void makan(Produk p);
+    abstract public boolean makan(Produk p);
     abstract public Makhluk turnToMakhluk();
 }
