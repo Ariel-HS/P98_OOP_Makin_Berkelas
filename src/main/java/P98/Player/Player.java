@@ -99,6 +99,16 @@ public class Player {
             }
         }
     }
+
+    public Integer isInKartuAktif(Holdable h) {
+        for (int i = 0; i < kartuAktif.size(); i++) {
+            if (kartuAktif.get(i).getIsi() == h) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public ArrayList<Holdable> getTopDeck() {
         Integer numKartu = 4;
         if (this.deck.getJumlahKartu() <= 5) {

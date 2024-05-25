@@ -1,9 +1,13 @@
 package P98.newComponent;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.border.LineBorder;
+
+import P98.Makhluk.Tumbuhan.Tumbuhan;
+import P98.Player.Player;
 
 
 public class Slot extends JComponent {
@@ -21,6 +25,8 @@ public class Slot extends JComponent {
 		screenX = x;
 		screenY = y;
 		special = Special;
+		setContent(new Card(new ArrayList<Slot>(), new Tumbuhan(), new Player()));
+		changeOccupied();
 		if(!special) {
 		    setBorder(new LineBorder(Color.RED, 3));
 		    setBackground(Color.RED);}

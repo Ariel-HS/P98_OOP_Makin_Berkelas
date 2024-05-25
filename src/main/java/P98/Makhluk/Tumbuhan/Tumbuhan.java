@@ -15,7 +15,7 @@ public class Tumbuhan extends Makhluk {
 
     public Tumbuhan(Tumbuhan other) {
         this(other.getNama(), other.getPos().x, other.getPos().y, other.getUnitPanen(),
-             other.getBatasPanen(), other.harvest(), other.getPemilik());
+             other.getBatasPanen(), set.harvest(), other.getPemilik());
     }
 
     public void nextTurn() {
