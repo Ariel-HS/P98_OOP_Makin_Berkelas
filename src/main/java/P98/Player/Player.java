@@ -50,6 +50,10 @@ public class Player {
     public void jual(Produk p, int index) {
         setGulden(gulden + p.getHarga());
         removeFromDeckAktif(index);
+        ArrayList<Holdable> test = this.deckAktif.getCleanDeck();
+        // for (Holdable h:test) {
+        //     System.out.println("TEST: "+h.getNama()+" "+index);
+        // }
     }
 
     public void beli(Produk p) throws UangTidakCukupException, DeckFullException {
@@ -152,9 +156,9 @@ public class Player {
         }
 
         ArrayList<Holdable> drawnKartu = getTopDeck();
-        System.out.println("DRAWWW");
+        // System.out.println("DRAWWW");
         for (Holdable h: drawnKartu) {
-            System.out.println(h.getNama());
+            // System.out.println(h.getNama());
             this.deckAktif.addKartu(h.turnToHoldable(this));
         }
 

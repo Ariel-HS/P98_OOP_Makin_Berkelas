@@ -66,23 +66,21 @@ public class EtalaseToko extends JComponent {
 			image =new ImageIcon(getClass().getResource("/Produk/Daging_Domba.png")).getImage();
 		}else if(this.getNama().equals("Daging Kuda")) {
 			image = new ImageIcon(getClass().getResource("/Produk/Daging_Kuda.png")).getImage();
-		}else if(this.getNama().equals("Pumpkin")) {
+		}else if(this.getNama().equals("Labu")) {
 			image = new ImageIcon(getClass().getResource("/Produk/pumpkin.png")).getImage();
-		} else if(this.getNama().equals("Shark Fin")) {
+		} else if(this.getNama().equals("Sirip Hiu")) {
 			image = new ImageIcon(getClass().getResource("/Produk/shark-fin.png")).getImage();
-		} else if(this.getNama().equals("Strawberry")) {
+		} else if(this.getNama().equals("Stroberi")) {
 			image = new ImageIcon(getClass().getResource("/Produk/strawberry.png")).getImage();
 		} else if(this.getNama().equals("Telur")) {
 			image = new ImageIcon(getClass().getResource("/Produk/telur.png")).getImage();
-		} else if(this.getNama().equals("Corn Seeds")) {
+		} else if(this.getNama().equals("Biji Jagung")) {
 			image = new ImageIcon(getClass().getResource("/Tanaman/corn seeds.png")).getImage();
-		} else if(this.getNama().equals("Pumpkin Seeds")) {
+		} else if(this.getNama().equals("Biji Labu")) {
 			image = new ImageIcon(getClass().getResource("/Tanaman/pumpkin seeds.png")).getImage();
-		} else if(this.getNama().equals("Strawberry Seeds")) {
+		} else if(this.getNama().equals("Biji Stroberi")) {
 			image = new ImageIcon(getClass().getResource("/Tanaman/strawberry seeds.png")).getImage();
-		} else {
-			System.out.println("AAAAAAA"+this.getNama());
-		}
+		} 
 		// lanjutkan nanti
 		// return pathToImage;
 	}

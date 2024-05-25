@@ -568,10 +568,10 @@ public class GameController {
     public static void callDraw() {
         currentPlayer.draw();
         ArrayList<Holdable> deckAktif = currentPlayer.getDeckAktif().getDeck();
-        System.out.println("Deck Aktif draw");
-        for (Holdable h: deckAktif) {
-            System.out.println(h.getNama());
-        }
+        // System.out.println("Deck Aktif draw");
+        // for (Holdable h: deckAktif) {
+        //     System.out.println(h.getNama());
+        // }
     }
 
     public static void callShuffle() {
