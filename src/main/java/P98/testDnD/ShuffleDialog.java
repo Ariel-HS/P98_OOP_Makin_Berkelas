@@ -4,6 +4,10 @@ import P98.GameController.GameController;
 import P98.newComponent.*;
 import P98.Interface.*;
 import P98.Player.*;
+<<<<<<< HEAD
+=======
+import P98.Ladang.*;
+>>>>>>> refactor-banyak
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +17,23 @@ import java.awt.event.ActionEvent;
 
 public class ShuffleDialog extends javax.swing.JDialog {
     private ArrayList<Slot> slots = new ArrayList<Slot>();
+<<<<<<< HEAD
 
     public ShuffleDialog(java.awt.Frame parent) {
+=======
+    private Player pemilik;
+
+    public ShuffleDialog(java.awt.Frame parent, Player pemilik) {
+>>>>>>> refactor-banyak
         super(parent);
         this.setSize(340, 650);
         this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setLayout(null);
+<<<<<<< HEAD
+=======
+        this.pemilik = pemilik;
+>>>>>>> refactor-banyak
 
 		Slot Slot1 = new Slot(30, 30, false);
 		Slot1.setBounds(30, 30, 110, 160);
@@ -86,12 +100,18 @@ public class ShuffleDialog extends javax.swing.JDialog {
     private void showCards() {
         ArrayList<Holdable> cards = GameController.getTopDeck();
         System.out.println("Show cards");
+<<<<<<< HEAD
         for (Holdable c:cards) {
             c.print();
         }
 
         for (int i = 0; i < cards.size(); i++) {
 			Card newCard = new Card(slots, cards.get(i));
+=======
+
+        for (int i = 0; i < cards.size(); i++) {
+			Card newCard = new Card(slots, cards.get(i), pemilik);
+>>>>>>> refactor-banyak
             newCard.setCanMove(false);
             for (int j = 0; j < slots.size(); j++) {
                 if (!slots.get(j).occupied) {

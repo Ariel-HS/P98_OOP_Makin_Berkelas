@@ -1,14 +1,26 @@
 package P98.testDnD;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.HashMap;
 
+=======
+import java.util.List;
+
+import P98.Interface.Holdable;
+import P98.Item.Accelerate;
+import P98.Item.Delay;
+import P98.Ladang.Ladang;
+import P98.Player.Player;
+import P98.Deck.*;
+>>>>>>> refactor-banyak
 import P98.GameController.GameController;
 import P98.newComponent.*;
 import P98.Interface.*;
 import P98.Player.*;
 
 import javax.swing.*;
+<<<<<<< HEAD
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -18,11 +30,35 @@ import java.lang.reflect.*;
 public class Screen {
 
 	public JFrame frame;
+=======
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.*;
+import java.awt.event.ActionEvent;
+
+import P98.Makhluk.Tumbuhan.*;
+import P98.Player.*;
+import P98.Produk.*;
+import P98.Interface.*;
+import P98.Deck.*;
+
+public class Screen {
+
+	private JFrame frame;
+	private ArrayList<Player> testPlayers;
+>>>>>>> refactor-banyak
 	private ArrayList<Slot> slots;
 	private JFrame f = new JFrame("Swing Hello World");
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
+<<<<<<< HEAD
 	private HashMap<String,String> supportedExtensions = new HashMap<>();  
+=======
+	private ArrayList<String> supportedExtensions = new ArrayList<>();  
+>>>>>>> refactor-banyak
 
 	/**
 	 * Launch the application.
@@ -34,6 +70,10 @@ public class Screen {
 				try {
 					Screen window = new Screen();
 					// window.frame.setVisible(true);
+<<<<<<< HEAD
+=======
+					// window.frame.setVisible(true);
+>>>>>>> refactor-banyak
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,8 +85,21 @@ public class Screen {
 	 * Create the application.
 	 */
 	public Screen() {
+<<<<<<< HEAD
 		// cardsInFocus = new ArrayList<Card>();
 		supportedExtensions.put("TXT", "null");
+=======
+		testPlayers = new ArrayList<Player>();
+		Player player1 = new Player(0);
+		Player player2 = new Player(1);
+		testPlayers.add(player1);
+		testPlayers.add(player2);
+	
+
+		//cardsInFocus = player1.kartuAktif;
+		// cardsInFocus = new ArrayList<Card>();
+		supportedExtensions.add("TXT");
+>>>>>>> refactor-banyak
 		initialize();
 	}
 
@@ -59,12 +112,44 @@ public class Screen {
 	}
 
 	public void setCards(Integer idx,boolean punyaLawan) {
+<<<<<<< HEAD
 		Player current = GameController.getCurrentPlayer();
+=======
+		Player current = this.testPlayers.get(idx);
+		System.out.println("ldkjfsldkfj");
+		Deck deckAktif = current.getDeckAktif();
+
+		// HAPUS
+		Accelerate i1 = new Accelerate(current);
+		Accelerate i2 = new Accelerate(current);
+		Delay i3 = new Delay(current);
+		Tumbuhan t1 = new Tumbuhan("Jagung", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		t1.addItem(i1);
+		t1.addItem(i2);
+		t1.addItem(i3);
+		// // for testing
+		try {
+			current.addToDeckAktif(t1);
+			// current.addToDeckAktif(new Acc);
+			// current.addToDeckAktif(new Tumbuhan("Zomm"));
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// deckAktif.addKartu();
+
+		current = GameController.getCurrentPlayer();
+>>>>>>> refactor-banyak
 		ArrayList<Holdable> currentCards = current.getDeckAktif().getDeck();
 		System.out.println(currentCards);
+		System.out.println(deckAktif.getJumlahKartu());
 		for (int j = 0; j < currentCards.size(); j++) {
 			// time setting up											// cards
+<<<<<<< HEAD
 			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
+=======
+			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
+>>>>>>> refactor-banyak
 			if(current.kartuAktif.get(j).getPrevPosIdx()==999) {
 				for (int i = 0; i < slots.size(); i++) {
 					if (!slots.get(i).occupied && !slots.get(i).isLadang()) {
@@ -99,7 +184,11 @@ public class Screen {
 		
 		ArrayList<Holdable> previousCards = previous.getDeckAktif().getDeck();
 		for (int j = 0; j < currentCards.size(); j++) {// cards
+<<<<<<< HEAD
 			current.kartuAktif.add(new Card(slots, currentCards.get(j)));
+=======
+			current.kartuAktif.add(new Card(slots, currentCards.get(j), current));
+>>>>>>> refactor-banyak
 			if(current.kartuAktif.get(j).getPrevPosIdx()!= 999 && current.kartuAktif.get(j).isinLadang()) {
 				current.kartuAktif.get(j).insertSlot(current.kartuAktif.get(j).getPrevPosIdx());
 				current.kartuAktif.get(j).setPunyaLawan();
@@ -108,7 +197,11 @@ public class Screen {
 			}
 		}
 		for (int j = 0; j < previousCards.size(); j++) {																// cards
+<<<<<<< HEAD
 			previous.kartuAktif.add(new Card(slots, previousCards.get(j)));
+=======
+			previous.kartuAktif.add(new Card(slots, previousCards.get(j), previous));
+>>>>>>> refactor-banyak
 			if(!previous.kartuAktif.get(j).isinLadang()) {
 				previous.kartuAktif.get(j).insertSlot(previous.kartuAktif.get(j).getPrevPosIdx());
 				//previous.kartuAktif.get(j).intersectOccupation(current.kartuAktif.get(0).getTemp());
@@ -357,6 +450,207 @@ public class Screen {
 		deck.setBounds(1134, 844, 203, 109);
 		f.getContentPane().add(deck);
 
+<<<<<<< HEAD
+=======
+		JButton LoadButton = new JButton("Load State");
+		LoadButton.setBounds(1204, 467, 143, 53);
+		LoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				f.setEnabled(false);
+				f.setFocusableWindowState(false);
+				JFrame loadFrame = new JFrame();
+				loadFrame.setSize(1440, 1080);
+				
+				// Add title
+				JLabel loadTitle = new JLabel("Load State", SwingConstants.CENTER);
+				loadTitle.setFont(new Font("Tahoma", Font.PLAIN, 30));
+				loadTitle.setBounds(720, 20, 300, 60);
+				loadFrame.setLayout(null);
+				loadFrame.add(loadTitle);
+				
+				JPanel panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+				panel.setBounds(600, 100, 500, 50);
+			
+				// Add combo box
+				JComboBox<String> extOptions = new JComboBox<>();
+				extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				List<String> supportedExtensions = new ArrayList<>();  
+				supportedExtensions.add("TXT");
+				supportedExtensions.add("JSON");
+				supportedExtensions.add("XML");
+			
+				for (String ext : supportedExtensions)
+					extOptions.addItem(ext);
+			
+				JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
+				formatField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				formatField.setBounds((loadFrame.getWidth() / 2) - 0, 20, 300, 60);
+				
+				panel.add(formatField);
+				panel.add(extOptions);
+				loadFrame.add(panel);
+			
+				JPanel panel2 = new JPanel();
+				panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
+				panel2.setBounds(600, 200, 500, 50);
+			
+				// Add folder path
+				JLabel folderField = new JLabel("Folder:", SwingConstants.CENTER);
+				folderField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				folderField.setBounds((loadFrame.getWidth() / 2) - 150, 30, 600, 30);
+				panel2.add(folderField);
+				loadFrame.add(panel2);
+
+				JTextField folderInputField = new JTextField();
+				folderInputField.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				folderInputField.setPreferredSize(new Dimension(300, 30));
+				panel2.add(folderInputField);
+			
+				JButton loadButton = new JButton("Load");
+				loadButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				loadButton.setBounds(600, 300, 500, 50);
+				loadFrame.add(loadButton);
+				loadButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// load folder, throw exception if invalid
+					}
+				});
+
+				JButton exit = new JButton("Keluar");
+				exit.setBounds((loadFrame.getWidth()/2)-50, 600, 100, 30);
+				exit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loadFrame.dispose(); // Close the frame
+					f.setEnabled(true);
+					f.setFocusableWindowState(true);
+				}
+				});
+				loadFrame.add(exit);
+				loadFrame.setVisible(true);
+			}
+		});
+		f.getContentPane().add(LoadButton);
+		LoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCards();
+				LoadFrame loadFrame = new LoadFrame(f, supportedExtensions);
+				Integer turn = GameController.getTurn();
+				setCards(turn%2,false);
+				ladangkuButton.setSelected(true);
+				turnCountLable.setText(String.valueOf(turn));
+				deck.setText("DECK ("+String.valueOf(GameController.getCurrentCardCount())+"/40)");
+			}
+		});
+
+		JButton PluginButton = new JButton("Plugin");
+		PluginButton.addActionListener(new ActionListener() {
+			File selectedFile;
+			public void actionPerformed(ActionEvent e) {
+				f.setEnabled(false);
+				f.setFocusable(false);
+				JFrame plugin_frame = new JFrame("Plugin Frame");
+				plugin_frame.setSize(1440, 1080);
+				plugin_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				plugin_frame.setLayout(null);
+		
+				JLabel heading_plugin = new JLabel("Plugin");
+				heading_plugin.setFont(new Font("Tahoma", Font.PLAIN, 30));
+				heading_plugin.setBounds((plugin_frame.getWidth() / 2) - 50, 20, 100, 60); // Adjusted for better centering
+				plugin_frame.add(heading_plugin);
+		
+				// Create a JPanel for the file plugin part
+				JPanel f_plugin = new JPanel();
+				f_plugin.setLayout(new BoxLayout(f_plugin, BoxLayout.X_AXIS)); // Corrected layout for vertical arrangement
+				f_plugin.setBounds(450, 100, 300, 200); // Set bounds for the JPanel
+		
+				JLabel fileLabel = new JLabel("File Plugin:");
+				fileLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align the label within the JPanel
+		
+				JButton chooseFileButton = new JButton("Choose File");
+				chooseFileButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align the button within the JPanel
+				chooseFileButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JFileChooser fileChooser = new JFileChooser();
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("jar File", "jar");
+						fileChooser.setFileFilter(filter);
+		
+						int result = fileChooser.showOpenDialog(plugin_frame);
+		
+						if (result == JFileChooser.APPROVE_OPTION) {
+							selectedFile = fileChooser.getSelectedFile();
+							fileLabel.setText("File Plugin: " + selectedFile.getName());
+						}
+					}
+				});
+		
+				JButton upload_button = new JButton("Upload");
+				upload_button.setBounds((plugin_frame.getWidth() / 2) - 250, 250, 500, 20);
+		
+				JLabel infoLabel = new JLabel();
+				infoLabel.setBounds((plugin_frame.getWidth() / 2) - 250, 300, 500, 20); // Set bounds below the upload button
+				infoLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+		
+				upload_button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// panggil jar reader
+						if (selectedFile != null) { // jika file valid dan berhasil
+							infoLabel.setText("Plugin file loaded successfully");
+							infoLabel.setForeground(Color.GREEN);
+						} else {
+							infoLabel.setText("Error: File is not a valid jar");
+							infoLabel.setForeground(Color.RED);
+						}
+					}
+				});
+		
+				JButton exit = new JButton("Keluar");
+				exit.setBounds((plugin_frame.getWidth()/2)-50, 600, 100, 30);
+				exit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						plugin_frame.dispose(); // Close the frame
+						f.setEnabled(true);
+						f.setFocusable(true);
+					}
+				});
+
+				
+				f_plugin.add(Box.createVerticalStrut(10));
+				f_plugin.add(chooseFileButton);
+				f_plugin.add(Box.createVerticalStrut(10));
+				f_plugin.add(fileLabel);
+				f_plugin.add(Box.createVerticalStrut(10));
+		
+				// Add the JPanel to the frame
+				plugin_frame.add(f_plugin);
+				plugin_frame.add(upload_button);
+				plugin_frame.add(infoLabel);
+				plugin_frame.add(exit);
+		
+				plugin_frame.setVisible(true);
+			}
+		});
+		PluginButton.setBounds(1204, 565, 143, 53);
+		f.getContentPane().add(PluginButton);
+		PluginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String message = GameController.loadPlugin();
+				JOptionPane.showMessageDialog(PluginButton, message);
+			}
+		});
+
+		JLabel player1label = new JLabel("Player 1 :");
+		player1label.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		player1label.setBounds(866, 302, 111, 39);
+		f.getContentPane().add(player1label);
+
+		JLabel player2label = new JLabel("Player 2 :");
+		player2label.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		player2label.setBounds(865, 383, 111, 39);
+		f.getContentPane().add(player2label);
+
+>>>>>>> refactor-banyak
 		JLabel p1gulden = new JLabel("0000");
 		p1gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		p1gulden.setBounds(976, 308, 77, 27);
@@ -432,6 +726,7 @@ public class Screen {
 				clearCards();
 				GameController.next();
 				// showShuffleWindow();
+<<<<<<< HEAD
 				Integer turn = GameController.getTurn();
 				if (turn > 20) {
 					String pemenenang = GameController.getTopPlayer();
@@ -444,6 +739,16 @@ public class Screen {
 				} 
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);
+=======
+				if (GameController.getCurrentPlayer().getActiveCardCount() < 6) {
+					ShuffleDialog dialog = new ShuffleDialog(frame, GameController.getCurrentPlayer());
+				} 
+				Integer turn = GameController.getTurn();
+				setCards(turn%2,false);
+				ladangkuButton.setSelected(true);
+				testPlayers.get(0).nextTurn();
+				testPlayers.get(1).nextTurn();
+>>>>>>> refactor-banyak
 				turnCountLable.setText(String.valueOf(turn));
 			}
 		});
@@ -482,6 +787,10 @@ public class Screen {
 
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setVisible(true);
+		// foo testBryan = new foo();
+		// Card kartuBe = new Card(slots, testBryan);
+		// kartuBe.insertSlot(11);
+		// f.getContentPane().add(kartuBe);
 //		foo testBryan = new foo();
 //		Card kartuBe = new Card(slots, testBryan);
 //		kartuBe.insertSlot(11);

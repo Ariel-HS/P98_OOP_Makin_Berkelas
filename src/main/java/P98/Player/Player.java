@@ -1,4 +1,5 @@
 package P98.Player;
+<<<<<<< HEAD
 import java.util.*;
 import P98.Produk.*;
 import P98.newComponent.Card;
@@ -7,16 +8,34 @@ import P98.Deck.*;
 import P98.Exception.DeckFullException;
 import P98.Interface.Holdable;
 import P98.Exception.*;
+=======
+import P98.Produk.*;
+import P98.newComponent.Card;
+import P98.Ladang.*;
+import P98.Makhluk.Makhluk;
+
+import java.util.ArrayList;
+
+import P98.Deck.*;
+import P98.Exception.DeckFullException;
+import P98.Interface.Holdable;
+>>>>>>> refactor-banyak
 
 public class Player {
     private Ladang ladang;
     private Integer gulden;
     private Deck deckAktif;
     private Deck deck;
+<<<<<<< HEAD
 
     public ArrayList<Integer> previousPositionX = new ArrayList<>();
 	public ArrayList<Integer> previousPositionY = new ArrayList<>();
     public ArrayList<Card> kartuAktif = new ArrayList<>();
+=======
+	public ArrayList<Integer> previousPositionX = new ArrayList<Integer>();
+	public ArrayList<Integer> previousPositionY = new ArrayList<Integer>();
+	public ArrayList<Card> kartuAktif = new ArrayList<Card>();
+>>>>>>> refactor-banyak
 
     public Player() {
         this.gulden = 0;
@@ -70,6 +89,7 @@ public class Player {
         this.deckAktif.addKartu(kartu);
     }
 
+<<<<<<< HEAD
     public void setDeck(Deck deck) {
         this.deck = deck;
     }
@@ -77,6 +97,15 @@ public class Player {
     public void shuffleDeck() {
         this.deck.shuffleDeck();
     }
+=======
+    public void shuffleDeck() {
+        this.deck.shuffleDeck();
+    }
+    
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+>>>>>>> refactor-banyak
 
     public Deck getDeck() {
         return this.deck;
@@ -86,6 +115,21 @@ public class Player {
         return this.deckAktif;
     }
 
+<<<<<<< HEAD
+=======
+    public Ladang getLadang() {
+        return this.ladang;
+    }
+
+    public void nextTurn() {
+        for (int i = 0; i < ladang.getKartu().size(); i++) {
+            Makhluk m = (Makhluk) ladang.getKartu().get(i);
+            if (m.getUnitAsli() != -1) {
+                m.nextTurn();
+            }
+        }
+    }
+>>>>>>> refactor-banyak
     public ArrayList<Holdable> getTopDeck() {
         Integer numKartu = 4;
         if (this.deck.getJumlahKartu() <= 5) {
@@ -114,8 +158,12 @@ public class Player {
 
         ArrayList<Holdable> drawnKartu = this.deck.getTopKartu(numKartu);
         for (Holdable h: drawnKartu) {
+<<<<<<< HEAD
             this.deckAktif.addKartu(h.turnToHoldable());
             h.print();
+=======
+            this.deckAktif.addKartu(h);
+>>>>>>> refactor-banyak
         }
         this.deck.drawTopKartu(numKartu);
     }
@@ -127,4 +175,8 @@ public class Player {
     public Integer getActiveCardCount() {
         return this.deckAktif.getJumlahKartu();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refactor-banyak

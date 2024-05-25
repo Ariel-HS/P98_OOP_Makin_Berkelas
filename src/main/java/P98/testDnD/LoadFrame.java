@@ -1,10 +1,14 @@
 package P98.testDnD;
 
 import java.io.File;
+<<<<<<< HEAD
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+=======
+import java.util.ArrayList;
+>>>>>>> refactor-banyak
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,13 +21,17 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import P98.GameController.GameController;
+<<<<<<< HEAD
 import P98.Plugin.Plugin;
+=======
+>>>>>>> refactor-banyak
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LoadFrame extends javax.swing.JDialog {
+<<<<<<< HEAD
     private HashMap<String,String> supportedExtensions = new HashMap<>();  
     private File directory;
 
@@ -31,6 +39,15 @@ public class LoadFrame extends javax.swing.JDialog {
         super(parent);
         for (Map.Entry<String,String> entry: extensions.entrySet()) {
             supportedExtensions.put(entry.getKey(), entry.getValue());
+=======
+    private ArrayList<String> supportedExtensions = new ArrayList<>();  
+    private File directory;
+
+    public LoadFrame(java.awt.Frame parent, ArrayList<String> extensions) {
+        super(parent);
+        for (String s: extensions) {
+            supportedExtensions.add(s);
+>>>>>>> refactor-banyak
         }
         this.setSize(1440, 1080);
         this.setResizable(false);
@@ -52,7 +69,11 @@ public class LoadFrame extends javax.swing.JDialog {
         JComboBox<String> extOptions = new JComboBox<>();
         extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
     
+<<<<<<< HEAD
         for (String ext : supportedExtensions.keySet())
+=======
+        for (String ext : supportedExtensions)
+>>>>>>> refactor-banyak
         extOptions.addItem(ext);
     
         JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
@@ -107,6 +128,7 @@ public class LoadFrame extends javax.swing.JDialog {
                     String extChosen = extOptions.getSelectedItem().toString();
                     if (extChosen.equals("TXT")){
                         GameController.load(directory);
+<<<<<<< HEAD
                     } else {
                         try {
                             String className = supportedExtensions.get(extChosen);
@@ -121,6 +143,9 @@ public class LoadFrame extends javax.swing.JDialog {
                             System.out.println(exc.getMessage());
                         }                       
                     }
+=======
+                    } // else call plugin
+>>>>>>> refactor-banyak
                     dispose();
                 }
             }

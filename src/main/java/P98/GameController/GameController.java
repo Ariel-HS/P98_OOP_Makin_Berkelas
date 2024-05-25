@@ -1,11 +1,16 @@
 package P98.GameController;
 import java.util.*;
+<<<<<<< HEAD
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URL;
 import java.net.URLClassLoader;
+=======
+import java.io.*;
+import java.lang.reflect.*;
+>>>>>>> refactor-banyak
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -20,10 +25,16 @@ import org.w3c.dom.*;
 
 import P98.Deck.*;
 import P98.Exception.NoKartuException;
+<<<<<<< HEAD
 import P98.Hewan.*;
 import P98.Interface.Holdable;
 import P98.Tumbuhan.*;
 import P98.Produk.*;
+=======
+import P98.Makhluk.Hewan.*;
+import P98.Interface.Holdable;
+import P98.Makhluk.Tumbuhan.*;
+>>>>>>> refactor-banyak
 import P98.Produk.*;
 import P98.Player.*;
 import P98.Plugin.Plugin;
@@ -43,7 +54,10 @@ public class GameController {
     private static ArrayList<Tumbuhan> listTumbuhan = new ArrayList<>();
     private static ArrayList<Item> listItem = new ArrayList<>();
     private static Boolean isOn = false;
+<<<<<<< HEAD
     public static ClassLoader classLoader;
+=======
+>>>>>>> refactor-banyak
 
     public static void clearConfig() {
         listHewan.clear();
@@ -64,18 +78,33 @@ public class GameController {
         File produkConfig = new File(folderPath+"/produk.txt");
         File tumbuhanConfig = new File(folderPath+"/tanaman.txt");
 
+<<<<<<< HEAD
         Produk dagingBeruang = new ProdukHewan("Daging Beruang",500,12);
         Hewan beruang = new Omnivora("Beruang",25,dagingBeruang);
+=======
+        Player p = new Player();
+        Produk dagingBeruang = new ProdukHewan("Daging Beruang",p,500,12);
+        Hewan beruang = new Omnivora("Beruang", 0, 0, 0, 25, dagingBeruang, p);
+>>>>>>> refactor-banyak
         listHewan.add(beruang);
         listProduk.add(dagingBeruang);
 
         // append items
+<<<<<<< HEAD
         listItem.add(new Accelerate());
         listItem.add(new Delay());
         listItem.add(new Destroy());
         listItem.add(new InstantHarvest());
         listItem.add(new Protect());
         listItem.add(new Trap());
+=======
+        listItem.add(new Accelerate(p));
+        listItem.add(new Delay(p));
+        listItem.add(new Destroy(p));
+        listItem.add(new InstantHarvest(p));
+        listItem.add(new Protect(p));
+        listItem.add(new Trap(p));
+>>>>>>> refactor-banyak
 
         // append Hewan, Tumbuhan, Produk
         try {
@@ -98,9 +127,15 @@ public class GameController {
 
                 Produk produk;
                 if (jenis.equals("Hewan")) {
+<<<<<<< HEAD
                     produk = new ProdukHewan(nama, harga, bobot);
                 } else if (jenis.equals("Tumbuhan")) {
                     produk = new ProdukTumbuhan(nama, harga, bobot);
+=======
+                    produk = new ProdukHewan(nama, p, harga, bobot);
+                } else if (jenis.equals("Tumbuhan")) {
+                    produk = new ProdukTumbuhan(nama, p, harga, bobot);
+>>>>>>> refactor-banyak
                 } else {
                     produkScanner.close();
                     throw new Exception("Invalid tipe produk");
@@ -120,7 +155,11 @@ public class GameController {
                 System.out.println(jenis);
                 String produk = hewanScanner.nextLine();
                 System.out.println(produk);
+<<<<<<< HEAD
                 Produk produkHewan = listProduk.stream().filter((p -> p.getNama().equals(produk))) // asumsi tipe sesuai
+=======
+                Produk produkHewan = listProduk.stream().filter((pr -> pr.getNama().equals(produk))) // asumsi tipe sesuai
+>>>>>>> refactor-banyak
                                     .findAny().orElse(null);
                 if (produkHewan == null) {
                     hewanScanner.close();
@@ -131,11 +170,19 @@ public class GameController {
                 
                 Hewan hewan;
                 if (jenis.equals("Karnivora")) {
+<<<<<<< HEAD
                     hewan = new Karnivora(nama, batasPanen, produkHewan);
                 } else if (jenis.equals("Herbivora")) {
                     hewan = new Herbivora(nama, batasPanen, produkHewan);
                 } else if (jenis.equals("Omnivora")) {
                     hewan = new Omnivora(nama, batasPanen, produkHewan);
+=======
+                    hewan = new Karnivora(nama, 0, 0, 0, batasPanen, produkHewan, p);
+                } else if (jenis.equals("Herbivora")) {
+                    hewan = new Herbivora(nama, 0, 0, 0, batasPanen, produkHewan, p);
+                } else if (jenis.equals("Omnivora")) {
+                    hewan = new Omnivora(nama, 0, 0, 0, batasPanen, produkHewan, p);
+>>>>>>> refactor-banyak
                 } else {;
                     hewanScanner.close();
                     throw new Exception("Invalid tipe hewan");             
@@ -153,7 +200,11 @@ public class GameController {
                 System.out.println(nama);
                 String produk = tumbuhanScanner.nextLine();
                 System.out.println(produk);
+<<<<<<< HEAD
                 Produk produkTumbuhan = listProduk.stream().filter((p -> p.getNama().equals(produk))) // asumsi tipe sesuai
+=======
+                Produk produkTumbuhan = listProduk.stream().filter((pr -> pr.getNama().equals(produk))) // asumsi tipe sesuai
+>>>>>>> refactor-banyak
                                     .findAny().orElse(null);
                 if (produkTumbuhan == null) {
                     tumbuhanScanner.close();
@@ -162,7 +213,11 @@ public class GameController {
                 Integer batasPanen = Integer.valueOf(tumbuhanScanner.nextLine());
                 System.out.println(batasPanen);
                 
+<<<<<<< HEAD
                 Tumbuhan tumbuhan = new Tumbuhan(nama, batasPanen, produkTumbuhan);
+=======
+                Tumbuhan tumbuhan = new Tumbuhan(nama, 0, 0, 0, batasPanen, produkTumbuhan, p);
+>>>>>>> refactor-banyak
 
                 listTumbuhan.add(tumbuhan);
             }
@@ -250,6 +305,7 @@ public class GameController {
 
         ArrayList<Holdable> deckAktif = currentPlayer.getDeckAktif().getDeck();
         System.out.println("Deck Aktif next");
+<<<<<<< HEAD
         for (Holdable h: deckAktif) {
             h.print();
         }
@@ -261,6 +317,15 @@ public class GameController {
             JFileChooser openFileChooser = new JFileChooser();
             openFileChooser.setCurrentDirectory(new File("./"));
             openFileChooser.setFileFilter(new FileNameExtensionFilter("Jar files", "JAR"));
+=======
+    }
+
+    public static String loadPlugin() {
+        try {
+            JFileChooser openFileChooser = new JFileChooser();
+            openFileChooser.setCurrentDirectory(new File("./"));
+            openFileChooser.setFileFilter(new FileNameExtensionFilter("Plugin files", "XML", "JSON"));
+>>>>>>> refactor-banyak
 
             int retcode = openFileChooser.showOpenDialog(openFileChooser);
             if (retcode != JFileChooser.APPROVE_OPTION) {
@@ -268,6 +333,7 @@ public class GameController {
             }
 
             File file = openFileChooser.getSelectedFile();
+<<<<<<< HEAD
             classLoader = new URLClassLoader(new URL[] {file.toURI().toURL()});
 
             JarFile jarFile = new JarFile(file);
@@ -295,6 +361,83 @@ public class GameController {
             e.printStackTrace();
         }
         return result;
+=======
+            String fileName = file.toString();
+            int index = fileName.lastIndexOf(".");
+            String extension = fileName.substring(index+1);
+            
+            if (extension.equals("xml")) {
+                return loadPluginXML(file);
+            } else {
+                return loadPluginJSON(file);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return "Plugin not found";
+        }
+    }
+
+    public static String loadPluginXML(File file) {
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document doc = documentBuilder.parse(file);
+
+            NodeList nodeList = doc.getElementsByTagName("Plugin");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() != Element.TEXT_NODE) {
+                    // get Plugin class
+                    Class<?> aClass = Class.forName("P98.Plugin."+node.getNodeName());
+                    // create instance of Plugin class
+                    Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
+                                        .newInstance(node.getAttributes().getNamedItem("nama").getNodeValue(), 
+                                        node.getAttributes().getNamedItem("message").getNodeValue());
+
+                    // call method
+                    return (String) aClass.getMethod("printMessage").invoke(pluginObj);
+                }
+            }
+
+            return "Plugin not found";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+
+            return "Plugin not found";
+        }
+        
+    }
+
+    public static String loadPluginJSON(File file) {
+        try {
+            JSONObject jObject = (JSONObject)JSONValue.parse(new FileReader(file));
+
+            if (jObject.containsKey("Plugin")) {
+                JSONObject jPlugin = (JSONObject)jObject.get("Plugin");
+                if (jPlugin.containsKey("nama") && jPlugin.containsKey("message")) {
+                    Class<?> aClass = Class.forName("P98.Plugin.Plugin");
+                    // create instance of Plugin class
+                    Plugin pluginObj = (Plugin) aClass.getConstructor(String.class, String.class)
+                                        .newInstance(jPlugin.get("nama"), 
+                                        jPlugin.get("message"));
+
+                    // call method
+                    return (String) aClass.getMethod("printMessage").invoke(pluginObj);
+                }
+            }
+
+            return "Plugin not found";
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return "Plugin not found";
+        }
+        
+>>>>>>> refactor-banyak
     }
 
     public static void save(File directory) {
@@ -530,6 +673,7 @@ public class GameController {
 
         return player2;
     }
+<<<<<<< HEAD
 
     public static Player getPlayer1() {
         return player1;
@@ -551,6 +695,8 @@ public class GameController {
             return "Kedua Pemain";
         }
     }
+=======
+>>>>>>> refactor-banyak
     
     public static Integer getTurn() {
         return turnNumber;
@@ -564,9 +710,12 @@ public class GameController {
         currentPlayer.draw();
         ArrayList<Holdable> deckAktif = currentPlayer.getDeckAktif().getDeck();
         System.out.println("Deck Aktif draw");
+<<<<<<< HEAD
         for (Holdable h: deckAktif) {
             h.print();
         }
+=======
+>>>>>>> refactor-banyak
     }
 
     public static void callShuffle() {
