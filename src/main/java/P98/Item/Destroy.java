@@ -22,7 +22,7 @@ public class Destroy extends Item {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new Destroy(getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Destroy(p);
     }
 }
