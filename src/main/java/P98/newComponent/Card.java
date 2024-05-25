@@ -208,6 +208,32 @@ public class Card extends JComponent {
 			ImageIcon icon= new ImageIcon(this.image.getScaledInstance(200, 200, Image.SCALE_SMOOTH));
 			gambar.setIcon(icon);
 			frame.add(gambar);
+			
+			JButton harvestButton = new JButton("Harvest");
+			harvestButton.setFont(new Font("Serif", Font.BOLD, 15));
+			harvestButton.setBounds(350,250,100,50);
+			final Integer currentX = myX;
+			final Integer currentY = myY;
+			
+			harvestButton.addActionListener(new ActionListener() {
+			      @Override
+			      public void actionPerformed(ActionEvent e) {
+			        try {
+			        	Integer idxOfLadang = getIndexofCardinLadang();
+			        	Produk harvested = content.getPemilik().getLadang().harvest(idxOfLadang);
+			        	System.out.println(harvested.getNama());
+			        	content.getPemilik().addToDeckAktif(harvested);
+			            frame.dispose();
+			            thisCard.setVisible(false);
+			            content.getPemilik().removeFromDeckAktif(getIndexofCardinPlayer());
+			            
+			        } catch (Exception excep) {
+			        	JOptionPane.showMessageDialog(null,excep.toString());
+			        }
+			      }
+			    });			
+			
+			frame.add(harvestButton);
 			frame.setVisible(true);
 			} 
 		else if (content instanceof Produk || content instanceof Item) {
@@ -281,6 +307,16 @@ public class Card extends JComponent {
 				return i;
 			}
 		}
+		return retval;
+	}
+	
+	public Integer getIndexofCardinLadang() {
+		Integer retval = -999;
+		for(int i=0;i<content.getPemilik().getLadang().getKartu().size();i++) {
+			if(content.getPemilik().getLadang().getKartu().get(i)==content) {
+				return i;
+			}
+		}		
 		return retval;
 	}
 	

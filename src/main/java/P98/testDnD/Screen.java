@@ -253,8 +253,8 @@ public class Screen {
 		Accelerate i1 = new Accelerate(current);
 		Accelerate i2 = new Accelerate(current);
 		Delay i3 = new Delay(current);
-		Tumbuhan t1 = new Tumbuhan("Corn Seeds", 0, 0, 10, 0, new ProdukTumbuhan(), current);
-		Tumbuhan t2 = new Tumbuhan("Corn Seeds", 0, 0, 10, 0, new ProdukTumbuhan(), current);
+		Tumbuhan t1 = new Tumbuhan("Corn Seeds", 0, 0, 0, 3, new ProdukTumbuhan("Jagung", current, 1000, 1232), current);
+		Tumbuhan t2 = new Tumbuhan("Corn Seeds", 0, 0, 10, 3, new ProdukTumbuhan(), current);
 		Herbivora h1 = new Herbivora("Sapi", 0, 0, 10, 0, new ProdukHewan(), current);
 		ProdukHewan ph1 = new ProdukHewan("Daging Beruang",current,120,123);
 		ProdukTumbuhan pt1 = new ProdukTumbuhan("Jagung",current,120,123);
@@ -264,6 +264,7 @@ public class Screen {
 		// // for testing
 		try {
 			current.addToDeckAktif(t1);
+			current.addToDeckAktif(t2);
 			current.addToDeckAktif(h1);
 			current.addToDeckAktif(i1);
 			current.addToDeckAktif(ph1);
