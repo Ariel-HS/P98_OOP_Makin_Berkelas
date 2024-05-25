@@ -388,14 +388,18 @@ public class Screen {
 							Object pluginObj = pluginClass.getDeclaredConstructor().newInstance();
 							String extension = (String) method.invoke(pluginObj);
 							supportedExtensions.put(extension.toUpperCase(), s);
+
+							JOptionPane.showMessageDialog(PluginButton, 
+							"Plugin extension "+extension+" berhasil dimuat");
 						}
 					} catch (Exception exc) {
 						System.out.println(exc.getMessage());
 						System.out.println("hey");
+						JOptionPane.showMessageDialog(PluginButton, "Plugin gagal dimuat");
 					}
+				} else {
+					JOptionPane.showMessageDialog(PluginButton, "Plugin gagal dimuat");
 				}
-
-				// JOptionPane.showMessageDialog(PluginButton, message);
 			}
 		});
 
@@ -426,10 +430,16 @@ public class Screen {
 				clearCards();
 				GameController.next();
 				// showShuffleWindow();
+				Integer turn = GameController.getTurn();
+				if (turn > 20) {
+					String pemenenang = GameController.getTopPlayer();
+					JOptionPane.showMessageDialog(f, "Sudah lewat 20 Turn!\n"+pemenenang+" menang!!!");
+					f.dispose();
+					return;
+				}
 				if (GameController.getCurrentPlayer().getActiveCardCount() < 6) {
 					ShuffleDialog dialog = new ShuffleDialog(frame);
 				} 
-				Integer turn = GameController.getTurn();
 				setCards(turn%2,false);
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
