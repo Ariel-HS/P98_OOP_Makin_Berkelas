@@ -444,7 +444,7 @@ public class Screen {
 		turnLable.setBounds(923, 86, 66, 39);
 		f.getContentPane().add(turnLable);
 
-		JLabel turnCountLable = new JLabel("0");
+		JLabel turnCountLable = new JLabel("1");
 		turnCountLable.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		turnCountLable.setBounds(943, 128, 27, 27);
 		f.getContentPane().add(turnCountLable);
@@ -453,12 +453,12 @@ public class Screen {
 		deck.setBounds(1134, 844, 203, 109);
 		f.getContentPane().add(deck);
 
-		JLabel p1gulden = new JLabel("0000");
+		JLabel p1gulden = new JLabel("0");
 		p1gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		p1gulden.setBounds(976, 308, 77, 27);
 		f.getContentPane().add(p1gulden);
 
-		JLabel p2gulden = new JLabel("0000");
+		JLabel p2gulden = new JLabel("0");
 		p2gulden.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		p2gulden.setBounds(976, 389, 77, 27);
 		f.getContentPane().add(p2gulden);
@@ -593,6 +593,9 @@ public class Screen {
 //		kartuBe.insertSlot(11);
 //		f.getContentPane().add(kartuBe);
 
+		ShuffleDialog dialog = new ShuffleDialog(frame, GameController.getCurrentPlayer());
+		setCards(1,false);
+		ladangkuButton.setSelected(true);
 	}
 
 }
