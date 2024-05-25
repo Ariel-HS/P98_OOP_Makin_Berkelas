@@ -32,8 +32,8 @@ public class Karnivora extends Hewan {
         }
     }
 
-    public Makhluk turnToMakhluk() {
-        return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    public Makhluk turnToMakhluk(Player p) {
+        return new Karnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
 
     public Holdable turnToHoldable(Player p) {

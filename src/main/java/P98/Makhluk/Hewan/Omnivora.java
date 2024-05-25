@@ -36,15 +36,12 @@ public class Omnivora extends Hewan {
         return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
     
-    public Makhluk turnToMakhluk() {
-        return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    public Makhluk turnToMakhluk(Player p) {
+        return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
 
     public void interact(Holdable m) {
         //
     }
 
-    public Holdable turnToHoldable() {
-        return new Herbivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
-    }
 }

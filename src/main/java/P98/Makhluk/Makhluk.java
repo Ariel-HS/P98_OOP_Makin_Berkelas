@@ -96,5 +96,5 @@ public abstract class Makhluk implements Holdable {
 
     abstract public void nextTurn();
     abstract public boolean makan(Produk p);
-    abstract public Makhluk turnToMakhluk();
+    abstract public Makhluk turnToMakhluk(Player p);
 }

@@ -2,6 +2,7 @@ package P98.GameController;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.awt.Point;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.io.*;
 import java.lang.reflect.*;
@@ -23,11 +24,14 @@ import P98.Deck.*;
 import P98.Exception.NoKartuException;
 import P98.Interface.Holdable;
 import P98.Interface.Plugin;
+import P98.Makhluk.Makhluk;
 import P98.Makhluk.Hewan.*;
 import P98.Makhluk.Tumbuhan.*;
 import P98.Produk.*;
+import P98.Toko.Toko;
 import P98.Player.*;
 import P98.Item.*;
+import P98.Ladang.Ladang;
 import P98.App;
 
 import javax.swing.JFileChooser;
@@ -44,6 +48,7 @@ public class GameController {
     private static ArrayList<Item> listItem = new ArrayList<>();
     private static Boolean isOn = false;
     public static ClassLoader classLoader;
+    public static Toko toko = new Toko();
 
     public static void clearConfig() {
         listHewan.clear();
@@ -352,7 +357,7 @@ public class GameController {
             Integer newTurn;
             Player newPlayer1 = new Player();
             Player newPlayer2 = new Player();
-            // Toko newToko = new Toko();
+            Toko newToko = new Toko();
 
             Scanner player1Scanner = new Scanner(player1File);
             newPlayer1.setGulden(Integer.valueOf(player1Scanner.nextLine()));
@@ -371,10 +376,24 @@ public class GameController {
             }
             Integer jumlahLadang1 = Integer.valueOf(player1Scanner.nextLine());
             System.out.println(jumlahLadang1);
+            Ladang newLadang = new Ladang();
             for (int i=0; i<jumlahLadang1; i++) {
                 String[] line = player1Scanner.nextLine().split(" ");
                 String lokasi = line[0];
                 String nama = line[1];
+
+                Makhluk makhluk = listHewan.stream().filter((p -> p.getNama().equals(nama))) 
+                                    .findAny().orElse(null);
+                if (makhluk == null) {
+                    makhluk = listTumbuhan.stream().filter((p -> p.getNama().equals(nama))) 
+                                    .findAny().orElse(null);
+                }
+
+                if (makhluk == null) {
+                    player1Scanner.close();
+                    throw new Exception("Makhluk not found");
+                }
+
                 String unitPanen = line[2];
                 Integer nItem = Integer.valueOf(line[3]);
                 for (int j=0; j<nItem; j++) {
@@ -389,8 +408,14 @@ public class GameController {
 
                     // add item to makhluk
                 }
+                Integer col = lokasi.charAt(0)-'A';
+                Integer row = (lokasi.charAt(1)-'0')*10+(lokasi.charAt(2)-'0')-1;
+                System.out.println("MAKHLUK: "+nama);
+                System.out.println("COL: "+col+" ROW: "+row);
 
+                Point coor = new Point(col,row);
                 // add makhluk to ladang
+                newLadang.addMakhluk(makhluk.turnToMakhluk(player1), coor);
             }
             player1Scanner.close();
 
@@ -411,10 +436,23 @@ public class GameController {
             }
             Integer jumlahLadang2 = Integer.valueOf(player2Scanner.nextLine());
             System.out.println(jumlahLadang2);
+            Ladang newLadang2 = new Ladang();
             for (int i=0; i<jumlahLadang2; i++) {
                 String[] line = player2Scanner.nextLine().split(" ");
                 String lokasi = line[0];
                 String nama = line[1];
+                Makhluk makhluk = listHewan.stream().filter((p -> p.getNama().equals(nama))) 
+                                    .findAny().orElse(null);
+                if (makhluk == null) {
+                    makhluk = listTumbuhan.stream().filter((p -> p.getNama().equals(nama))) 
+                                    .findAny().orElse(null);
+                }
+
+                if (makhluk == null) {
+                    player2Scanner.close();
+                    throw new Exception("Makhluk not found");
+                }
+
                 String unitPanen = line[2];
                 Integer nItem = Integer.valueOf(line[3]);
                 for (int j=1; j<=nItem; j++) {
@@ -430,6 +468,13 @@ public class GameController {
                 }
 
                 // add makhluk to ladang
+                Integer col = lokasi.charAt(0)-'A';
+                Integer row = (lokasi.charAt(1)-'0')*10+(lokasi.charAt(2)-'0')-1;
+                System.out.println("MAKHLUK: "+nama);
+                System.out.println("COL: "+col+" ROW: "+row);
+
+                Point coor = new Point(col,row);
+                newLadang2.addMakhluk(makhluk.turnToMakhluk(player1), coor);
             }
             player2Scanner.close();
             
@@ -450,13 +495,16 @@ public class GameController {
                 }
                 Integer jumlahProduk = Integer.valueOf(line[1]);
 
-                // add produk to toko
+                newToko.sellProduk(produk);
             }
             gamestateScanner.close();
 
+            newPlayer1.setLadang(newLadang);
+            newPlayer2.setLadang(newLadang2);
             turnNumber = newTurn;
             player1 = newPlayer1;
             player2 = newPlayer2;
+            toko = newToko;
 
             if (turnNumber%2 == 0) {
                 currentPlayer = player2;
@@ -481,6 +529,10 @@ public class GameController {
             //     h.print();
             // }        
             // System.out.println("Aman");
+            // List<Holdable> ladang1 = player1.getLadang().getKartu();
+            // for (Holdable h:ladang1) {
+            //     System.out.println("AAAA "+h.getNama());
+            // }
         }  catch (FileNotFoundException e) {
             System.out.println("State file not found");
             System.out.println(e.getMessage());

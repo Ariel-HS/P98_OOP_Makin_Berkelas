@@ -29,8 +29,8 @@ public class Tumbuhan extends Makhluk {
         setUnitPanen(getUnitPanen() + 1);
     }
 
-    public Makhluk turnToMakhluk() {
-        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    public Makhluk turnToMakhluk(Player p) {
+        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
 
     public boolean makan(Produk p) {

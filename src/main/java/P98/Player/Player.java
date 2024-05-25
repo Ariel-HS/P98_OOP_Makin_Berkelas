@@ -174,5 +174,9 @@ public class Player {
     public Integer getActiveCardCount() {
         return this.deckAktif.getJumlahKartu();
     }
+
+    public void setLadang(Ladang l) {
+        this.ladang = l;
+    }
     
 }

@@ -70,4 +70,8 @@ public class Ladang {
         kartu.set(idx, new Tumbuhan());
         return hasilPanen;
     }
+
+    public List<Holdable> getMakhluk() {
+        return this.kartu;
+    }
 }

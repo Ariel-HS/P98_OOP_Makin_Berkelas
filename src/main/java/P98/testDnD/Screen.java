@@ -43,7 +43,6 @@ public class Screen {
 	//private ArrayList<Card> cardsInFocus;
 	private static boolean theresAwindow = false;
 	private HashMap<String,String> supportedExtensions = new HashMap<>();  
-	Toko toko = new Toko();
 
 	/**
 	 * Launch the application.
@@ -96,16 +95,6 @@ public class Screen {
 	public Screen() {
 		// cardsInFocus = new ArrayList<Card>();
 		supportedExtensions.put("TXT", "null");
-
-		//testing toko
-		Produk example2 = new ProdukTumbuhan("Jagung",GameController.getPlayer1(),100,25);
-		Produk example3 = new ProdukHewan("Susu",GameController.getPlayer1(),23,23);
-		Produk example4 = new ProdukTumbuhan("Jagung",GameController.getPlayer1(),100,25);
-		Produk example5 = new ProdukHewan("Susu",GameController.getPlayer1(),23,23);
-		toko.sellProduk(example2);
-		toko.sellProduk(example3);
-		toko.sellProduk(example4);
-		toko.sellProduk(example5);
 
 		//cardsInFocus = player1.kartuAktif;
 		initialize();
@@ -183,7 +172,7 @@ public class Screen {
 	}
 
 	public void clearCards() {
-		System.out.println("Test here");
+		// System.out.println("Test here");
 
 		GameController.getCurrentPlayer().kartuAktif.clear();
         Component[] components = f.getContentPane().getComponents();
@@ -436,17 +425,18 @@ public class Screen {
 		f.getContentPane().add(LoadButton);
 		LoadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clearCards();
 				LoadFrame loadFrame = new LoadFrame(f, supportedExtensions);
 				Integer turn = GameController.getTurn();
 				// setCards(turn%2,false);
-				setCardDeck(true);
-				setCardLadang(true);
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
 				deck.setText("DECK ("+String.valueOf(GameController.getCurrentCardCount())+"/40)");
 				p1gulden.setText(GameController.getPlayer1().getGulden().toString());
 				p2gulden.setText(GameController.getPlayer2().getGulden().toString());
+				
+				clearCards();
+				setCardDeck(true);
+				setCardLadang(true);
 			}
 		});
 
@@ -522,7 +512,7 @@ public class Screen {
 		TokoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!Screen.getTheresAWindow()) {
-					TokoFrame tokoFrame = new TokoFrame(f, toko, p1gulden, p2gulden);
+					TokoFrame tokoFrame = new TokoFrame(f, GameController.toko, p1gulden, p2gulden);
 					clearCards();
 					setCardDeck(true);
 					setCardLadang(true);
