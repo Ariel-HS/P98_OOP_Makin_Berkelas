@@ -8,9 +8,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import P98.testDnD.Screen;
-<<<<<<< HEAD
-import P98.Interface.*;
-=======
 import P98.GameController.GameController;
 import P98.Interface.*;
 import P98.Ladang.Ladang;
@@ -18,7 +15,6 @@ import P98.Makhluk.Makhluk;
 import P98.Makhluk.Hewan.Hewan;
 import P98.Makhluk.Tumbuhan.Tumbuhan;
 import P98.Player.*;
->>>>>>> refactor-banyak
 
 public class Card extends JComponent {
 
@@ -35,10 +31,7 @@ public class Card extends JComponent {
 	private Image image;
 	private Integer prevPosIdx = 999;
 	private boolean canMove = true;
-<<<<<<< HEAD
-=======
 	private Player pemilik;
->>>>>>> refactor-banyak
 	
 	public Integer getPrevPosIdx(){
 		return prevPosIdx;
@@ -120,16 +113,10 @@ public class Card extends JComponent {
 		if(temp.get(slotNumber).getOccupied()) {
 			System.out.println("aaaaaaaaaaaaaaaa");
 		}
-<<<<<<< HEAD
-		
-		if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
-			
-=======
 		System.out.println(slotNumber);
 		if (slotNumber >= 0 && temp.get(slotNumber).getOccupied() == false) {
 			if (temp.get(slotNumber).isLadang())
 				l.addMakhluk(thisCard.getIsi(), new Point((slotNumber - 6) % 5, (int) ((slotNumber - 6) / 5))) ;
->>>>>>> refactor-banyak
 			System.out.println("ada dalam slot");
 			myX = temp.get(slotNumber).getSlotX() + 5;// +5 biar goodlooking, dihilangkan bisa tapi ga center
 			myY = temp.get(slotNumber).getSlotY() + 5;
@@ -140,14 +127,8 @@ public class Card extends JComponent {
 			}
 		} else if (slotNumber >= 0 && temp.get(slotNumber).getOccupied()) { // Check if slotNumber is valid
 			if (content != temp.get(slotNumber).getContent().getIsi()) {
-<<<<<<< HEAD
-				// if area ladang interact(getMakhluk)
-				// else if area dek akfif interact(getisi)
-				// content.interact(temp.get(slotNumber).getContent().getIsi());
-=======
 				// content.interact(temp.get(slotNumber).getContent().getIsi());
 				System.out.println("lsdkfslkfj");
->>>>>>> refactor-banyak
 			}
 			setLocation(tempX, tempY);
 			myX = tempX;
@@ -263,8 +244,6 @@ public class Card extends JComponent {
 		  image = new ImageIcon(getClass().getResource("/Hewan/torchic.png")).getImage();
 	  } else if(this.content.getNama().equals("Jagung")) {
 		  image = new ImageIcon(getClass().getResource("/Produk/corn.png")).getImage();
-<<<<<<< HEAD
-=======
 	  } else if(this.content.getNama().equals("Accelerate")) {
 		  image = new ImageIcon(getClass().getResource("/Item/Accelerate.png")).getImage();
 	  } else if(this.content.getNama().equals("Trap")) {
@@ -299,18 +278,10 @@ public class Card extends JComponent {
 		image = new ImageIcon(getClass().getResource("/Produk/Daging_Beruang.png")).getImage();
 	  } else if(this.content.getNama().equals("Daging Domba")) {
 		image = new ImageIcon(getClass().getResource("/Produk/Daging Domba.png")).getImage();
->>>>>>> refactor-banyak
 	  }
 	  // lanjutkan nanti malas
 	  //return pathToImage;
   }
-<<<<<<< HEAD
-
-  public void setCanMove(boolean bool) {
-	this.canMove = bool;
-  }
-=======
->>>>>>> refactor-banyak
 
   public void setCanMove(boolean bool) {
 	this.canMove = bool;

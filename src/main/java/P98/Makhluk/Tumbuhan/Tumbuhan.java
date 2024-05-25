@@ -9,6 +9,10 @@ public class Tumbuhan extends Makhluk {
         super();
     }
 
+    public Tumbuhan(String _nama, int x_pos, int y_pos, int _unitPanen, int _batasPanen, Produk p) {
+        super(_nama, x_pos, y_pos, _unitPanen, _batasPanen, p);
+    }
+
     public Tumbuhan(String _nama, int x_pos, int y_pos, int _unitPanen, int _batasPanen, Produk p, Player pem) {
         super(_nama, x_pos, y_pos, _unitPanen, _batasPanen, p, pem);
     }

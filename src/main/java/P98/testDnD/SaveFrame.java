@@ -1,11 +1,8 @@
 package P98.testDnD;
 
 import java.io.File;
-<<<<<<< HEAD
 import java.lang.reflect.Method;
-=======
->>>>>>> refactor-banyak
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,15 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import P98.GameController.GameController;
-<<<<<<< HEAD
-import P98.Plugin.Plugin;
-=======
->>>>>>> refactor-banyak
+import P98.Interface.Plugin;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
 import java.util.*;
 
 public class SaveFrame extends javax.swing.JDialog {
@@ -37,17 +30,6 @@ public class SaveFrame extends javax.swing.JDialog {
         super(parent);
         for (Map.Entry<String,String> entry: extensions.entrySet()) {
             supportedExtensions.put(entry.getKey(), entry.getValue());
-=======
-
-public class SaveFrame extends javax.swing.JDialog {
-    private ArrayList<String> supportedExtensions = new ArrayList<>();  
-    private File directory;
-
-    public SaveFrame(java.awt.Frame parent, ArrayList<String> extensions) {
-        super(parent);
-        for (String s: extensions) {
-            supportedExtensions.add(s);
->>>>>>> refactor-banyak
         }
         this.setSize(1440, 1080);
         this.setResizable(false);
@@ -69,11 +51,7 @@ public class SaveFrame extends javax.swing.JDialog {
         JComboBox<String> extOptions = new JComboBox<>();
         extOptions.setFont(new Font("Tahoma", Font.PLAIN, 20));
     
-<<<<<<< HEAD
         for (String ext : supportedExtensions.keySet())
-=======
-        for (String ext : supportedExtensions)
->>>>>>> refactor-banyak
         extOptions.addItem(ext);
     
         JLabel formatField = new JLabel("Format:", SwingConstants.CENTER);
@@ -128,7 +106,6 @@ public class SaveFrame extends javax.swing.JDialog {
                     String extChosen = extOptions.getSelectedItem().toString();
                     if (extChosen.equals("TXT")){
                         GameController.save(directory);
-<<<<<<< HEAD
                     } else {
                         try {
                             String className = supportedExtensions.get(extChosen);
@@ -143,9 +120,6 @@ public class SaveFrame extends javax.swing.JDialog {
                             System.out.println(exc.getMessage());
                         }                        
                     }
-=======
-                    } // else call plugin 
->>>>>>> refactor-banyak
 
                     dispose();
                 }

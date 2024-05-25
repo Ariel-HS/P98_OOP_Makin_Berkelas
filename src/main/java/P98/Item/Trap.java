@@ -3,38 +3,13 @@ package P98.Item;
 import P98.Exception.*;
 import P98.Makhluk.*;
 import P98.Interface.*;
-<<<<<<< HEAD
-// import P98.Player.*;
-// import P98.GameController
+import P98.Player.*;
 
 public class Trap extends Item {
     public Trap() {
         super("Trap");
     }
 
-    // public void interact(Mahkluk m) throws WrongItemException {
-    //     Player p = GameController.getCurrentPlayer();
-    //     if (m.getPemilik() == p) {
-    //         m.giveTrap();
-    //     } else {
-    //         throw new WrongItemException("pemain lain");
-    //     }
-    // }
-
-    // public Holdable turnToHoldable() {
-    //     return new Trap();
-    // }
-
-    public Holdable turnToHoldable() {
-        return new Trap();
-    }
-
-    public void print() {
-        System.out.println(this.getNama());
-=======
-import P98.Player.*;
-
-public class Trap extends Item {
     public Trap(Player pem) {
         super("Trap", pem);
     }
@@ -51,6 +26,5 @@ public class Trap extends Item {
 
     public Holdable turnToHoldable() {
         return new Trap(getPemilik());
->>>>>>> refactor-banyak
     }
 }

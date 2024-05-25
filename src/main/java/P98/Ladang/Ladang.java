@@ -1,10 +1,5 @@
 package P98.Ladang;
 
-<<<<<<< HEAD
-public class Ladang {
-    
-}
-=======
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,4 +49,3 @@ public class Ladang {
         return hasilPanen;
     }
 }
->>>>>>> refactor-banyak
