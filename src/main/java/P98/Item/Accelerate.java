@@ -33,7 +33,7 @@ public class Accelerate extends Item {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new Accelerate(getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Accelerate(p);
     }
 }

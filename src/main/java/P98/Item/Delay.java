@@ -34,7 +34,7 @@ public class Delay extends Item {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new Delay(getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Delay(p);
     }
 }

@@ -22,7 +22,7 @@ public class Deck {
         ArrayList<Holdable> listKartu = new ArrayList<>();
         
         for (int i=0; i<numKartu; i++) {
-            listKartu.add(this.kartu.get(i).turnToHoldable());
+            listKartu.add(this.kartu.get(i).turnToHoldable(null));
         }
 
         return listKartu;

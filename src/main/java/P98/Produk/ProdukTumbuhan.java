@@ -39,7 +39,7 @@ public class ProdukTumbuhan extends Produk {
         return new ProdukTumbuhan(this);
     }
 
-    public Holdable turnToHoldable() {
-        return new ProdukTumbuhan(this);
+    public Holdable turnToHoldable(Player p) {
+        return new ProdukTumbuhan(this.getNama(), p, this.getHarga(), this.getBobot());
     }
 }

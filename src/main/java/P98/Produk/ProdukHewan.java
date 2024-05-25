@@ -35,8 +35,8 @@ public class ProdukHewan extends Produk {
         throw new WrongItemException("pemain lain");
     }
 
-    public Holdable turnToHoldable() {
-        return new ProdukHewan(this);
+    public Holdable turnToHoldable(Player p) {
+        return new ProdukHewan(this.getNama(), p, this.getHarga(), this.getBobot());
     }
 
     public Produk turnToProduk() {

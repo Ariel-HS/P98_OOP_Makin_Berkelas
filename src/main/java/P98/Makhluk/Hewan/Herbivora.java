@@ -33,8 +33,8 @@ public class Herbivora extends Hewan {
         return new Herbivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
     }
 
-    public Holdable turnToHoldable() {
-        return new Herbivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Herbivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
 
     public void interact(Holdable m) {

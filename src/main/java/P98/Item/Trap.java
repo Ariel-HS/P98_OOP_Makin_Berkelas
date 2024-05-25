@@ -24,7 +24,7 @@ public class Trap extends Item {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new Trap(getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Trap(p);
     }
 }

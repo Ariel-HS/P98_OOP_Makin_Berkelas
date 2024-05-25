@@ -181,8 +181,8 @@ public class GameController {
             clearConfig();
         }
 
-        player1.setDeck(randomDeck(40));
-        player2.setDeck(randomDeck(40));
+        player1.setDeck(randomDeck(40,player1));
+        player2.setDeck(randomDeck(40,player2));
         // System.out.println("Here");
         // for (Holdable h: player1.getDeck().getDeck()) {
         //     h.print();
@@ -194,30 +194,30 @@ public class GameController {
         // System.out.println("Aman");
     }
 
-    public static Deck randomDeck(Integer num) {
+    public static Deck randomDeck(Integer num, Player p) {
         Deck deck = new Deck();
         for (Hewan h:listHewan) {
             for (int j=0;j<2;j++) {
-                deck.addKartu(h.turnToHoldable());
+                deck.addKartu(h.turnToHoldable(p));
             }
         }
-        for (Produk p:listProduk) {
-            if (p.getNama().equals("Labu") || p.getNama().equals("Susu") || p.getNama().equals("Jagung")) {
-                deck.addKartu(p.turnToHoldable());
+        for (Produk pr:listProduk) {
+            if (pr.getNama().equals("Labu") || pr.getNama().equals("Susu") || pr.getNama().equals("Jagung")) {
+                deck.addKartu(pr.turnToHoldable(p));
             }
-            deck.addKartu(p.turnToHoldable());
+            deck.addKartu(pr.turnToHoldable(p));
         }
         for (Tumbuhan t:listTumbuhan) {
             for (int j=0;j<2;j++) {
-                deck.addKartu(t.turnToHoldable());
+                deck.addKartu(t.turnToHoldable(p));
             }
         }
         for (Item i: listItem) {
             if (i.getNama().equals("Accelerate") || i.getNama().equals("Delay") 
                 || i.getNama().equals("Instant Harvest") || i.getNama().equals("Trap")) {
-                deck.addKartu(i.turnToHoldable());
+                deck.addKartu(i.turnToHoldable(p));
             }
-            deck.addKartu(i.turnToHoldable());
+            deck.addKartu(i.turnToHoldable(p));
         }
 
         deck.shuffleDeck();
@@ -353,14 +353,14 @@ public class GameController {
             System.out.println(newPlayer1.getGulden());
             Integer jumlahDeck1 = Integer.valueOf(player1Scanner.nextLine());
             System.out.println(jumlahDeck1);
-            newPlayer1.setDeck(randomDeck(jumlahDeck1));
+            newPlayer1.setDeck(randomDeck(jumlahDeck1, player1));
             Integer jumlahDeckAktif1 = Integer.valueOf(player1Scanner.nextLine());
             System.out.println(jumlahDeckAktif1);
             for (int i=0; i<jumlahDeckAktif1; i++) {
                 String[] line = player1Scanner.nextLine().split(" ");
                 String kartu = line[1];
                 System.out.println(kartu);
-                Holdable newKartu = createKartu(kartu);
+                Holdable newKartu = createKartu(kartu, player1);
                 newPlayer1.addToDeckAktif(newKartu);
             }
             Integer jumlahLadang1 = Integer.valueOf(player1Scanner.nextLine());
@@ -393,14 +393,14 @@ public class GameController {
             System.out.println(newPlayer2.getGulden());
             Integer jumlahDeck2 = Integer.valueOf(player2Scanner.nextLine());
             System.out.println(jumlahDeck2);
-            newPlayer2.setDeck(randomDeck(jumlahDeck2));
+            newPlayer2.setDeck(randomDeck(jumlahDeck2, player2));
             Integer jumlahDeckAktif2 = Integer.valueOf(player2Scanner.nextLine());
             System.out.println(jumlahDeckAktif2);
             for (int i=0; i<jumlahDeckAktif2; i++) {
                 String[] line = player2Scanner.nextLine().split(" ");
                 String kartu = line[1];
                 System.out.println(kartu);
-                Holdable newKartu = createKartu(kartu);
+                Holdable newKartu = createKartu(kartu, player2);
                 newPlayer2.addToDeckAktif(newKartu);
             }
             Integer jumlahLadang2 = Integer.valueOf(player2Scanner.nextLine());
@@ -485,25 +485,25 @@ public class GameController {
         } 
     }
 
-    public static Holdable createKartu(String nama) throws NoKartuException {
+    public static Holdable createKartu(String nama, Player p) throws NoKartuException {
         for (Hewan h: listHewan) {
             if (h.getNama().equals(nama)) {
-                return h.turnToHoldable();
+                return h.turnToHoldable(p);
             }
         }
-        for (Produk p: listProduk) {
-            if (p.getNama().equals(nama)) {
-                return p.turnToHoldable();
+        for (Produk pr: listProduk) {
+            if (pr.getNama().equals(nama)) {
+                return pr.turnToHoldable(p);
             }
         }
         for (Tumbuhan t: listTumbuhan) {
             if(t.getNama().equals(nama)) {
-                return t.turnToHoldable();
+                return t.turnToHoldable(p);
             }
         }
         for (Item i: listItem) {
             if (i.getNama().equals(nama)) {
-                return i.turnToHoldable();
+                return i.turnToHoldable(p);
             }
         }
 

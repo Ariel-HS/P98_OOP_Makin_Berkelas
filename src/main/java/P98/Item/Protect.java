@@ -25,7 +25,7 @@ public class Protect extends Item {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new Protect(getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Protect(p);
     }
 }

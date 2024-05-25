@@ -40,7 +40,7 @@ public class Tumbuhan extends Makhluk {
         //
     }
 
-    public Holdable turnToHoldable() {
-        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Tumbuhan(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
 }

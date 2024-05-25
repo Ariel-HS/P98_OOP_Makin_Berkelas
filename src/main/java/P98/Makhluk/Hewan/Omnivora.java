@@ -29,8 +29,8 @@ public class Omnivora extends Hewan {
         }
     }
 
-    public Holdable turnToHoldable() {
-        return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), this.getPemilik());
+    public Holdable turnToHoldable(Player p) {
+        return new Omnivora(this.getNama(), this.getPos().x, this.getPos().y, this.getUnitPanen(), this.getBatasPanen(), this.harvest(), p);
     }
     
     public Makhluk turnToMakhluk() {
