@@ -295,8 +295,7 @@ public class GameController {
                     }
                 });
                 timer.start();
-                System.out.println("done!");
-                lock.wait();                
+                System.out.println("done!");                
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -439,17 +438,18 @@ public class GameController {
                 String lokasi = line[0];
                 String nama = line[1];
 
-                Makhluk makhluk = listHewan.stream().filter((p -> p.getNama().equals(nama))) 
+                Makhluk foundMakhluk = listHewan.stream().filter((p -> p.getNama().equals(nama))) 
                                     .findAny().orElse(null);
-                if (makhluk == null) {
-                    makhluk = listTumbuhan.stream().filter((p -> p.getNama().equals(nama))) 
+                if (foundMakhluk == null) {
+                    foundMakhluk = listTumbuhan.stream().filter((p -> p.getNama().equals(nama))) 
                                     .findAny().orElse(null);
                 }
 
-                if (makhluk == null) {
+                if (foundMakhluk == null) {
                     player1Scanner.close();
                     throw new Exception("Makhluk not found");
                 }
+                Makhluk makhluk = foundMakhluk.turnToMakhluk(player1);
 
                 String unitPanen = line[2];
                 Integer nItem = Integer.valueOf(line[3]);
@@ -464,6 +464,8 @@ public class GameController {
                     }
 
                     // add item to makhluk
+                    Holdable newItem = item.turnToHoldable(player1);
+                    newItem.interact(makhluk);
                 }
                 Integer col = lokasi.charAt(0)-'A';
                 Integer row = (lokasi.charAt(1)-'0')*10+(lokasi.charAt(2)-'0')-1;
@@ -472,7 +474,7 @@ public class GameController {
 
                 Point coor = new Point(col,row);
                 // add makhluk to ladang
-                newLadang.addMakhluk(makhluk.turnToMakhluk(player1), coor);
+                newLadang.addMakhluk(makhluk, coor);
             }
             player1Scanner.close();
 
@@ -498,17 +500,18 @@ public class GameController {
                 String[] line = player2Scanner.nextLine().split(" ");
                 String lokasi = line[0];
                 String nama = line[1];
-                Makhluk makhluk = listHewan.stream().filter((p -> p.getNama().equals(nama))) 
+                Makhluk foundMakhluk = listHewan.stream().filter((p -> p.getNama().equals(nama))) 
                                     .findAny().orElse(null);
-                if (makhluk == null) {
-                    makhluk = listTumbuhan.stream().filter((p -> p.getNama().equals(nama))) 
+                if (foundMakhluk == null) {
+                    foundMakhluk = listTumbuhan.stream().filter((p -> p.getNama().equals(nama))) 
                                     .findAny().orElse(null);
                 }
 
-                if (makhluk == null) {
+                if (foundMakhluk == null) {
                     player2Scanner.close();
                     throw new Exception("Makhluk not found");
                 }
+                Makhluk makhluk = foundMakhluk.turnToMakhluk(player2);
 
                 String unitPanen = line[2];
                 Integer nItem = Integer.valueOf(line[3]);
@@ -522,6 +525,8 @@ public class GameController {
                     }
 
                     // add item to makhluk
+                    Holdable newItem = item.turnToHoldable(player2);
+                    newItem.interact(makhluk);
                 }
 
                 // add makhluk to ladang
@@ -531,7 +536,7 @@ public class GameController {
                 System.out.println("COL: "+col+" ROW: "+row);
 
                 Point coor = new Point(col,row);
-                newLadang2.addMakhluk(makhluk.turnToMakhluk(player1), coor);
+                newLadang2.addMakhluk(makhluk, coor);
             }
             player2Scanner.close();
             
@@ -552,7 +557,9 @@ public class GameController {
                 }
                 Integer jumlahProduk = Integer.valueOf(line[1]);
 
-                newToko.sellProduk(produk);
+                for (int j=0;j<jumlahProduk;j++) {
+                    newToko.sellProduk(produk);
+                }
             }
             gamestateScanner.close();
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
+import java.util.Random;
 
 import P98.Interface.Holdable;
 import P98.Item.Accelerate;
@@ -509,19 +510,23 @@ public class Screen {
 				setCardLadang(true);
 				ladangkuButton.setSelected(true);
 				turnCountLable.setText(String.valueOf(turn));
-
-				for (JButton butt : listButt) {
-					System.out.println(butt);
-					butt.setEnabled(false);
-				}
-				GameController.tahapSeranganBeruang(f);
 				
-				clearCards();
-				setCardDeck(true);
-				setCardLadang(true);
-				System.out.println("butt");
-				for (JButton butt : listButt) {
-					butt.setEnabled(true);
+				Random r = new Random();
+				Integer x = r.nextInt(10);
+				if (x == 1) {
+					for (JButton butt : listButt) {
+						System.out.println(butt);
+						butt.setEnabled(false);
+					}
+					GameController.tahapSeranganBeruang(f);
+					
+					clearCards();
+					setCardDeck(true);
+					setCardLadang(true);
+					System.out.println("butt");
+					for (JButton butt : listButt) {
+						butt.setEnabled(true);
+					}
 				}
 			}
 
